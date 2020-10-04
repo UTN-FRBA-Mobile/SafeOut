@@ -23,6 +23,7 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:cursorVisible="true"
             android:ems="10"
             android:hint="Nombre de usuario o Email"
             android:inputType="textEmailAddress" />
@@ -31,6 +32,7 @@
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:cursorVisible="true"
             android:ems="10"
             android:hint="Contraseña"
             android:inputType="textPassword" />
