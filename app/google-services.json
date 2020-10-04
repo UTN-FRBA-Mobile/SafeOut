@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "189534102112",
+    "firebase_url": "https://safeout-11564.firebaseio.com",
+    "project_id": "safeout-11564",
+    "storage_bucket": "safeout-11564.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189534102112:android:ccad9ea72d3d14a6dbd905",
+        "android_client_info": {
+          "package_name": "com.example.safeout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189534102112-4dpi4cacb0pg1pq4po9uciq17mjnvejr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAA3V29639nc2QJWqdYcXiqeaqMqYTLCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "189534102112-4dpi4cacb0pg1pq4po9uciq17mjnvejr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
