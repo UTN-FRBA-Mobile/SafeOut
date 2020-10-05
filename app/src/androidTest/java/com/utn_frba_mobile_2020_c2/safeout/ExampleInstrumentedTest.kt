@@ -1,4 +1,4 @@
-package com.example.safeout
+package com.utn_frba_mobile_2020_c2.safeout
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

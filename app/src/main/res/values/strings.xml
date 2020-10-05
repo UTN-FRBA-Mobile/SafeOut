@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SafeOut</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="signup">Registrarse</string>
+    <string name="backend_error">Error inesperado</string>
+    <string name="auth_error_empty_fields">Ingresa nombre de usuario y contraseña</string>
 </resources>

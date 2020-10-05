@@ -1,4 +1,4 @@
-package com.example.safeout
+package com.utn_frba_mobile_2020_c2.safeout
 
 import org.junit.Test
 
