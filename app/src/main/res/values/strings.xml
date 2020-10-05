@@ -6,4 +6,6 @@
     <string name="signup">Registrarse</string>
     <string name="backend_error">Error inesperado</string>
     <string name="auth_error_empty_fields">Ingresa nombre de usuario y contraseña</string>
+    <string name="navigation_drawer_open">Safe Out</string>
+    <string name="navigation_drawer_close">Safe Out c</string>
 </resources>
