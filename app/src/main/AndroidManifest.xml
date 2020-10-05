@@ -13,6 +13,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".activities.BaseActivity"></activity>
         <activity android:name=".activities.HomeActivity"></activity>
+        <activity android:name=".activities.DrawerActivity" />
         <activity
             android:name=".activities.AuthActivity"
             android:theme="@style/SplashScreenTheme">

@@ -1,9 +1,6 @@
 package com.utn_frba_mobile_2020_c2.safeout.services
 
-import android.view.View
-import android.widget.Toast
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
-import kotlinx.android.synthetic.main.activity_auth.*
 import org.json.JSONObject
 
 object AuthService {

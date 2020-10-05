@@ -94,7 +94,7 @@
             android:layout_marginTop="20dp"
             android:layout_below="@id/cardViewLogin"
             android:text="@string/signup"
-            android:textColor="@color/colorSecondary"
+            android:textColor="@color/colorTertiary"
             android:padding="10dp"
             android:onClick="onButtonClicked"
             android:focusable="false"

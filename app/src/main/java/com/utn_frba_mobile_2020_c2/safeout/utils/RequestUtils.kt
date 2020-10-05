@@ -3,9 +3,12 @@ package com.utn_frba_mobile_2020_c2.safeout.utils
 import android.content.Context
 import androidx.core.net.toUri
 import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.ANRequest
+import com.androidnetworking.common.ANRequest.GetRequestBuilder
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import org.json.JSONObject
 import java.net.URL
 import java.util.concurrent.Executors
@@ -17,6 +20,7 @@ object RequestUtils {
     fun init(context: Context) {
         this.context = context
         AndroidNetworking.initialize(context)
+        AuthController.init(context)
     }
 
     private fun getUrl(uri: String): String {
@@ -29,6 +33,7 @@ object RequestUtils {
     fun post(uri: String, body: Map<String, Any>, onResponse: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         AndroidNetworking.post(getUrl(uri))
             .addJSONObjectBody(JSONObject(body))
+            .addHeaders("Authentication", AuthController.loggedToken ?: "")
             .setExecutor(Executors.newSingleThreadExecutor())
             .build()
             .getAsJSONObject(object: JSONObjectRequestListener {

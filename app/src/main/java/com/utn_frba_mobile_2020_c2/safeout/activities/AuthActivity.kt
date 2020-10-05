@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.services.AuthService
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.StorageUtils
 import kotlinx.android.synthetic.main.activity_auth.*
 
 
@@ -15,6 +17,10 @@ class AuthActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
         RequestUtils.init(this)
+        AuthController.init(this)
+        if (AuthController.loggedIn) {
+            displayDrawerActivity()
+        }
     }
 
     fun onButtonClicked(view: View) {
@@ -29,7 +35,6 @@ class AuthActivity : BaseActivity() {
                 null
             }
         }
-
         val username = editTextUser.text.toString()
         val password = editTextPassword.text.toString()
         if (username.trim() == "" || password.trim() == "") {
@@ -42,14 +47,17 @@ class AuthActivity : BaseActivity() {
         }
         viewContainer.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
-        AuthService.doAuth(action!!, username, password, { response ->
-            println("response: $response")
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+        AuthController.doAuth(action!!, username, password, {
+            displayDrawerActivity()
         }, { _, message ->
             progressBar.visibility = View.GONE
             viewContainer.visibility = View.VISIBLE
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
         })
+    }
+
+    private fun displayDrawerActivity() {
+        val intent = Intent(this, DrawerActivity::class.java)
+        startActivity(intent)
     }
 }
