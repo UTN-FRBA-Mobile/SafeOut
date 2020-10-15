@@ -4,20 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.HomeFragment"
+    android:background="@color/colorLightGrey">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/buttonListar"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/lupa"
+        android:elevation="10dp"
+        android:gravity="start|center_vertical"
+        android:minWidth="300dp"
+        android:paddingLeft="20dp"
+        android:scaleType="centerInside"
+        android:shadowRadius="0.5"
+        android:text="Buscar"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/drawer_home"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonCheckin"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/checkin"
+            android:elevation="10dp"
+            android:gravity="right|center_vertical|end"
+            android:minWidth="300dp"
+            android:paddingRight="20dp"
+            android:scaleType="centerInside"
+            android:shadowRadius="0.5"
+            android:text="Check In"
+            android:layout_marginTop="32dp"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonListar" />
+
+
+        <Button
+            android:id="@+id/buttonCheckOut"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/checkout"
+            android:elevation="10dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="300dp"
+            android:paddingLeft="20dp"
+            android:scaleType="centerInside"
+            android:shadowRadius="0.5"
+            android:text="Check Out"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonCheckin" />
+
+        <Button
+            android:id="@+id/buttonVerInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/verinfo"
+            android:elevation="10dp"
+            android:gravity="start|center_vertical"
+            android:minWidth="300dp"
+            android:paddingLeft="20dp"
+            android:scaleType="centerInside"
+            android:shadowRadius="0.5"
+            android:text="VER INFO"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonCheckOut" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
