@@ -14,6 +14,7 @@ import com.google.android.material.navigation.NavigationView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 
 
@@ -61,6 +62,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         when (item.itemId) {
             R.id.drawerItemHome -> {
                 setVisibleFragment(HomeFragment())
+            }
+            R.id.drawerItemMap -> {
+                setVisibleFragment(MapsFragment())
             }
             R.id.drawerItemLogout -> {
                 AuthController.logout()
