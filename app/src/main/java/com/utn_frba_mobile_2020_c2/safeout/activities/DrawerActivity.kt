@@ -67,6 +67,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
             }
+            R.id.checkIn -> {
+                val intent = Intent(this, NFCActivity::class.java)
+                startActivity(intent)
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

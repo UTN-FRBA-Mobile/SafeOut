@@ -6,4 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".activities.NFCActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnCompatibilidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:text="Verificar Compatibilidad" />
+
+        <Button
+            android:id="@+id/btnActivo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Ver estado NFC" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
