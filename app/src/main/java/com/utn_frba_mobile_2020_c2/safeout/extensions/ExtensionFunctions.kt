@@ -1,4 +1,4 @@
-package com.utn_frba_mobile_2020_c2.safeout.others
+package com.utn_frba_mobile_2020_c2.safeout.extensions
 
 import android.app.Activity
 import android.view.LayoutInflater

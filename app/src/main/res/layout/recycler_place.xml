@@ -37,7 +37,6 @@
                 android:shadowDx="3"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="Holaaaager"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -54,7 +53,6 @@
                 android:shadowDx="3"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="Holaaaager"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -63,14 +61,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewOcupation"
+                android:id="@+id/textViewCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="#000"
                 android:shadowDx="3"
                 android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="Holaaaager"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="8pt"

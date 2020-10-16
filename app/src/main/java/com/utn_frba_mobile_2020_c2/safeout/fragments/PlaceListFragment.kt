@@ -1,19 +1,21 @@
 package com.utn_frba_mobile_2020_c2.safeout.fragments
 
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.arch.core.executor.DefaultTaskExecutor
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
-import com.utn_frba_mobile_2020_c2.safeout.others.toast
+import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.adapters.PlaceAdapter
+import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import kotlinx.android.synthetic.main.fragment_placelist.view.*
 
 /**
@@ -33,11 +35,15 @@ class PlaceListFragment : Fragment() {
     private fun getPlaces(): ArrayList<Place>{
         return object: ArrayList<Place>(){
             init {
-                add(Place(1, "Siga la Vaca","Perro 123", 35, R.drawable.resto))
-                add(Place(2, "El Club de la Milanesa","Gato 123", 15, R.drawable.resto))
-                add(Place(3, "Cesto","Pikachu 123", 40, R.drawable.resto))
-                add(Place(4, "Guerrin","Ratata 123", 80, R.drawable.resto))
-                add(Place(5, "El Antojo","Raichu 123", 100, R.drawable.resto))
+                var targetlocation = Location(LocationManager.GPS_PROVIDER)
+                val seccion = Section("Patio", 20)
+                var secciones: MutableList<Section> = arrayListOf(seccion)
+
+                add(Place(1, "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, secciones))
+                add(Place(2, "El Club de la Milanesa","Gato 123", "Universidad", R.drawable.resto, targetlocation, secciones))
+                add(Place(3, "Cesto","Pikachu 123", "Biblioteca", R.drawable.resto, targetlocation, secciones))
+                add(Place(4, "Guerrin","Ratata 123", "Bar", R.drawable.resto, targetlocation, secciones))
+                add(Place(5, "El Antojo","Raichu 123", "Supermercado", R.drawable.resto, targetlocation, secciones))
             }
         }
     }
