@@ -1,6 +1,7 @@
 package com.utn_frba_mobile_2020_c2.safeout.activities
 
 import android.nfc.NfcAdapter
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -17,25 +18,26 @@ class NFCActivity : AppCompatActivity() {
 
         var res = ""
 
-        btnCompatibilidad.setOnClickListener {
+        if (nfcAdapter != null){
+            res = "Tu dispositivo es compatible con NFC"
 
-            if (nfcAdapter != null){
-                res = "El dispositivo es compatible con NFC"
-            }else{
-                res = "El dispositivo NO es compatible con NFC"
-            }
-
-            AlertDialog.Builder(this).setMessage(res).show()
+        }else{
+            res = "Tu dispositivo no es compatible con NFC"
         }
 
-        btnActivo.setOnClickListener {
-            if (nfcAdapter.isEnabled){
-                res = "NFC activado"
-            }else{
-                res = "NFC desactivado"
-            }
+        tv_CompatibleNFC.text = res
 
-            AlertDialog.Builder(this).setMessage(res).show()
+        if (nfcAdapter.isEnabled){
+            res = "NFC activado"
+        }else{
+            res = "NFC desactivado"
+        }
+
+        tv_ActivacionNFC.text = res
+
+        btnCheckin.setOnClickListener {
+            val intent = Intent(this, CheckinActivity::class.java)
+            startActivity(intent)
         }
     }
 }

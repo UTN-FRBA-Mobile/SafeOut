@@ -10,4 +10,11 @@
     <string name="drawer_logout">Cerrar Sesión</string>
     <string name="navigation_drawer_open">Abrir menú lateral</string>
     <string name="navigation_drawer_close">Cerrar menu lateral</string>
+    <string name="check_in">CHECK IN con NFC</string>
+    <string name="nfc_compatible">Tu dispositivo es compatible con NFC</string>
+    <string name="nfc_no_compatible">Tu dispositivo no es compatible con NFC</string>
+    <string name="nfc_activado">NFC activado</string>
+    <string name="nfc_desactivado">NFC desactivado</string>
+    <string name="drawer_nfc">Logo NFC</string>
+    <string name="mantener_tarjeta">Mantenga el celular sobre la Tarjeta</string>
 </resources>

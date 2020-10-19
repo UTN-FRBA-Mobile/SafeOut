@@ -67,7 +67,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
             }
-            R.id.checkIn -> {
+            R.id.Checkin -> {
                 val intent = Intent(this, NFCActivity::class.java)
                 startActivity(intent)
             }
