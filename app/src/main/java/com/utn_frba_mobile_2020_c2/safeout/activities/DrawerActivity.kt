@@ -15,6 +15,7 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 
 
@@ -63,7 +64,15 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.drawerItemHome -> {
                 setVisibleFragment(HomeFragment())
             }
-            R.id.drawerItemSearch -> {setVisibleFragment(PlaceListFragment())}
+            R.id.drawerItemSearch -> {
+                setVisibleFragment(PlaceListFragment())
+            }
+            R.id.drawerItemCheckIn -> {
+                setVisibleFragment(QrScannerFragment())
+            }
+            R.id.drawerItemCheckOut -> {
+                setVisibleFragment(QrScannerFragment())
+            }
             R.id.drawerItemLogout -> {
                 AuthController.logout()
                 val intent = Intent(this, AuthActivity::class.java)

@@ -3,6 +3,7 @@
     package="com.utn_frba_mobile_2020_c2.safeout">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
