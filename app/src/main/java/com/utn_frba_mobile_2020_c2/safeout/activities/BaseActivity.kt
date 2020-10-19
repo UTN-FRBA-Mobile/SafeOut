@@ -1,15 +1,14 @@
 package com.utn_frba_mobile_2020_c2.safeout.activities
 
-import android.content.Context
+
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MotionEvent
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.utn_frba_mobile_2020_c2.safeout.extensions.hideKeyboard
+
 
 abstract class BaseActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
@@ -28,4 +27,5 @@ abstract class BaseActivity : AppCompatActivity() {
         }, 100)
         return super.dispatchTouchEvent(event)
     }
+
 }
