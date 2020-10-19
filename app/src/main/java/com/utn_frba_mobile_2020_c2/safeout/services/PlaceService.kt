@@ -22,7 +22,8 @@ object PlaceService {
         RequestUtils.get("/places/${placeId}", onSuccess, onError)
     }
 
-    fun checkin(placeId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+    //todo: sectionId?
+    fun checkin(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         if(mocked){
             var targetlocation = Location(LocationManager.GPS_PROVIDER)
             val seccion = Section("Patio", 20)
@@ -30,11 +31,11 @@ object PlaceService {
             val mockedPlace = Place(1, "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, secciones);
             return onSuccess(mockedPlace as JSONObject);
         }else{
-            RequestUtils.put("/places/${placeId}/checkin", onSuccess, onError)
+            RequestUtils.put("/places/${placeId}/${section}/checkin", onSuccess, onError)
         }
     }
 
-    fun checkout(placeId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.put("/placest/${placeId}/checkout", onSuccess, onError)
+    fun checkout(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        RequestUtils.put("/places/${placeId}/${section}/checkout", onSuccess, onError)
     }
 }

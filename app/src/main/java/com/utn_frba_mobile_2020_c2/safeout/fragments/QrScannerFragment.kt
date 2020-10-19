@@ -35,21 +35,24 @@ class QrScannerFragment : Fragment() {
                 activity.runOnUiThread {
                     Toast.makeText(activity, "Result: ${it.text}", Toast.LENGTH_LONG).show()
 
+                    //TODO: post checkin/checkout data and get information about place (test with API)
+                    val placeName = "Lugar X" //the placeId must come from scan data
+                    val section = "Patio" //the placsectioneId must come from scan data, or default
+
                     // go to next screen with placeId data
                     val transaction = activity.supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance(it.text, true, "Nombre del lugar"), "CheckInResult")
+                    transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance(it.text, true, placeName, section), "CheckInResult")
                     transaction.addToBackStack("CheckInResult")
                     transaction.commit()
 
-/*                    //TODO: post checkin/checkout data and get information about place
-                    val placeId = 1 //the placeId must come from scan data
-                    PlaceController.checkin(placeId, { checkInData ->
+/*
+                    PlaceController.checkin(placeId, section, { checkInData ->
 
                         Toast.makeText(activity, "checkInData: ${checkInData.toString()}", Toast.LENGTH_LONG).show()
 
                         // go to next screen with placeId data
                         val transaction = activity.supportFragmentManager.beginTransaction()
-                        transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance(it.text, true, "NameBlabla"), "CheckInResult")
+                        transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance(it.text, true, checkInData?.place.name, checkInData?.place.section), "CheckInResult")
                         transaction.addToBackStack("CheckInResult")
                         transaction.commit()
 
@@ -63,7 +66,7 @@ class QrScannerFragment : Fragment() {
                     Toast.makeText(activity, "Error: ${it.message}", Toast.LENGTH_LONG).show()
                     // go to next screen with failed result todo: stay in same screen until scan OK?
                     val transaction = activity.supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance("Error: ${it.message}", false, null), "CheckInResult")
+                    transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance("Error: ${it.message}", false), "CheckInResult")
                     transaction.addToBackStack("CheckInResult")
                     transaction.commit()
                 }

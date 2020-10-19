@@ -25,9 +25,10 @@ class CheckInResultFragment : Fragment() {
         val resultValue = requireArguments().getString(ARGUMENT_RESULT)
         val result = requireArguments().getBoolean(ARGUMENT_SUCCESS)
         val placeName = requireArguments().getString(ARGUMENT_PLACE_NAME)
+        val placeSection = requireArguments().getString(ARGUMENT_PLACE_SECTION)
 
         setTextResult(resultValue)
-        setTextResultValue(if (result) "Registro Exitoso en ${placeName}" else "Error")
+        setTextResultValue(if (result) "Registro Exitoso en ${placeName}, Sección ${placeSection}" else "Error")
 
         // set goback listener
         val buttonBack = view!!.findViewById(R.id.buttonBack) as Button
@@ -50,10 +51,12 @@ class CheckInResultFragment : Fragment() {
         private const val ARGUMENT_RESULT = "ARGUMENT_RESULT"
         private const val ARGUMENT_SUCCESS = "ARGUMENT_SUCCESS"
         private const val ARGUMENT_PLACE_NAME = "ARGUMENT_PLACE_NAME"
+        private const val ARGUMENT_PLACE_SECTION = "ARGUMENT_PLACE_SECTION"
+        //todo: change to parcelable object or extract from some temp storage?
 
-        fun newInstance(result: String, success: Boolean, placeName:String?) : CheckInResultFragment{
+        fun newInstance(result: String, success: Boolean, placeName:String? = "", placeSection:String? = "") : CheckInResultFragment{
             return CheckInResultFragment().apply {
-                arguments = bundleOf(ARGUMENT_RESULT to result, ARGUMENT_SUCCESS to success, ARGUMENT_PLACE_NAME to placeName)
+                arguments = bundleOf(ARGUMENT_RESULT to result, ARGUMENT_SUCCESS to success, ARGUMENT_PLACE_NAME to placeName, ARGUMENT_PLACE_SECTION to placeSection)
             }
         }
 

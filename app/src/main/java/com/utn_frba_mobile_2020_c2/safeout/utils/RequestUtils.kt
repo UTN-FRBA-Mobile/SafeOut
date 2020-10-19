@@ -15,6 +15,7 @@ import java.util.concurrent.Executors
 
 object RequestUtils {
     private const val apiUrl = "https://salina.nixi.icu/"
+    //private const val apiUrl = "http://localhost:3000/safeout"
     private var context: Context? = null
 
     fun init(context: Context) {
