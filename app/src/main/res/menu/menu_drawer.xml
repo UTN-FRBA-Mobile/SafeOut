@@ -16,9 +16,6 @@
             android:id="@+id/drawerItemCheckIn"
             android:title="Check IN" />
 
-        <item
-            android:id="@+id/drawerItemCheckOut"
-            android:title="Check OUT" />
     </group>
 
     <group android:id="@+id/groupActions" android:checkableBehavior="single">

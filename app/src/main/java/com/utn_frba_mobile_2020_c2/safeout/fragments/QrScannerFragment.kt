@@ -12,7 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.budiyev.android.codescanner.*
 import com.utn_frba_mobile_2020_c2.safeout.R
-import kotlinx.android.synthetic.main.qr_scanner_fragment.*
+import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
+
 
 class QrScannerFragment : Fragment() {
         private lateinit var codeScanner: CodeScanner
@@ -27,15 +28,44 @@ class QrScannerFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             val scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
             val activity = requireActivity()
+            PlaceController.init(activity)
             codeScanner = CodeScanner(activity, scannerView)
+
             codeScanner.decodeCallback = DecodeCallback {
                 activity.runOnUiThread {
                     Toast.makeText(activity, "Result: ${it.text}", Toast.LENGTH_LONG).show()
+
+                    // go to next screen with placeId data
+                    val transaction = activity.supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance(it.text, true, "Nombre del lugar"), "CheckInResult")
+                    transaction.addToBackStack("CheckInResult")
+                    transaction.commit()
+
+/*                    //TODO: post checkin/checkout data and get information about place
+                    val placeId = 1 //the placeId must come from scan data
+                    PlaceController.checkin(placeId, { checkInData ->
+
+                        Toast.makeText(activity, "checkInData: ${checkInData.toString()}", Toast.LENGTH_LONG).show()
+
+                        // go to next screen with placeId data
+                        val transaction = activity.supportFragmentManager.beginTransaction()
+                        transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance(it.text, true, "NameBlabla"), "CheckInResult")
+                        transaction.addToBackStack("CheckInResult")
+                        transaction.commit()
+
+                    }, { status, message ->
+                        Toast.makeText(activity, "Error checkin: ${status}, ${message.toString()}", Toast.LENGTH_LONG).show()
+                    })*/
                 }
             }
             codeScanner.errorCallback = ErrorCallback {
                 activity.runOnUiThread {
                     Toast.makeText(activity, "Error: ${it.message}", Toast.LENGTH_LONG).show()
+                    // go to next screen with failed result todo: stay in same screen until scan OK?
+                    val transaction = activity.supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.frameLayout, CheckInResultFragment.newInstance("Error: ${it.message}", false, null), "CheckInResult")
+                    transaction.addToBackStack("CheckInResult")
+                    transaction.commit()
                 }
             }
             checkPermission();

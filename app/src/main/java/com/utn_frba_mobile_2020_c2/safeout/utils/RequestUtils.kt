@@ -30,6 +30,56 @@ object RequestUtils {
         return apiUrl + uri.trim('/')
     }
 
+    fun get(uri: String, onResponse: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        AndroidNetworking.get(getUrl(uri))
+            .addHeaders("Authentication", AuthController.loggedToken ?: "")
+            .setExecutor(Executors.newSingleThreadExecutor())
+            .build()
+            .getAsJSONObject(object: JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    onResponse(response)
+                }
+                override fun onError(error: ANError) {
+                    if (onError == null) {
+                        return
+                    }
+
+                    var status = error.errorCode
+                    var message: String = context!!.getString(R.string.backend_error)
+                    try {
+                        val obj = JSONObject(error.errorBody)
+                        message = obj.get("message").toString()
+                    } catch (e: Error) {}
+                    onError(status, message)
+                }
+            })
+    }
+
+    fun put(uri: String, onResponse: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        AndroidNetworking.put(getUrl(uri))
+            .addHeaders("Authentication", AuthController.loggedToken ?: "")
+            .setExecutor(Executors.newSingleThreadExecutor())
+            .build()
+            .getAsJSONObject(object: JSONObjectRequestListener {
+                override fun onResponse(response: JSONObject) {
+                    onResponse(response)
+                }
+                override fun onError(error: ANError) {
+                    if (onError == null) {
+                        return
+                    }
+
+                    var status = error.errorCode
+                    var message: String = context!!.getString(R.string.backend_error)
+                    try {
+                        val obj = JSONObject(error.errorBody)
+                        message = obj.get("message").toString()
+                    } catch (e: Error) {}
+                    onError(status, message)
+                }
+        })
+    }
+
     fun post(uri: String, body: Map<String, Any>, onResponse: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         AndroidNetworking.post(getUrl(uri))
             .addJSONObjectBody(JSONObject(body))

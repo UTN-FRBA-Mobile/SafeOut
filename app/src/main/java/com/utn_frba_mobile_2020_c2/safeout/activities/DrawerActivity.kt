@@ -3,7 +3,6 @@ package com.utn_frba_mobile_2020_c2.safeout.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -68,9 +67,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
-                setVisibleFragment(QrScannerFragment())
-            }
-            R.id.drawerItemCheckOut -> {
                 setVisibleFragment(QrScannerFragment())
             }
             R.id.drawerItemLogout -> {
