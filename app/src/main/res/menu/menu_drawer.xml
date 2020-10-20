@@ -18,5 +18,8 @@
             android:id="@+id/drawerItemLogout"
             android:icon="@drawable/ic_logout"
             android:title="@string/drawer_logout" />
+        <item
+            android:id="@+id/Checkin"
+            android:title="CHECK IN" />
     </group>
 </menu>
