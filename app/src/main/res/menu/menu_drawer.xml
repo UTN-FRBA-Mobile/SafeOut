@@ -5,8 +5,12 @@
 
     <group android:id="@+id/groupSections" android:checkableBehavior="single">
         <item
-            android:id="@+id/drawerItemHome"
-            android:title="@string/drawer_home" />
+        android:id="@+id/drawerItemHome"
+        android:title="@string/drawer_home" />
+
+        <item
+            android:id="@+id/drawerItemSearch"
+            android:title="@string/drawer_search" />
     </group>
 
     <group android:id="@+id/groupActions" android:checkableBehavior="single">
