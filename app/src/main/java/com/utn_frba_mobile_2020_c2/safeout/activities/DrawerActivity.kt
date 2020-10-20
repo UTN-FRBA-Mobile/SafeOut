@@ -69,6 +69,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.drawerItemCheckIn -> {
                 setVisibleFragment(QrScannerFragment())
             }
+            R.id.Checkin -> {
+                val intent = Intent(this, NFCActivity::class.java)
+                startActivity(intent)
+            }
             R.id.drawerItemLogout -> {
                 AuthController.logout()
                 val intent = Intent(this, AuthActivity::class.java)
