@@ -18,13 +18,6 @@ object PlaceController {
         }, onError)
     }
 
-    /* Returns placeId data */
-    fun getPlace(placeId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        PlaceService.getById(placeId, { response ->
-            onSuccess(response)
-        }, onError)
-    }
-
     /* Register the user checkin for placeId and section, and returns placeId data? */
     fun checkin(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         PlaceService.checkin(placeId, section, { response ->

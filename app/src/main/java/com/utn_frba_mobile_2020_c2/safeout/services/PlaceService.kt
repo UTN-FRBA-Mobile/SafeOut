@@ -12,14 +12,10 @@ import org.json.JSONObject
 val mocked = true;
 
 object PlaceService {
-    //Todo: tempStorafe? CACHÉ? (avoid multiple requests)
+    //Todo: tempStorage? CACHÉ? (avoid multiple requests)
 
     fun get(onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         RequestUtils.get("/places", onSuccess, onError) //todo: limit count
-    }
-
-    fun getById(placeId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.get("/places/${placeId}", onSuccess, onError)
     }
 
     //todo: sectionId?
