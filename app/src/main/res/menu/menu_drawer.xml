@@ -9,6 +9,11 @@
             android:id="@+id/drawerItemHome"
             android:title="@string/drawer_home" />
         <item android:id="@+id/drawerItemMap" android:title="Mapa"/>
+        android:id="@+id/drawerItemHome"
+        android:title="@string/drawer_home" />
+        <item
+            android:id="@+id/drawerItemSearch"
+            android:title="@string/drawer_search" />
     </group>
 
     <group android:id="@+id/groupActions" android:checkableBehavior="single">
