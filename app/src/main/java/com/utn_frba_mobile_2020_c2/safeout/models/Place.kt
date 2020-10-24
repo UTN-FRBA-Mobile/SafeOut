@@ -1,5 +1,7 @@
 package com.utn_frba_mobile_2020_c2.safeout.models
 
 import android.location.Location
+import kotlinx.serialization.Serializable
 
-data class Place(val id:Int, val name: String, val address: String, val category: String, val imgResource: Int, val location: Location, val sections: List<Section>)
+@Serializable
+data class Place(val id:Int? = null, val name: String? = null, val address: String? = null, val category: String? = null, val imgResource: Int? = null, val location: Location? = null, val sections: List<Section>? = null)

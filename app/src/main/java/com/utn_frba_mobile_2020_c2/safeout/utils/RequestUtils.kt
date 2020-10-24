@@ -14,7 +14,7 @@ import java.net.URL
 import java.util.concurrent.Executors
 
 object RequestUtils {
-    private const val apiUrl = "https://salina.nixi.icu/"
+    private const val apiUrl = "https://qmdqe.mocklab.io/"  //"https://salina.nixi.icu/"
     private var context: Context? = null
 
     fun init(context: Context) {

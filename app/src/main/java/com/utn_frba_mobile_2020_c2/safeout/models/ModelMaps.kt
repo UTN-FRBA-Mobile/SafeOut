@@ -1,5 +1,6 @@
 package com.utn_frba_mobile_2020_c2.safeout.models
 
+
 object ModelMaps {
     data class Places(val places: List<Place>)
     data class Place(var name: String, var category: String, var address: String, var location: Point, var sections: Section)
