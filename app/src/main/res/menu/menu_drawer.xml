@@ -11,6 +11,15 @@
         <item
             android:id="@+id/drawerItemSearch"
             android:title="@string/drawer_search" />
+
+        <item
+            android:id="@+id/drawerItemCheckIn"
+            android:title="Check IN QR" />
+
+        <item
+            android:id="@+id/Checkin"
+            android:title="Check IN NFC" />
+
     </group>
 
     <group android:id="@+id/groupActions" android:checkableBehavior="single">
@@ -18,8 +27,5 @@
             android:id="@+id/drawerItemLogout"
             android:icon="@drawable/ic_logout"
             android:title="@string/drawer_logout" />
-        <item
-            android:id="@+id/Checkin"
-            android:title="CHECK IN" />
     </group>
 </menu>
