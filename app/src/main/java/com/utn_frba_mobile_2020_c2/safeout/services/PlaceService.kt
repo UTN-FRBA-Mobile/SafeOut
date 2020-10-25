@@ -18,20 +18,19 @@ object PlaceService {
         RequestUtils.get("/places", onSuccess, onError) //todo: limit count
     }
 
-    //todo: sectionId?
-    fun checkin(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+    fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         if(mocked){
             var targetlocation = Location(LocationManager.GPS_PROVIDER)
-            val seccion = Section("Patio", 20)
-            var secciones: MutableList<Section> = arrayListOf(seccion)
-            val mockedPlace = Place(1, "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, secciones);
+            val section = Section(1, "Patio", 20, 30)
+            var sections: MutableList<Section> = arrayListOf(section)
+            val mockedPlace = Place(1, "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, sections);
             return onSuccess(mockedPlace as JSONObject);
         }else{
-            RequestUtils.put("/places/${placeId}/${section}/checkin", onSuccess, onError)
+            RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkin", onSuccess, onError)
         }
     }
 
-    fun checkout(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.put("/places/${placeId}/${section}/checkout", onSuccess, onError)
+    fun checkout(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkout", onSuccess, onError)
     }
 }

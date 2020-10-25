@@ -36,7 +36,7 @@ class PlaceListFragment : Fragment() {
         return object: ArrayList<Place>(){
             init {
                 var targetlocation = Location(LocationManager.GPS_PROVIDER)
-                val seccion = Section("Patio", 20)
+                val seccion = Section(1, "Patio", 20, 25)
                 var secciones: MutableList<Section> = arrayListOf(seccion)
 
                 add(Place(1, "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, secciones))

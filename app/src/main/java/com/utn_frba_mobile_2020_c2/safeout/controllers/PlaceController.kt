@@ -19,16 +19,16 @@ object PlaceController {
     }
 
     /* Register the user checkin for placeId and section, and returns placeId data? */
-    fun checkin(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        PlaceService.checkin(placeId, section, { response ->
+    fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        PlaceService.checkin(placeId, sectionId, { response ->
             //todo: normalize data if needed, integrate with api
             onSuccess(response.getJSONObject("place"))
         }, onError)
     }
 
     /* Register the user checkout for placeId and section, and returns placeId data? */
-    fun checkout(placeId: Int, section: String, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        PlaceService.checkout(placeId, section, { response ->
+    fun checkout(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        PlaceService.checkout(placeId, sectionId, { response ->
             //todo: normalize data if needed, integrate with apis
             onSuccess(response.getJSONObject("place"))
         }, onError)
