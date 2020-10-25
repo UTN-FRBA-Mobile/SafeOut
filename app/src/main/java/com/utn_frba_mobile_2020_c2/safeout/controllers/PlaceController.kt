@@ -11,13 +11,6 @@ object PlaceController {
         this.context = context
     }
 
-    /* Returns all places data (limited by?)*/
-    fun getPlaces(onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        PlaceService.get({ response ->
-            onSuccess(response)
-        }, onError)
-    }
-
     /* Register the user checkin for placeId and section, and returns placeId data? */
     fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         PlaceService.checkin(placeId, sectionId, { response ->

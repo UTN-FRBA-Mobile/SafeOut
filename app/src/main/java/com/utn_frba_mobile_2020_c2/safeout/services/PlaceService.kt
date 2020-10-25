@@ -14,10 +14,6 @@ val mocked = true;
 object PlaceService {
     //Todo: tempStorage? CACHÉ? (avoid multiple requests)
 
-    fun get(onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.get("/places", onSuccess, onError) //todo: limit count
-    }
-
     fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         if(mocked){
             var targetlocation = Location(LocationManager.GPS_PROVIDER)
