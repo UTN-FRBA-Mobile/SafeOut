@@ -19,9 +19,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
-import com.utn_frba_mobile_2020_c2.safeout.models.Place
+import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
 import org.json.JSONObject
 
@@ -30,6 +31,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
     private lateinit var mapa : GoogleMap
     private lateinit var lastLocation : Location
+    private var markers : MutableList<Marker> = ArrayList()
 
     //dummy
     private var resutText: TextView? = null
@@ -92,7 +94,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         //TODO: en proceso
         mapa.setOnCameraIdleListener(OnCameraIdleListener {
             @Override
-            fun onCameraIdle(){
+            fun onCameraIdle() {
                 loadPlaces()
             }
             onCameraIdle()
@@ -100,22 +102,15 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun loadPlaces(){
-
-
         // pedir las ubicaciones y mapearlas a los puntos
         val bounds = mapa.projection.visibleRegion.latLngBounds
-
         val body = mapOf<String, Any>("bounds" to bounds)
-
-
-        RequestUtils.post("/places/locate", body,  { response ->
-            println("NO SE SI RESPONDIO")
+        RequestUtils.post("/places/locate", body, { response ->
             showData(response)
         }, { status, error ->
-           println(status)
-           println(error)
+            println(status)
+            println(error)
         })
-
 //        for (i in 1..10) {
 //            val ranlat = Random.nextDouble()/50
 //            val ranlng = Random.nextDouble()/50
@@ -123,16 +118,33 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 //            val newLocation = LatLng(baseLat - ranlat, baseLng + ranlng)
 //            mapa.addMarker(MarkerOptions().position(newLocation).title("Marker $i"))
 //        }
-
         //mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lastLocation.latitude, lastLocation.longitude), 15f))
+
     }
 
     private fun showData(obj: JSONObject){
-//        val gson = Gson()
-//        val result = Json.decodeFromString<List<Place>>(obj)
+        val lista = Gson().fromJson(obj.toString(), ModelMaps.Places::class.java).places
+        lista.iterator().forEach { data ->
+            run {
+                activity?.runOnUiThread(Runnable {
+                    newMarker(data)
+                })
+            }
+        }
+    }
 
-
-        println("RESPONSE")
+    private fun newMarker(place: ModelMaps.Place){
+        val newLocation = LatLng(
+            place.location.coordinates[0].toDouble(),
+            place.location.coordinates[1].toDouble()
+        )
+       markers.add(
+           mapa.addMarker(
+               MarkerOptions()
+                   .position(newLocation)
+                   .title(place.name)
+           )
+       )
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {

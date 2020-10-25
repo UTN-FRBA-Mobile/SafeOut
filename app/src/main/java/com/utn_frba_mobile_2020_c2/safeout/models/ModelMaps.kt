@@ -1,5 +1,6 @@
 package com.utn_frba_mobile_2020_c2.safeout.models
 
+import kotlinx.serialization.Serializable
 
 object ModelMaps {
     data class Places(val places: List<Place>)

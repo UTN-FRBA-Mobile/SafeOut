@@ -20,7 +20,7 @@ class PlaceAdapter(private val places:List<Place>, private val listener: Recycle
             textViewAddress.text = place.address
             textViewCategory.text = place.category
             //textViewOcupation.text = "${place.occupation.toString()}%"
-            imageViewBackground.setImageResource(place.imgResource)
+//            imageViewBackground.setImageResource(place.imgResource)
 
             setOnClickListener { listener.onClick(place, adapterPosition) }
 
