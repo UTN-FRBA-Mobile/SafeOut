@@ -59,13 +59,8 @@ object RequestUtils {
     }
 
     fun post2(uri: String, body: Map<String, Any>, onResponsee: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        println("AAAAAAAAAAAA")
-        println(AuthController.loggedToken)
-        println(JSONObject(body))
-        println(getUrl(uri))
 
         AndroidNetworking.post(getUrl(uri))
-//            .addQueryParameter("query", "farola")
             .addJSONObjectBody(JSONObject(body))
             .addHeaders("Authorization", AuthController.loggedToken ?: "")
             //.setExecutor(Executors.newSingleThreadExecutor())
@@ -73,8 +68,6 @@ object RequestUtils {
             .getAsJSONArray(object: JSONArrayRequestListener {
 
                 override fun onResponse(response: JSONArray) {
-                    println("TEF")
-                    println(response)
                     onResponsee(response)
                 }
                 override fun onError(error: ANError) {
@@ -84,10 +77,6 @@ object RequestUtils {
 
                     var status = error.errorCode
                     var message: String = context!!.getString(R.string.backend_error)
-
-                    println(error.errorBody)
-                    println(error.errorDetail)
-                    println(error.errorCode)
 
                     try {
                         val obj = JSONObject(error.errorBody)

@@ -173,7 +173,6 @@ class PlaceListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-        print("HHHHH")
         inflater.inflate(R.menu.main_menu, menu)
 
         val menuItem = menu!!.findItem(R.id.search)
