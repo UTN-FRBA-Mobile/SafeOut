@@ -12,6 +12,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
@@ -19,8 +20,10 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import kotlinx.android.synthetic.main.fragment_placelist.view.*
 import kotlinx.android.synthetic.main.recycler_place.view.*
+import org.json.JSONArray
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.reflect.typeOf
 
 class PlaceAdapter(private var places:List<Place>, private val listener: RecyclerPlaceListener)
     : RecyclerView.Adapter<PlaceAdapter.ViewHolder>(), Filterable{
@@ -58,18 +61,66 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
         return object : Filter() {
 
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
+                var targetlocation = Location(LocationManager.GPS_PROVIDER)
+                //val seccion = Section("Patio", 20)
+                //var secciones: MutableList<Section> = arrayListOf(seccion)
+
                 val queryString = charSequence?.toString()?.toLowerCase()
 
                 val filterResults = FilterResults()
-                filterResults.values = if (queryString==null || queryString.isEmpty())
-                    placesFilterList
-                else
 
-                    placesFilterList.filter {
+                if  (queryString==null || queryString.isEmpty()){
+                    filterResults.values = arrayListOf<Place>()
+                }
+                else
+                {
+
+                    if (queryString != null && queryString.length > 2) {
+                        PlaceController.search(queryString, {
+
+                                for (i in 0 until it.length()) {
+                                    var sections: JSONArray = it.getJSONObject(i)["sections"] as JSONArray
+                                    var sectionArrayList: ArrayList<Section> =  arrayListOf<Section>()
+
+                                    for (u in 0 until sections.length()){
+                                        sectionArrayList.add(Section(sections.getJSONObject(u)["name"] as String,
+                                            sections.getJSONObject(u)["capacity"] as Int,
+                                            sections.getJSONObject(u)["occupation"] as Int
+                                        ))
+                                    }
+
+                                    placesFilterList.add(
+                                    Place(
+                                        it.getJSONObject(i)["id"] as String,
+                                        it.getJSONObject(i)["name"] as String,
+                                        it.getJSONObject(i)["address"] as String,
+                                        it.getJSONObject(i)["category"] as String,
+                                        R.drawable.resto,
+                                        targetlocation,
+                                        sectionArrayList
+                                    )
+                                )
+                            }
+
+                        }, { _, message ->
+                            if (message != null) {
+                                //todo toast
+                            }
+
+                        })
+                        filterResults.values = placesFilterList
+                        placesFilterList.clear()
+                    }
+
+                }
+
+
+
+/*                    placesFilterList.filter {
                         it.name.toLowerCase().contains(queryString.toLowerCase()) ||
                                 it.address.toLowerCase().contains(queryString.toLowerCase()) ||
                                 it.category.toLowerCase().contains(queryString.toLowerCase())
-                    }
+                    }*/
                 return filterResults
 
         }
@@ -105,8 +156,14 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
 
                 //placesFilterList.clear()
                 //placesFilterList = results.values as ArrayList<Place>
+                places = emptyList()
 
-                places = results!!.values as ArrayList<Place>
+                    if (results != null) {
+                        if (results.values != null) {
+                            places = results!!.values as ArrayList<Place>
+                        }
+                }
+
                 notifyDataSetChanged()
 
             }

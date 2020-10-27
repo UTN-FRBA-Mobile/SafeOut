@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.PlaceAdapter
+import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
@@ -38,11 +39,40 @@ class PlaceListFragment : Fragment() {
     private fun getPlaces(): ArrayList<Place>{
         return object: ArrayList<Place>(){
             init {
-                var targetlocation = Location(LocationManager.GPS_PROVIDER)
+/*                var targetlocation = Location(LocationManager.GPS_PROVIDER)
                 val seccion = Section("Patio", 20)
                 var secciones: MutableList<Section> = arrayListOf(seccion)
 
-                add(
+                println("ACAA")
+                println(this)
+                PlaceController.search(query = "Siga la vaca", {
+
+                    println(list)
+                    println(this)
+
+                    for(i in 0 until it.length()){
+                        println("KKK")
+                        println(it.getJSONObject(i))
+                        println(it.getJSONObject(i)["sections"])
+                        list.add(Place(it.getJSONObject(i)["id"] as String,
+                            it.getJSONObject(i)["name"] as String,
+                            it.getJSONObject(i)["address"] as String,
+                            it.getJSONObject(i)["category"] as String,
+                            R.drawable.resto,
+                            targetlocation,
+                            secciones as ArrayList<Section>
+                        ))
+                    }
+
+                }, { _, message ->
+                    if (message != null) {
+                        activity?.toast(message)
+                    }
+
+                })*/
+
+
+/*                add(
                     Place(
                         1,
                         "Siga la Vaca",
@@ -96,7 +126,7 @@ class PlaceListFragment : Fragment() {
                         targetlocation,
                         secciones
                     )
-                )
+                )*/
             }
         }
     }
