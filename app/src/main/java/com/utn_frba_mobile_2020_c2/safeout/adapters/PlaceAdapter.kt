@@ -7,18 +7,13 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.beust.klaxon.JsonReader
-import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
-import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import kotlinx.android.synthetic.main.recycler_place.view.*
-import org.json.JSONArray
-import java.io.StringReader
 import kotlin.collections.ArrayList
 
 class PlaceAdapter(private var places:List<Place>, private val listener: RecyclerPlaceListener)
@@ -57,9 +52,6 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
         return object : Filter() {
 
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
-                var targetlocation = Location(LocationManager.GPS_PROVIDER)
-                //val seccion = Section("Patio", 20)
-                //var secciones: MutableList<Section> = arrayListOf(seccion)
 
                 val queryString = charSequence?.toString()?.toLowerCase()
 
