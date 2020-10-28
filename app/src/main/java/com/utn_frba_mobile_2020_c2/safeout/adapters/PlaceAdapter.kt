@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.beust.klaxon.JsonReader
+import com.beust.klaxon.Klaxon
+import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
@@ -15,6 +18,7 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import kotlinx.android.synthetic.main.recycler_place.view.*
 import org.json.JSONArray
+import java.io.StringReader
 import kotlin.collections.ArrayList
 
 class PlaceAdapter(private var places:List<Place>, private val listener: RecyclerPlaceListener)
@@ -71,27 +75,11 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
                         PlaceController.search(queryString, {
 
                                 for (i in 0 until it.length()) {
-                                    var sections: JSONArray = it.getJSONObject(i)["sections"] as JSONArray
-                                    var sectionArrayList: ArrayList<Section> =  arrayListOf<Section>()
 
-                                    for (u in 0 until sections.length()){
-                                        sectionArrayList.add(Section(sections.getJSONObject(u)["name"] as String,
-                                            sections.getJSONObject(u)["capacity"] as Int,
-                                            sections.getJSONObject(u)["occupation"] as Int
-                                        ))
-                                    }
-
-                                    placesFilterList.add(
-                                    Place(
-                                        it.getJSONObject(i)["id"] as String,
-                                        it.getJSONObject(i)["name"] as String,
-                                        it.getJSONObject(i)["address"] as String,
-                                        it.getJSONObject(i)["category"] as String,
-                                        R.drawable.resto,
-                                        targetlocation,
-                                        sectionArrayList
-                                    )
-                                )
+                                    val JSONObject = it.getJSONObject(i)
+                                    JSONObject.put("imgResource", R.drawable.resto)
+                                    val place = Gson().fromJson<Place>(JSONObject.toString(), Place::class.java)
+                                    placesFilterList.add(place)
                             }
 
                         }, { _, message ->

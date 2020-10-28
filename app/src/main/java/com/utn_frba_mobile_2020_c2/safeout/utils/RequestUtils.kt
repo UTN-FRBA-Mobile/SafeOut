@@ -58,7 +58,7 @@ object RequestUtils {
             })
     }
 
-    fun post2(uri: String, body: Map<String, Any>, onResponsee: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+    fun postPlaces(uri: String, body: Map<String, Any>, onResponse: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
 
         AndroidNetworking.post(getUrl(uri))
             .addJSONObjectBody(JSONObject(body))
@@ -68,7 +68,7 @@ object RequestUtils {
             .getAsJSONArray(object: JSONArrayRequestListener {
 
                 override fun onResponse(response: JSONArray) {
-                    onResponsee(response)
+                    onResponse(response)
                 }
                 override fun onError(error: ANError) {
                     if (onError == null) {

@@ -29,7 +29,7 @@ object PlaceService {
 
     fun search(
         query: String,  onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.post2("/places/search"
+        RequestUtils.postPlaces("/places/search"
             ,mapOf(
                 "query" to query
 /*                ,
