@@ -1,7 +1,11 @@
 package com.utn_frba_mobile_2020_c2.safeout.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -17,9 +22,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
@@ -134,17 +137,48 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun newMarker(place: ModelMaps.Place){
+
         val newLocation = LatLng(
             place.location.coordinates[0].toDouble(),
             place.location.coordinates[1].toDouble()
         )
+
+        val oc = (place.sections.occupation.toDouble() / place.sections.capacity.toDouble())
+
+
+        var icon = R.drawable.ic_ubicacion_medium
+        if(oc >= 0.70){
+            icon = R.drawable.ic_ubicacion_full
+        }else if( oc <= 0.5){
+            icon = R.drawable.ic_ubicacion_empty
+        }
+
        markers.add(
            mapa.addMarker(
                MarkerOptions()
                    .position(newLocation)
                    .title(place.name)
+                   .icon(context?.let { bitmapDescriptorFromVector(it, icon) })
            )
        )
+    }
+
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {

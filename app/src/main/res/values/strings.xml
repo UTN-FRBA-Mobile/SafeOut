@@ -25,4 +25,5 @@
     <string name="drawer_checkOut">Check Out</string>
     <!-- Luego ver donde mandamos el API key   -->
     <string name="google_maps_key">AIzaSyBBNHFycep37WjF9t5zTaQk1nfCjwtR5KQ</string>
+    <string name="back">Atrás</string>
 </resources>

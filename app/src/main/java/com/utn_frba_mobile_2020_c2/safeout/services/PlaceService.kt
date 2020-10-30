@@ -1,17 +1,32 @@
 package com.utn_frba_mobile_2020_c2.safeout.services
 
-import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import android.location.Location
+import android.location.LocationManager
+import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
+import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
+import org.json.JSONObject
 
-interface PlaceService {
 
-    @GET("places")
-    fun getPlaces(
-        @Query("latMax") latMax: Double,
-        @Query("lngMax") lngMax: Double,
-        @Query("latMin") latMin: Double,
-        @Query("lngMin") lngMin: Double): Call<ModelMaps.Places>
+val mocked = true;
 
+object PlaceService {
+    //Todo: tempStorage? CACHÉ? (avoid multiple requests)
+
+    fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        if(mocked){
+            var targetlocation = Location(LocationManager.GPS_PROVIDER)
+            val section = Section(1, "Patio", 20, 30)
+            var sections: MutableList<Section> = arrayListOf(section)
+            val mockedPlace = Place(1, "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, sections);
+            return onSuccess(mockedPlace as JSONObject);
+        }else{
+            RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkin", onSuccess, onError)
+        }
+    }
+
+    fun checkout(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkout", onSuccess, onError)
+    }
 }
