@@ -9,14 +9,13 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
-import okhttp3.internal.http2.Header
 import org.json.JSONObject
 import java.net.URL
 import java.util.concurrent.Executors
 
 object RequestUtils {
-    //private const val apiUrl = "https://qmdqe.mocklab.io/"
     private const val apiUrl = "https://salina.nixi.icu/"
+    //private const val apiUrl = "http://localhost:3000/safeout"
     private var context: Context? = null
 
     fun init(context: Context) {
@@ -83,13 +82,9 @@ object RequestUtils {
     }
 
     fun post(uri: String, body: Map<String, Any>, onResponse: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        var headers : Header = {
-            "au"
-        }
         AndroidNetworking.post(getUrl(uri))
             .addJSONObjectBody(JSONObject(body))
-            .addHeaders("Authorization", AuthController.loggedToken ?: "")
-            .addHeaders("Content-Type", "application/json")
+            .addHeaders("Authentication", AuthController.loggedToken ?: "")
             .setExecutor(Executors.newSingleThreadExecutor())
             .build()
             .getAsJSONObject(object: JSONObjectRequestListener {
