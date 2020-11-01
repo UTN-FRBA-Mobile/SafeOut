@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <group />
     <group android:id="@+id/groupSections" android:checkableBehavior="single">
         <item
+            android:id="@+id/drawerItemHome"
+            android:title="@string/drawer_home" />
+        <item android:id="@+id/drawerItemMap" android:title="Mapa"/>
         android:id="@+id/drawerItemHome"
         android:title="@string/drawer_home" />
-
         <item
             android:id="@+id/drawerItemSearch"
             android:title="@string/drawer_search" />

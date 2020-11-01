@@ -2,8 +2,6 @@ package com.utn_frba_mobile_2020_c2.safeout.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import com.androidnetworking.AndroidNetworking
 
 object StorageUtils {
     private var context: Context? = null
