@@ -2,6 +2,7 @@ package com.utn_frba_mobile_2020_c2.safeout.controllers
 
 import android.content.Context
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
+import org.json.JSONArray
 import org.json.JSONObject
 
 object PlaceController {
@@ -27,4 +28,12 @@ object PlaceController {
         }, onError)
     }
 
+    fun search(query: String, onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        PlaceService.search(query ,{ response ->
+            //todo: normalize data if needed, integrate with apis
+
+            onSuccess(response)
+        }, onError)
+
+    }
 }
