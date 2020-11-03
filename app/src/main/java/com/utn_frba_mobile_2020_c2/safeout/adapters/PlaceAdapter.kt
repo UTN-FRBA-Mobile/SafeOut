@@ -33,7 +33,6 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
             textViewCategory.text = place.category
             imageViewBackground.setImageBitmap(place.imgResource)
             //textViewOcupation.text = "${place.occupation.toString()}%"
-//
 
             setOnClickListener { listener.onClick(place, adapterPosition) }
 
@@ -66,10 +65,6 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
 
                     if (queryString != null && queryString.length > 2) {
 
-                        PlaceController.getImage("https://as01.epimg.net/argentina/imagenes/2020/08/29/actualidad/1598712561_382914_1598712638_noticia_normal_recorte1.jpg"
-                        ,{
-                                placeImage = it
-
                                 PlaceController.search(queryString, {
 
                                     for (i in 0 until it.length()) {
@@ -78,6 +73,17 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
                                         //JSONObject.put("imgResource", placeImage)
                                         val place = Gson().fromJson<Place>(JSONObject.toString(), Place::class.java)
                                         place.imgResource = placeImage
+
+                                        PlaceController.getImage("https://salina.nixi.icu/categories/${place.category}/image"
+                                            ,{
+                                                place.imgResource = it
+                                            }
+                                            ,{_, message ->
+                                                if (message != null) {
+                                                    //todo toast
+                                                }}
+                                            )
+
                                         placesFilterList.add(place)
                                     }
 
@@ -86,12 +92,7 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
                                         //todo toast
                                     }
 
-                                })
-
-                            },{ _, message ->
-                                if (message != null) {
-                                    //todo toast
-                                }})
+                            })
 
                         filterResults.values = placesFilterList
                         placesFilterList.clear()

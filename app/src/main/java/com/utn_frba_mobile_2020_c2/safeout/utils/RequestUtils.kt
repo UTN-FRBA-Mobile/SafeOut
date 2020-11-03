@@ -179,8 +179,8 @@ object RequestUtils {
             .setTag("imageRequestTag")
             .setPriority(Priority.MEDIUM)
             .addHeaders("Authorization", AuthController.loggedToken ?: "")
-            .setBitmapMaxHeight(100)
-            .setBitmapMaxWidth(100)
+            .setBitmapMaxHeight(200)
+            .setBitmapMaxWidth(200)
             .setBitmapConfig(Bitmap.Config.ARGB_8888)
             .build()
             .getAsBitmap(object : BitmapRequestListener {

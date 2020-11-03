@@ -93,16 +93,14 @@ class PlaceListFragment : Fragment() {
         val searchView = menuItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
-                adapter.filter.filter(newText)
+               adapter.filter.filter(newText)
                 //Thread.sleep(1000L)
                 //adapter.notifyDataSetChanged()
-
                 return false
             }
 
