@@ -1,5 +1,6 @@
 package com.utn_frba_mobile_2020_c2.safeout.services
 
+import android.graphics.Bitmap
 import android.location.Location
 import android.location.LocationManager
 import com.utn_frba_mobile_2020_c2.safeout.R
@@ -21,7 +22,7 @@ object PlaceService {
             var targetlocation = Location(LocationManager.GPS_PROVIDER)
             val section = Section(1, "Patio", 20, 30)
             var sections: MutableList<Section> = arrayListOf(section)
-            val mockedPlace = Place("1", "Siga la Vaca","Perro 123", "Bar", R.drawable.resto, targetlocation, sections);
+            val mockedPlace = Place("1", "Siga la Vaca","Perro 123", "Bar", R.drawable.resto as Bitmap, targetlocation, sections);
             return onSuccess(mockedPlace as JSONObject);
         }else{
             RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkin", onSuccess, onError)
@@ -44,4 +45,12 @@ object PlaceService {
             ,  onSuccess, onError)
 
     }
+
+
+    fun getImage(imageUrl: String,  onSuccess: (Bitmap) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        RequestUtils.getImage(imageUrl,  onSuccess, onError)
+
+    }
+
+
 }

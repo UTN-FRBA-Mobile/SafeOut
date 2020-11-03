@@ -1,6 +1,7 @@
 package com.utn_frba_mobile_2020_c2.safeout.controllers
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import org.json.JSONArray
 import org.json.JSONObject
@@ -34,6 +35,13 @@ object PlaceController {
 
             onSuccess(response)
         }, onError)
-
     }
+
+    fun getImage(imageUrl: String, onSuccess: (Bitmap) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        PlaceService.getImage(imageUrl, { response ->
+            //todo: normalize data if needed, integrate with apis
+            onSuccess(response)
+        }, onError)
+    }
+
 }

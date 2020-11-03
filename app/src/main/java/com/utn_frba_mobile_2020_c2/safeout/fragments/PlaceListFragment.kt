@@ -94,14 +94,16 @@ class PlaceListFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                //list.clear()
+
                 adapter.filter.filter(newText)
-                adapter.notifyDataSetChanged()
-                return true
+                //Thread.sleep(1000L)
+                //adapter.notifyDataSetChanged()
+
+                return false
             }
 
         })
