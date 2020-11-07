@@ -3,6 +3,7 @@ package com.utn_frba_mobile_2020_c2.safeout.activities
 import android.app.PendingIntent
 import android.content.Intent
 import android.nfc.NfcAdapter
+import android.nfc.Tag
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
@@ -19,7 +20,9 @@ import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.NfcFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
+import com.utn_frba_mobile_2020_c2.safeout.extensions.*
 
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -84,8 +87,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(QrScannerFragment())
             }
             R.id.Checkin -> {
-                val intent = Intent(this, NFCActivity::class.java)
-                startActivity(intent)
+             //   val intent = Intent(this, NFCActivity::class.java)
+             //   startActivity(intent)
+                setVisibleFragment(NfcFragment())
+
             }
             R.id.drawerItemLogout -> {
                 AuthController.logout()
@@ -122,6 +127,17 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private fun processIntent(checkIntent: Intent) {
         if (NfcAdapter.ACTION_TAG_DISCOVERED == checkIntent.action){
             // aca va  a logica para registrar la entrada
+
+            val tag = checkIntent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+            var idLugar : Long = deHexadecimalAEntero(byteArrayToHexString(tag?.id))
+/*          INFO EXTRA
+            var techList = tag?.techList
+            println("Tecnologías usadas por la tarjeta :" + tag?.techList?.component1().toString())
+            tag?.id --> es un ByteArray
+ */
+            println("Tecnologías usadas por la tarjeta : " + tag.toString())
+            println("ID Tag leido del lugar en Decimal : " + idLugar)
+            println("ID Tag leido del lugar en HEXA    : " + byteArrayToHexString(tag?.id))
 
             Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
         }else{
