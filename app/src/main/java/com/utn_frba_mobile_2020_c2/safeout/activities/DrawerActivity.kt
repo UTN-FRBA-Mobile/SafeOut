@@ -1,9 +1,12 @@
 package com.utn_frba_mobile_2020_c2.safeout.activities
 
+import android.app.PendingIntent
 import android.content.Intent
+import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private var nfcPendingIntent: PendingIntent? = null
+    private var nfcAdapter : NfcAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +54,11 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val headerView = navView.getHeaderView(0)
         val drawerLoggedUser = headerView.findViewById<TextView>(R.id.drawerLoggedUser)
         drawerLoggedUser.text = loggedUserName
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        nfcPendingIntent = PendingIntent.getActivity(this, 0,
+            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
+
     }
 
     override fun onBackPressed() {
@@ -92,5 +102,30 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+    override fun onResume() {
+        super.onResume()
+        nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, null, null)
+    }
 
+    override fun onPause() {
+        super.onPause()
+        nfcAdapter?.disableForegroundDispatch(this)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent != null) processIntent(intent)
+
+    }
+
+    private fun processIntent(checkIntent: Intent) {
+        if (NfcAdapter.ACTION_TAG_DISCOVERED == checkIntent.action){
+            // aca va  a logica para registrar la entrada
+
+            Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
+        }else{
+            Toast.makeText(this, "Error, vuelva a intentar", Toast.LENGTH_LONG).show()
+        }
+    }
 }
