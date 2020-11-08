@@ -5,10 +5,12 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -87,7 +89,17 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(QrScannerFragment())
             }
             R.id.Checkin -> {
-                setVisibleFragment(NfcFragment())
+                if (nfcAdapter == null){
+                    // Esto es momentaneo hasta que se unifique el boton del checkin
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("NFC incompatible")
+                    builder.setCancelable(true)
+                    builder.setMessage("Tu dispositivo es incompatible para el uso de NFC. Pruebe con otra forma.")
+                    builder.setPositiveButton("OK") { _, _ ->
+                    }
+                }else {
+                    setVisibleFragment(NfcFragment())
+                }
             }
             R.id.drawerItemLogout -> {
                 AuthController.logout()

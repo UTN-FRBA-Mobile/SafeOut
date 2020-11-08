@@ -32,7 +32,6 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:backgroundTint="@color/colorWhite"
             android:layout_weight="1"
             app:srcCompat="@drawable/nfc2" />
