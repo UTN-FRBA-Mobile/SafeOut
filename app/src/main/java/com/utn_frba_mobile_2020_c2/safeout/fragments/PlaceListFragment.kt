@@ -7,6 +7,7 @@ import android.view.*
 import android.app.SearchManager
 import androidx.appcompat.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_placelist.*
 import kotlinx.android.synthetic.main.fragment_placelist.view.*
 
@@ -75,6 +77,19 @@ class PlaceListFragment : Fragment() {
         adapter = (PlaceAdapter(list, object : RecyclerPlaceListener {
             override fun onClick(place: Place, position: Int) {
                 activity?.toast("Let's go to ${place.name}!")
+
+                val placeDetailFragment = (PlaceDetailFragment())
+
+                    val fragmentTransaction = fragmentManager?.beginTransaction()
+                    if (fragmentTransaction != null) {
+                        fragmentTransaction.replace(R.id.frameLayout, placeDetailFragment, "placeDetailFragment")
+                        fragmentTransaction.addToBackStack("placeDetailFragment")
+                    }
+                    if (fragmentTransaction != null) {
+                        fragmentTransaction.commit()
+
+                    }
+                    //this.fragmentManager?.beginTransaction()?.replace(R.id.container, fragment)?.commit()
 
             }
 
