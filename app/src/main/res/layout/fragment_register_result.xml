@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.CheckInResultFragment"
+    style="@style/common_block_vertical">
+
+    <LinearLayout style="@style/dialog_container">
+
+        <LinearLayout
+            android:id="@android:id/content"
+            style="@style/common_block_vertical"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@android:id/title"
+                style="@style/dialog_title"
+                android:gravity="center_horizontal"
+                android:text="CheckIN Exitoso" />
+
+            <ImageView
+                android:id="@+id/checkImage"
+                style="@style/dialog_icon"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_check_circle_24dp" />
+
+            <TextView
+                android:id="@+id/textResult"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
+            <TextView
+                android:id="@+id/textResultValue"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                 />
+        </LinearLayout>
+
+        <TextView
+            android:id="@android:id/message"
+            style="@style/text_body"
+            android:gravity="center_horizontal"
+            tools:text="asdasdasdasasd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@android:id/progress"
+        style="@style/common_block_vertical"
+        tools:visibility="visible">
+
+        <FrameLayout
+            style="@style/dialog_icon_large"
+            android:layout_width="@dimen/dialog_icon_large"
+            android:layout_height="@dimen/dialog_icon_large"
+            android:background="@drawable/circle_account_dashed">
+
+            <ImageView
+                android:id="@+id/placeImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@android:id/icon2"
+                style="@style/dialog_icon"
+                android:layout_width="@dimen/dialog_icon"
+                android:layout_height="@dimen/dialog_icon"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@android:id/button1"
+        style="@style/button_container">
+
+        <Button
+            android:id="@+id/buttonBack"
+            style="@style/button_container_bottom"
+            android:text="Reintentar" />
+    </LinearLayout>
+</LinearLayout>
