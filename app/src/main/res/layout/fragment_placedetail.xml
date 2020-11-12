@@ -46,6 +46,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="8pt"
         android:textStyle="bold"
+        android:text="Una Direccion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageViewBackground" />

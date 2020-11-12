@@ -16,6 +16,7 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.PlaceAdapter
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
+import com.utn_frba_mobile_2020_c2.safeout.listeners.PlaceCommunicator
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
@@ -37,6 +38,7 @@ class PlaceListFragment : Fragment() {
     private lateinit var recycler:RecyclerView
     private lateinit var adapter: PlaceAdapter
 
+    private lateinit var communicator: PlaceCommunicator
 
     private fun getPlaces(): ArrayList<Place> {
         return object : ArrayList<Place>() {
@@ -78,17 +80,19 @@ class PlaceListFragment : Fragment() {
             override fun onClick(place: Place, position: Int) {
                 activity?.toast("Let's go to ${place.name}!")
 
-                val placeDetailFragment = (PlaceDetailFragment())
+                communicator = activity as PlaceCommunicator
+                communicator.pasarDatosLugar(place)
 
-                    val fragmentTransaction = fragmentManager?.beginTransaction()
-                    if (fragmentTransaction != null) {
-                        fragmentTransaction.replace(R.id.frameLayout, placeDetailFragment, "placeDetailFragment")
-                        fragmentTransaction.addToBackStack("placeDetailFragment")
-                    }
-                    if (fragmentTransaction != null) {
-                        fragmentTransaction.commit()
+               // val placeDetailFragment = (PlaceDetailFragment())
+                  //  val fragmentTransaction = fragmentManager?.beginTransaction()
+                  //  if (fragmentTransaction != null) {
 
-                    }
+                   //     fragmentTransaction.replace(R.id.frameLayout, placeDetailFragment, "placeDetailFragment")
+                   //     fragmentTransaction.addToBackStack("placeDetailFragment")
+
+                   //     fragmentTransaction.commit()
+                 //       }
+
                     //this.fragmentManager?.beginTransaction()?.replace(R.id.container, fragment)?.commit()
 
             }

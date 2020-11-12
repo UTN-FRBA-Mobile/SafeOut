@@ -2,6 +2,7 @@ package com.utn_frba_mobile_2020_c2.safeout.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,14 +13,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
-import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
-import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
-import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
-import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import kotlinx.android.synthetic.main.activity_drawer.*
+import com.utn_frba_mobile_2020_c2.safeout.listeners.*
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
+import java.io.Serializable
 
 
-class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +92,20 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
+    }
+
+//    override fun pasarDatosLugar(lugar: Place) {
+    override fun pasarDatosLugar(lugar: Place) {
+
+        val bundle = Bundle()
+        bundle.putSerializable("lugar", lugar as Serializable)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val placeElegido = PlaceDetailFragment()
+        placeElegido.arguments = bundle
+        transaction.replace(R.id.frameLayout, placeElegido)
+        transaction.commit()
+
     }
 
 }

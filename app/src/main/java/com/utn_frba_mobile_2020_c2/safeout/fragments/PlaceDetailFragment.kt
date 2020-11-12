@@ -1,11 +1,16 @@
 package com.utn_frba_mobile_2020_c2.safeout.fragments
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
+import kotlinx.android.synthetic.main.fragment_placedetail.*
+import kotlinx.android.synthetic.main.fragment_placedetail.view.*
+import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +26,8 @@ class PlaceDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    var lugarElegido : Place
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -39,7 +46,10 @@ class PlaceDetailFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val view = inflater.inflate(R.layout.fragment_placedetail, container, false)
-        val placeListFragment = (PlaceDetailFragment())
+      //  val placeListFragment = (PlaceDetailFragment())
+
+        lugarElegido = arguments?.getSSerializable("lugar")
+        view.textViewAddress.text = lugarElegido.toString()
 
         return view
     }
