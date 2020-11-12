@@ -27,8 +27,6 @@ class PlaceDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    var lugarElegido : Place
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -46,14 +44,19 @@ class PlaceDetailFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val view = inflater.inflate(R.layout.fragment_placedetail, container, false)
-      //  val placeListFragment = (PlaceDetailFragment())
 
-        lugarElegido = arguments?.getSSerializable("lugar")
-        view.textViewAddress.text = lugarElegido.toString()
+        var objetoDetalle = this.arguments
+        var lugarElegido : Place
+        var detalle : Serializable?
+
+        detalle = objetoDetalle?.getSerializable("lugar")
+        lugarElegido = detalle as Place
+
+        view.textViewAddress.text = lugarElegido.address.toString()
+        view.textViewName.text    = lugarElegido.name.toString()
 
         return view
     }
-
 
     companion object {
         /**
