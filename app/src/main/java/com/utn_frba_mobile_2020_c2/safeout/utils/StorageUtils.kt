@@ -2,7 +2,6 @@ package com.utn_frba_mobile_2020_c2.safeout.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 
 object StorageUtils {
@@ -49,6 +48,6 @@ object StorageUtils {
 
     fun getAsObject(key: String, default: JsonObject? = null): JsonObject? {
         val value = get(key)
-        return JsonUtils.stringToObject(value) ?: default
+        return JsonUtils.objectFromString(value) ?: default
     }
 }

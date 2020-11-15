@@ -6,16 +6,16 @@ import com.google.gson.JsonObject
 
 object JsonUtils {
 
-    fun stringToObject(str: String): JsonObject {
+    fun objectFromString(str: String): JsonObject {
         return Gson().fromJson<JsonObject>(str, JsonObject::class.java)
     }
 
-    @JvmName("stringToNullableObject")
-    fun stringToObject(str: String?): JsonObject? {
+    @JvmName("objectFromNullableString")
+    fun objectFromString(str: String?): JsonObject? {
         return if (str == null) {
             null
         } else {
-            stringToObject(str)
+            objectFromString(str)
         }
     }
 
@@ -32,16 +32,16 @@ object JsonUtils {
         }
     }
 
-    fun stringToArray(str: String): JsonArray {
+    fun arrayFromString(str: String): JsonArray {
         return Gson().fromJson<JsonArray>(str, JsonArray::class.java)
     }
 
-    @JvmName("stringToNullableArray")
-    fun stringToArray(str: String?): JsonArray? {
+    @JvmName("arrayFromNullableString")
+    fun arrayFromString(str: String?): JsonArray? {
         return if (str == null) {
             null
         } else {
-            stringToArray(str)
+            arrayFromString(str)
         }
     }
 

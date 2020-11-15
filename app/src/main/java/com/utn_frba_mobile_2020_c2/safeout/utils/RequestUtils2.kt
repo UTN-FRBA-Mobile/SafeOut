@@ -1,14 +1,15 @@
 package com.utn_frba_mobile_2020_c2.safeout.utils
 
 import android.content.Context
-import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request as OkRequest
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import ru.gildor.coroutines.okhttp.await
 
 
@@ -28,28 +29,28 @@ object  RequestUtils2 {
         fun params(params: JsonObject): Request = apply {
             this.params = params
         }
-        fun send(handler: (JsonObject, Boolean) -> Unit) {
+        fun send(handler: (JsonObject, String?) -> Unit) {
             post<JsonObject>(url!!, params, handler,
                 nullable = false,
                 list = false
             )
         }
         @JvmName("send1")
-        fun send(handler: (JsonObject?, Boolean) -> Unit) {
+        fun send(handler: (JsonObject?, String?) -> Unit) {
             post<JsonObject?>(url!!, params, handler,
                 nullable = true,
                 list = false
             )
         }
         @JvmName("send2")
-        fun send(handler: (JsonArray, Boolean) -> Unit) {
+        fun send(handler: (JsonArray, String?) -> Unit) {
             post<JsonArray>(url!!, params, handler,
                 nullable = false,
                 list = true
             )
         }
         @JvmName("send3")
-        fun send(handler: (JsonArray?, Boolean) -> Unit) {
+        fun send(handler: (JsonArray?, String?) -> Unit) {
             post<JsonArray?>(url!!, params, handler,
                 nullable = true,
                 list = true
@@ -77,41 +78,61 @@ object  RequestUtils2 {
     private fun <T> post(
         uri: String,
         params: JsonObject?,
-        handler: (T, Boolean) -> Unit,
+        handler: (T, String?) -> Unit,
         nullable: Boolean = false,
         list: Boolean = false
     ) {
-        var body = JsonUtils.objectToString(params) ?: ""
         AsyncUtils.runInBackground {
+            val requestBody = (JsonUtils.objectToString(params) ?: "").toRequestBody(JSON)
+            val defaultErrorMessage = context!!.getString(R.string.backend_error)
+            var errorMessage: String? = null
+            var result = if (nullable) {
+                null
+            } else {
+                if (list) {
+                    JsonArray()
+                } else {
+                    JsonObject()
+                }
+            } as T
             val url = getUrl(uri)
             val request = OkRequest
                 .Builder()
                 .url(url)
                 .addHeader("Authorization", AuthController.loggedToken ?: "")
-                .post(body.toRequestBody(JSON))
+                .post(requestBody)
                 .build()
-            val response = client!!.newCall(request).await()
-            val error = response.code / 100 != 2
-            var body = response.body?.string()
-            if (body == "" || body == "null") {
-                body = null
-            }
-            val json = if (list) {
-                JsonUtils.stringToArray(body)
+            var response: Response? = null
+            try {
+                response = client!!.newCall(request).await()
+            } catch (_: Throwable) { }
+            if (response == null) {
+                errorMessage = defaultErrorMessage
             } else {
-                JsonUtils.stringToObject(body)
-            }
-            val result = if (nullable) {
-                json as T
-            } else {
-                json!! as T
+                val error = response!!.code / 100 != 2
+                var responseBody = response!!.body?.string()
+                if (responseBody == "" || responseBody == "null") {
+                    responseBody = null
+                }
+                val json = if (list && !error) {
+                    JsonUtils.arrayFromString(responseBody)
+                } else {
+                    JsonUtils.objectFromString(responseBody)
+                }
+                if (!error) {
+                    result = if (nullable) {
+                        json
+                    } else {
+                        json!!
+                    } as T
+                } else {
+                    errorMessage = (json as JsonObject?)?.get("message")?.toString() ?: defaultErrorMessage
+                }
             }
             AsyncUtils.updateUi {
-                handler(result, error)
+                handler(result, errorMessage)
             }
         }
 
     }
-
-
 }

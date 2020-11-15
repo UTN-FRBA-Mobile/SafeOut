@@ -4,13 +4,13 @@ import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 
 object CheckinService {
-    fun getCheckedInSection(onSuccess: (JsonObject?, Boolean) -> Unit) {
+    fun getCheckedInSection(onSuccess: (JsonObject?, String?) -> Unit) {
         RequestUtils2.create()
             .url("/checkins")
             .send(onSuccess)
     }
 
-    fun checkInToSection(sectionId: String, onSuccess: (JsonObject?, Boolean) -> Unit) {
+    fun checkInToSection(sectionId: String, onSuccess: (JsonObject?, String?) -> Unit) {
         val params = JsonObject()
         params.addProperty("section", sectionId)
         RequestUtils2.create()
@@ -19,7 +19,7 @@ object CheckinService {
             .send(onSuccess)
     }
 
-    fun checkOutOfSection(sectionId: String, onSuccess: (JsonObject?, Boolean) -> Unit) {
+    fun checkOutOfSection(sectionId: String, onSuccess: (JsonObject?, String?) -> Unit) {
         val params = JsonObject()
         params.addProperty("section", sectionId)
         RequestUtils2.create()
