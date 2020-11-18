@@ -6,20 +6,23 @@ import android.view.View
 import android.widget.Toast
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
-import com.utn_frba_mobile_2020_c2.safeout.services.AuthService
-import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
-import com.utn_frba_mobile_2020_c2.safeout.utils.StorageUtils
+import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
+import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
+import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
 import kotlinx.android.synthetic.main.activity_auth.*
+import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
+import com.utn_frba_mobile_2020_c2.safeout.utils.StorageUtils
 
 
 class AuthActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-        RequestUtils.init(this)
+        RequestUtils2.init(this)
         AuthController.init(this)
+        StorageUtils.init(this)
         if (AuthController.loggedIn) {
-            displayDrawerActivity()
+            doAfterLoginSuccess()
         }
     }
 
@@ -45,13 +48,11 @@ class AuthActivity : BaseActivity() {
             ).show()
             return
         }
-        viewContainer.visibility = View.GONE
-        progressBar.visibility = View.VISIBLE
+        setLoading(true)
         AuthController.doAuth(action!!, username, password, {
-            displayDrawerActivity()
+            doAfterLoginSuccess()
         }, { _, message ->
-            progressBar.visibility = View.GONE
-            viewContainer.visibility = View.VISIBLE
+            setLoading(false)
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
         })
     }
@@ -59,5 +60,23 @@ class AuthActivity : BaseActivity() {
     private fun displayDrawerActivity() {
         val intent = Intent(this, DrawerActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun doAfterLoginSuccess() {
+        setLoading(true)
+        CheckinService.getCheckedInSection { checkin, _ ->
+            StorageUtils.set(StorageUtils.CHECKIN, checkin)
+            displayDrawerActivity()
+        }
+    }
+
+    private fun setLoading(loading: Boolean) {
+        if (loading) {
+            viewContainer.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
+        } else {
+            progressBar.visibility = View.GONE
+            viewContainer.visibility = View.VISIBLE
+        }
     }
 }

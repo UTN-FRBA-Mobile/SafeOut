@@ -6,7 +6,11 @@
     <color name="colorSecondary">#3F88C5</color>
     <color name="colorTertiary">#ECC30B</color>
     <color name="colorLightGrey">#CCCCCC</color>
+    <color name="colorGrey">#999999</color>
+    <color name="colorDarkGrey">#333333</color>
     <color name="colorWhite">#F9F9F9</color>
+    <color name="colorBgItem">#3C3C3C</color>
+
     <color name="colorSuccess">#35890B</color>
     <color name="colorError">#C13606</color>
     <color name="colorWarning">#F4A823</color>
@@ -15,7 +19,7 @@
         <color name="brand_blue_dark">#316ab0</color>
         <color name="brand_blue">#3785d3</color>
         <color name="brand_blue_bright">#1da4fc</color>
-        <color name="brand_red">#db3a32</color><!-- deprecated -->
+        <color name="brand_red">#db3a32</color>
         <color name="brand_orange_dark">#fd5c32</color>
         <color name="brand_orange">#fd8832</color>
         <color name="brand_yellow">#fdb132</color>
@@ -77,4 +81,5 @@
         <!-- Chips -->
         <color name="chip_background">@color/control_highlight</color>
         <color name="chip_background_selected">@color/info_background</color>
+
 </resources>

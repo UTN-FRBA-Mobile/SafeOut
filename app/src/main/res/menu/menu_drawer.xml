@@ -23,6 +23,10 @@
             android:id="@+id/Checkin"
             android:title="Check IN NFC" />
 
+        <item
+            android:id="@+id/drawerItemMyReservations"
+            android:title="@string/drawer_myReservations" />
+
     </group>
 
     <group android:id="@+id/groupActions" android:checkableBehavior="single">
