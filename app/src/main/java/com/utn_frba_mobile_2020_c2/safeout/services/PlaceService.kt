@@ -20,9 +20,7 @@ object PlaceService {
         if(mocked){
 
             var targetlocation = Location(LocationManager.GPS_PROVIDER)
-            val section = Section(1, "Patio", 20, 30)
-            var sections: MutableList<Section> = arrayListOf(section)
-            val mockedPlace = Place("1", "Siga la Vaca","Perro 123", "Bar", R.drawable.resto as Bitmap, targetlocation, sections);
+            val mockedPlace = Place("1", "Siga la Vaca","Perro 123", "Bar", targetlocation, R.drawable.resto as Bitmap)
             return onSuccess(mockedPlace as JSONObject);
         }else{
             RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkin", onSuccess, onError)

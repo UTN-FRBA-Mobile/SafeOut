@@ -12,10 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
-import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
-import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
-import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
-import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import kotlinx.android.synthetic.main.activity_drawer.*
 
 
@@ -81,6 +78,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 AuthController.logout()
                 val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
+            }
+            R.id.drawerItemMyReservations -> {
+                setVisibleFragment(MyReservationsFragment())
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)

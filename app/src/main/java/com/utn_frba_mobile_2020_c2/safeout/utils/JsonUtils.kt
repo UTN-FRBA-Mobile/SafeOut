@@ -57,4 +57,15 @@ object JsonUtils {
             arrayToString(obj)
         }
     }
+
+    fun <T> arrayToList(arr: JsonArray, mapper: (JsonObject) -> T): List<T> {
+        val length = arr.size()
+        val list = ArrayList<T>(length)
+        for (i in 0 until length) {
+            val obj = arr.get(i) as JsonObject
+            val item = mapper(obj)
+            list.add(item)
+        }
+        return list
+    }
 }

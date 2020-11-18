@@ -6,5 +6,8 @@
     <color name="colorSecondary">#3F88C5</color>
     <color name="colorTertiary">#ECC30B</color>
     <color name="colorLightGrey">#CCCCCC</color>
+    <color name="colorGrey">#999999</color>
+    <color name="colorDarkGrey">#333333</color>
     <color name="colorWhite">#F9F9F9</color>
+    <color name="colorBgItem">#3C3C3C</color>
     </resources>

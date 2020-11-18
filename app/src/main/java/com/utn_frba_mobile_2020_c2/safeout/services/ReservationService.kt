@@ -7,14 +7,9 @@ import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import java.util.Date
 
 object ReservationService {
-    fun getReservations(sectionId: String? = null, onSuccess: (JsonArray?, String?) -> Unit) {
-        val params = JsonObject()
-        if (sectionId !== null) {
-            params.addProperty("section", sectionId)
-        }
+    fun getReservations(onSuccess: (JsonArray?, String?) -> Unit) {
         RequestUtils2.create()
             .url("/reservations")
-            .params(params)
             .send(onSuccess)
     }
 
