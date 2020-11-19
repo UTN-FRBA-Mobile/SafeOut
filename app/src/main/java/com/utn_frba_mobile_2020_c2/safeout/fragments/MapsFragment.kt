@@ -13,8 +13,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,7 +24,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.dto.Bounds
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
@@ -107,11 +106,25 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
         mapa.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener {
             @Override
-            fun onMarkerClick(marker: Marker) : Boolean{
+            fun onMarkerClick(marker: Marker): Boolean {
 
-                var marker : Marker? = markers.find { e -> e.id == marker.id }
+                var marker: Marker? = markers.find { e -> e.id == marker.id }
 
                 println(marker?.title)
+
+                var bundle: Bundle = Bundle()
+                bundle.putString("marker", marker?.title)
+
+                val fragment: Fragment = MarkInformation()
+                fragment.onAttach(context!!)
+                fragment.onCreate(bundle)
+                val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
+                transaction.add(R.id.marker_information, fragment).commit()
+
+/*
+                var fragment = MarkInformation()
+                fragment.arguments = bundle
+                fragment.onCreate(bundle)*/
                 return true
             }
             onMarkerClick(it)
@@ -144,7 +157,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun newMarker(place: ModelMaps.Place){
-        val newLocation = LatLng(place.location.latitude,place.location.longitude)
+        val newLocation = LatLng(place.location.latitude, place.location.longitude)
         val oc = (place.occupation.toDouble() / place.capacity.toDouble())
         var icon = R.drawable.ic_ubicacion_medium
         if(oc >= 0.90){

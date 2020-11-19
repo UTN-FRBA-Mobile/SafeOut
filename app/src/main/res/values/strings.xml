@@ -26,4 +26,6 @@
     <!-- Luego ver donde mandamos el API key   -->
     <string name="google_maps_key">AIzaSyBBNHFycep37WjF9t5zTaQk1nfCjwtR5KQ</string>
     <string name="back">Atrás</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
