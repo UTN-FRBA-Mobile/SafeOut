@@ -12,16 +12,15 @@
             tools:visibility="visible">
 
             <TextView
-                android:id="@android:id/title"
+                android:id="@+id/checkinTitle"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
-                android:text="CheckIN Exitoso" />
+              />
 
             <ImageView
                 android:id="@+id/checkImage"
                 style="@style/dialog_icon"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_check_circle_24dp" />
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:id="@+id/textResult"
@@ -35,6 +34,26 @@
                 android:gravity="center_horizontal"
                 android:textColor="@color/success_color"
                  />
+            <TextView
+                android:id="@+id/occupation"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
+
+            <TextView
+                android:id="@+id/sectionName"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
+
+            <TextView
+                android:id="@+id/sectionOccupation"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
         </LinearLayout>
 
         <TextView

@@ -22,3 +22,20 @@ data class Section(
         }
     }
 }
+
+data class SectionInfo(
+    val id: String,
+    val name: String,
+    val occupation: Int,
+    val capacity: Int,
+) {
+    companion object {
+        fun fromObject(obj: JsonObject): SectionInfo {
+            val id = obj.get("id").asString
+            val name = obj.get("name").asString
+            val occupation = obj.get("occupation").asInt
+            val capacity = obj.get("capacity").asInt
+            return SectionInfo(id, name, occupation, capacity)
+        }
+    }
+}
