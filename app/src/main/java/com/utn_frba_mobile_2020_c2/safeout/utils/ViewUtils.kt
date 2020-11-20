@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.utn_frba_mobile_2020_c2.safeout.R
-import com.utn_frba_mobile_2020_c2.safeout.fragments.AddReservationFragment
 
 object ViewUtils {
     fun showSnackbar(view: View, message: String) {
