@@ -156,11 +156,11 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     private fun processIntent(checkIntent: Intent) {
-        if (NfcAdapter.ACTION_TAG_DISCOVERED == checkIntent.action){
+        if (NfcAdapter.ACTION_TAG_DISCOVERED == checkIntent.action) {
             // aca va  a logica para registrar la entrada
 
             val tag = checkIntent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
-            var idLugar : Long = deHexadecimalAEntero(byteArrayToHexString(tag?.id))
+            var idLugar: Long = deHexadecimalAEntero(byteArrayToHexString(tag?.id))
 /*          INFO EXTRA
             var techList = tag?.techList
             println("Tecnologías usadas por la tarjeta :" + tag?.techList?.component1().toString())
@@ -171,8 +171,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             println("ID Tag leido del lugar en HEXA    : " + byteArrayToHexString(tag?.id))
 
             Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
-        }else{
+        } else {
             Toast.makeText(this, "Error, vuelva a intentar", Toast.LENGTH_LONG).show()
+        }
+    }
 
     fun setBackButtonVisible(visible: Boolean) {
         if (visible) {
