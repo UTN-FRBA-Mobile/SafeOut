@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.utn_frba_mobile_2020_c2.safeout.R
-import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 
 class AddReservationFragment : Fragment() {
 
@@ -14,7 +14,7 @@ class AddReservationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        GlobalUtils.drawerActivity!!.setTitle("Agregar Reserva")
+        ViewUtils.setAppBarTitle("Agregar Reserva")
         return inflater.inflate(R.layout.fragment_add_reservation, container, false)
     }
 

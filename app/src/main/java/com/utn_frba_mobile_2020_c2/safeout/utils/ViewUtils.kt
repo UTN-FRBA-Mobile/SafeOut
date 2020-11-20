@@ -55,7 +55,10 @@ object ViewUtils {
         fragmentTransaction.replace(R.id.frameLayout, next)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
-        GlobalUtils.drawerActivity!!.setBackButtonVisible(true)
+        GlobalUtils.drawerActivity?.setBackButtonVisible(true)
         GlobalUtils.backStackSize += 1
+    }
+    fun setAppBarTitle(title: String? = null) {
+        GlobalUtils.drawerActivity?.setTitle(title)
     }
 }
