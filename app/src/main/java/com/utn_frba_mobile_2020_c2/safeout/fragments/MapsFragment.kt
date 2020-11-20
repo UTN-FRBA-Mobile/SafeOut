@@ -27,6 +27,7 @@ import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import org.json.JSONObject
 
 class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
@@ -61,6 +62,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        ViewUtils.setAppBarTitle(context!!.getString(R.string.title_map))
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 

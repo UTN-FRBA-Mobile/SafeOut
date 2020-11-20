@@ -1,11 +1,11 @@
 package com.utn_frba_mobile_2020_c2.safeout.adapters
 
-import android.location.Location
-import android.location.LocationManager
+import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.core.graphics.set
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
@@ -20,7 +20,7 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
     : RecyclerView.Adapter<PlaceAdapter.ViewHolder>(), Filterable{
 
     private var placesFilterList: ArrayList<Place> = arrayListOf()
-
+    private var placeImage: Bitmap? = null
 
     //donde va el reemplazo de los textView con el texto que llega del objeto. Se llama por elemento
     // el View es al CardView entero.
@@ -31,8 +31,8 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
             textViewName.text = place.name
             textViewAddress.text = place.address
             textViewCategory.text = place.category
+            imageViewBackground.setImageBitmap(place.imgResource)
             //textViewOcupation.text = "${place.occupation.toString()}%"
-//            imageViewBackground.setImageResource(place.imgResource)
 
             setOnClickListener { listener.onClick(place, adapterPosition) }
 
@@ -64,22 +64,36 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
                 {
 
                     if (queryString != null && queryString.length > 2) {
-                        PlaceController.search(queryString, {
 
-                                for (i in 0 until it.length()) {
+                                PlaceController.search(queryString, {
 
-                                    val JSONObject = it.getJSONObject(i)
-                                    JSONObject.put("imgResource", R.drawable.resto)
-                                    val place = Gson().fromJson<Place>(JSONObject.toString(), Place::class.java)
-                                    placesFilterList.add(place)
-                            }
+                                    for (i in 0 until it.length()) {
 
-                        }, { _, message ->
-                            if (message != null) {
-                                //todo toast
-                            }
+                                        val JSONObject = it.getJSONObject(i)
+                                        //JSONObject.put("imgResource", placeImage)
+                                        val place = Gson().fromJson<Place>(JSONObject.toString(), Place::class.java)
+                                        place.imgResource = placeImage
 
-                        })
+                                        PlaceController.getImage("https://salina.nixi.icu/categories/${place.category}/image"
+                                            ,{
+                                                place.imgResource = it
+                                            }
+                                            ,{_, message ->
+                                                if (message != null) {
+                                                    //todo toast
+                                                }}
+                                            )
+
+                                        placesFilterList.add(place)
+                                    }
+
+                                }, { _, message ->
+                                    if (message != null) {
+                                        //todo toast
+                                    }
+
+                            })
+
                         filterResults.values = placesFilterList
                         placesFilterList.clear()
                     }

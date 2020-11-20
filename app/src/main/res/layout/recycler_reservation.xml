@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorBgItem"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:id="@+id/textViewMyReservationSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorSecondary"
+            tools:text="Nombre de la sección reservada"
+            />
+
+        <TextView
+            android:id="@+id/textViewMyReservationAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/colorGrey"
+            android:paddingVertical="2dp"
+            tools:text="Dirección del lugar reservado"
+            />
+
+        <TextView
+            android:id="@+id/textViewMyReservationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/colorGrey"
+            tools:text="Fecha de la reserva"
+            />
+
+        <Button
+            android:id="@+id/buttonMyReservationCancelReservation"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="@string/cancel_reservation"
+            android:textColor="@color/colorAccent"
+            android:background="@color/fui_transparent"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTertiary"
+        android:layout_marginVertical="2dp" />
+
+</LinearLayout>
