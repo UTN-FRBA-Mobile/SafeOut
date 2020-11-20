@@ -7,11 +7,10 @@ import android.widget.Toast
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
-import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
-import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
-import kotlinx.android.synthetic.main.activity_auth.*
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.StorageUtils
+import kotlinx.android.synthetic.main.activity_auth.*
 
 
 class AuthActivity : BaseActivity() {
@@ -59,13 +58,15 @@ class AuthActivity : BaseActivity() {
 
     private fun displayDrawerActivity() {
         val intent = Intent(this, DrawerActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+        finish()
     }
 
     private fun doAfterLoginSuccess() {
         setLoading(true)
         CheckinService.getCheckedInSection { checkin, _ ->
-            StorageUtils.set(StorageUtils.CHECKIN, checkin)
+            GlobalUtils.checkedInSection = checkin?.get("section")?.asString ?: null
             displayDrawerActivity()
         }
     }

@@ -18,6 +18,7 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import kotlinx.android.synthetic.main.fragment_placelist.*
 import kotlinx.android.synthetic.main.fragment_placelist.view.*
 
@@ -46,6 +47,7 @@ class PlaceListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        GlobalUtils.drawerActivity!!.setTitle(context!!.getString(R.string.title_search_places))
         setHasOptionsMenu(true)
         arguments?.let {
             //param1 = it.getString(ARG_PARAM1)
@@ -89,8 +91,10 @@ class PlaceListFragment : Fragment() {
         inflater.inflate(R.menu.main_menu, menu)
 
         val menuItem = menu!!.findItem(R.id.search)
+        menuItem.expandActionView()
 
         val searchView = menuItem.actionView as SearchView
+        searchView.queryHint = context!!.getString(R.string.search_place)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {

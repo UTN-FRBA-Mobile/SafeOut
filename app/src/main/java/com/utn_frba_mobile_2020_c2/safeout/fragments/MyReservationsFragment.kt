@@ -10,9 +10,11 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.ReservationsRecyclerViewAdapter
 import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_my_reservations.*
+import kotlinx.android.synthetic.main.fragment_my_reservations.view.*
 
 class MyReservationsFragment : Fragment() {
     private var rvAdapter: ReservationsRecyclerViewAdapter? = null
@@ -21,7 +23,12 @@ class MyReservationsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_my_reservations, container, false)
+        GlobalUtils.drawerActivity!!.setTitle(context!!.getString(R.string.title_my_reservations))
+        val view = inflater.inflate(R.layout.fragment_my_reservations, container, false)
+        view.buttonAddReservation.setOnClickListener {
+            ViewUtils.pushFragment(this, AddReservationFragment())
+        }
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

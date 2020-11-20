@@ -5,8 +5,10 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.fragments.AddReservationFragment
 
 object ViewUtils {
     fun showSnackbar(view: View, message: String) {
@@ -48,5 +50,13 @@ object ViewUtils {
         }
         val alert = builder.create()
         alert.show()
+    }
+    fun pushFragment(current: Fragment, next: Fragment) {
+        val fragmentTransaction = current.fragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, next)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+        GlobalUtils.drawerActivity!!.setBackButtonVisible(true)
+        GlobalUtils.backStackSize += 1
     }
 }

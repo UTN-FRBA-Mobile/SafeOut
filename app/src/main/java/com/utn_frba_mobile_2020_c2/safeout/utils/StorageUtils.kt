@@ -10,7 +10,6 @@ object StorageUtils {
     private const val fileName = "prefs"
 
     const val AUTH = "auth"
-    const val CHECKIN = "checkin"
 
     fun init(context: Context) {
         this.context = context
