@@ -6,11 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.adapters.SectionAdapter
+import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
+import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
+import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
-import kotlinx.android.synthetic.main.fragment_placedetail.*
+import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import kotlinx.android.synthetic.main.fragment_placedetail.view.*
+import kotlinx.android.synthetic.main.fragment_placedetail.view.imageViewBackground
+import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewAddress
+import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewName
 import java.io.Serializable
+import java.lang.Thread.sleep
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +38,12 @@ class PlaceDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private val layoutManager by lazy { LinearLayoutManager(context) }
+    private var sectionList: ArrayList<Section> = arrayListOf()
+
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapter: SectionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -44,6 +62,7 @@ class PlaceDetailFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val view = inflater.inflate(R.layout.fragment_placedetail, container, false)
+        recycler = view.recyclerViewSections as RecyclerView
 
         var objetoDetalle = this.arguments
         var lugarElegido : Place
@@ -52,10 +71,58 @@ class PlaceDetailFragment : Fragment() {
         detalle = objetoDetalle?.getSerializable("lugar")
         lugarElegido = detalle as Place
 
+        getSections(lugarElegido.id!!)
+
         view.textViewAddress.text = lugarElegido.address.toString()
         view.textViewName.text    = lugarElegido.name.toString()
+        view.textViewCat.text = lugarElegido.category.toString()
+        view.imageViewBackground.setImageBitmap(lugarElegido.imgResource)
 
         return view
+    }
+
+    private fun setRecyclerView(){
+        recycler.setHasFixedSize(true)
+        recycler.itemAnimator = DefaultItemAnimator()
+        recycler.layoutManager = layoutManager
+
+        adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
+            override fun onClick(section: Section, position: Int) {
+                activity?.toast("Let's go to ${section.name}!")
+
+            }
+
+        }))
+
+        recycler.adapter = adapter
+
+    }
+
+    private fun getSections(placeId: String): ArrayList<Section> {
+        return object : ArrayList<Section>() {
+            init {
+                PlaceController.getSections(
+                    placeId
+                    ,{
+
+                        for (i in 0 until it.length()) {
+
+                            val JSONObject = it.getJSONObject(i)
+                            val section = Gson().fromJson<Section>(JSONObject.toString(), Section::class.java)
+
+                            sectionList.add(section)
+                        }
+
+                        setRecyclerView()
+
+                    }
+                    ,{_, message ->
+                        if (message != null) {
+                            //todo toast
+                        }}
+                )
+            }
+        }
     }
 
     companion object {
