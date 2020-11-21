@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.location.Location
 import com.google.gson.JsonObject
 import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
 @Serializable
 data class Place(
@@ -12,8 +13,10 @@ data class Place(
     val address: String? = null,
     val category: String? = null,
     val location: Location? = null,
-    var imgResource: Bitmap? = null,
-) {
+    val capacity: Int? = null,
+    var occupation: Int? = null,
+    var imgResource: Bitmap? = null
+    ) {
     companion object {
         fun fromObject(obj: JsonObject): Place {
             val id = obj.get("id").asString
@@ -24,7 +27,15 @@ data class Place(
             val location = Location("")
             location.latitude = locationObject.get("latitude").asDouble
             location.longitude = locationObject.get("longitude").asDouble
-            return Place(id, name, address, category, location)
+            val capacity = obj.get("capacity").asInt
+            val occupation = obj.get("occupation").asInt
+
+            return Place(id, name, address, category, location, capacity, occupation)
         }
     }
 }
+
+data class PlaceScanInfo (
+    @SerializedName("placeId") var placeId : String,
+    @SerializedName("sectionId") var sectionId : String
+)

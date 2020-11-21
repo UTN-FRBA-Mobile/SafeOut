@@ -60,7 +60,18 @@ class HomeFragment : Fragment() {
            view.buttonCheckin.setOnClickListener(){
                val fragmentTransaction = this.fragmentManager?.beginTransaction()
                if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment(), "QrScannerFragment")
+                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("CHECKIN"), "QrScannerFragment")
+                   fragmentTransaction.addToBackStack("QrScannerFragment")
+               }
+               if (fragmentTransaction != null) {
+                   fragmentTransaction.commit()
+               }
+           }
+
+           view.buttonCheckOut.setOnClickListener(){
+               val fragmentTransaction = this.fragmentManager?.beginTransaction()
+               if (fragmentTransaction != null) {
+                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("CHECKOUT"), "QrScannerFragment")
                    fragmentTransaction.addToBackStack("QrScannerFragment")
                }
                if (fragmentTransaction != null) {

@@ -1,7 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">80dp</dimen>
+<!-- Default screen margins, per the Android Design guidelines. -->
+<dimen name="activity_horizontal_margin">16dp</dimen>
+<dimen name="activity_vertical_margin">16dp</dimen>
+<dimen name="nav_header_vertical_spacing">8dp</dimen>
+<dimen name="nav_header_height">80dp</dimen>
+
+    <dimen name="sizeXXXS">2dp</dimen>
+    <dimen name="sizeXXS">4dp</dimen>
+    <dimen name="sizeXS">8dp</dimen>
+    <dimen name="sizeS">12dp</dimen>
+    <dimen name="sizeNormal">16dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="txtS">@dimen/abc_text_size_subhead_material</dimen><!-- 16sp -->
+    <dimen name="txtM">@dimen/abc_text_size_title_material</dimen><!-- 20sp -->
+    <dimen name="txtL">@dimen/abc_text_size_headline_material</dimen><!-- 24sp -->
+
+<dimen name="elevation">4dp</dimen>
+    <dimen name="dialog_icon">72dp</dimen>
+
+<dimen name="dialog_vertical_padding">@dimen/activity_vertical_margin</dimen>
+<dimen name="dialog_horizontal_padding">@dimen/activity_horizontal_margin</dimen>
+
 </resources>

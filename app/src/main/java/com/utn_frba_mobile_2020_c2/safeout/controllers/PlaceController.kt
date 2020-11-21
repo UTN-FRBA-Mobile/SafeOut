@@ -13,22 +13,6 @@ object PlaceController {
         this.context = context
     }
 
-    /* Register the user checkin for placeId and section, and returns placeId data? */
-    fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        PlaceService.checkin(placeId, sectionId, { response ->
-            //todo: normalize data if needed, integrate with api
-            onSuccess(response.getJSONObject("place"))
-        }, onError)
-    }
-
-    /* Register the user checkout for placeId and section, and returns placeId data? */
-    fun checkout(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        PlaceService.checkout(placeId, sectionId, { response ->
-            //todo: normalize data if needed, integrate with apis
-            onSuccess(response.getJSONObject("place"))
-        }, onError)
-    }
-
     fun search(query: String, onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         PlaceService.search(query ,{ response ->
             //todo: normalize data if needed, integrate with apis

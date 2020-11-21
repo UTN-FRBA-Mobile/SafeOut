@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.CheckInResultFragment"
+    style="@style/common_block_vertical">
+
+    <LinearLayout style="@style/dialog_container">
+
+        <LinearLayout
+            android:id="@android:id/content"
+            style="@style/common_block_vertical"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/registerTitle"
+                style="@style/dialog_title"
+                android:gravity="center_horizontal"
+              />
+
+            <ImageView
+                android:id="@+id/checkImage"
+                style="@style/dialog_icon"
+                android:scaleType="fitCenter" />
+
+            <!--TextView
+                android:id="@+id/scannedData"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                /-->
+            <TextView
+                android:id="@+id/textRegisterResult"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                 />
+
+            <ImageView
+                android:id="@+id/placeImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/occupation"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
+
+            <TextView
+                android:id="@+id/sectionName"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
+
+            <TextView
+                android:id="@+id/sectionOccupation"
+                style="@style/text_headline"
+                android:gravity="center_horizontal"
+                android:textColor="@color/success_color"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@android:id/button1"
+        style="@style/button_container">
+
+        <Button
+            android:id="@+id/buttonRetry"
+            style="@style/button_container_bottom"
+            android:text="Reintentar" />
+    </LinearLayout>
+</LinearLayout>
