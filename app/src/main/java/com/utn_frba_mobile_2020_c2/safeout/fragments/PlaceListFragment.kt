@@ -5,7 +5,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
 import android.app.SearchManager
-import androidx.appcompat.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener
 import androidx.core.os.bundleOf
 import androidx.appcompat.widget.SearchView

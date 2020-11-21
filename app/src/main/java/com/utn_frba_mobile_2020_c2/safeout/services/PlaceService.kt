@@ -16,6 +16,8 @@ import org.json.JSONObject
 
 object PlaceService {
     //Todo: tempStorage? CACHÉ? (avoid multiple requests)
+/*
+    val mocked = true
 
     fun checkin(placeId: Int, sectionId: Int, onSuccess: (JSONObject) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         if(mocked){
@@ -29,6 +31,8 @@ object PlaceService {
             RequestUtils.put("/places/${placeId}/sections/${sectionId}/checkin", onSuccess, onError)
         }
     }
+
+ */
     fun getPlaceInfo(placeId: String, onSuccess: (JsonObject?, String?) -> Unit) {
         RequestUtils2.create()
             .url("/places/${placeId}")
