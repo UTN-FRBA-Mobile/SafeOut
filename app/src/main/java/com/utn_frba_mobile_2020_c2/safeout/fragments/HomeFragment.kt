@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
+        ViewUtils.setAppBarTitle()
     }
 
 
@@ -59,7 +60,18 @@ class HomeFragment : Fragment() {
            view.buttonCheckin.setOnClickListener(){
                val fragmentTransaction = this.fragmentManager?.beginTransaction()
                if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment(), "QrScannerFragment")
+                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("CHECKIN"), "QrScannerFragment")
+                   fragmentTransaction.addToBackStack("QrScannerFragment")
+               }
+               if (fragmentTransaction != null) {
+                   fragmentTransaction.commit()
+               }
+           }
+
+           view.buttonCheckOut.setOnClickListener(){
+               val fragmentTransaction = this.fragmentManager?.beginTransaction()
+               if (fragmentTransaction != null) {
+                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("CHECKOUT"), "QrScannerFragment")
                    fragmentTransaction.addToBackStack("QrScannerFragment")
                }
                if (fragmentTransaction != null) {

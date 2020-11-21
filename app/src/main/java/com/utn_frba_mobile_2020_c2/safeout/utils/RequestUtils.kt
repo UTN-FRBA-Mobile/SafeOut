@@ -18,10 +18,11 @@ import org.json.JSONObject
 import java.net.URL
 import java.util.concurrent.Executors
 
+@Deprecated("Use RequestUtils2")
 object RequestUtils {
     private const val apiUrl = "https://salina.nixi.icu/"
-
     //private const val apiUrl = "http://localhost:3000/safeout"
+
     private var context: Context? = null
 
     fun init(context: Context) {
@@ -43,7 +44,7 @@ object RequestUtils {
         onError: ((status: Int, message: String?) -> Unit)? = null
     ) {
         AndroidNetworking.get(getUrl(uri))
-            .addHeaders("Authentication", AuthController.loggedToken ?: "")
+            .addHeaders("Authorization", AuthController.loggedToken ?: "")
             .setExecutor(Executors.newSingleThreadExecutor())
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -74,7 +75,7 @@ object RequestUtils {
         onError: ((status: Int, message: String?) -> Unit)? = null
     ) {
         AndroidNetworking.put(getUrl(uri))
-            .addHeaders("Authentication", AuthController.loggedToken ?: "")
+            .addHeaders("Authorization", AuthController.loggedToken ?: "")
             .setExecutor(Executors.newSingleThreadExecutor())
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {
@@ -101,13 +102,14 @@ object RequestUtils {
 
     fun post(
         uri: String,
-        body: Map<String, Any>,
+        body: Map<String, Any>?,
         onResponse: (JSONObject) -> Unit,
         onError: ((status: Int, message: String?) -> Unit)? = null
     ) {
+        val bodyObject = if (body !== null) JSONObject(body) else JSONObject()
         AndroidNetworking.post(getUrl(uri))
-            .addJSONObjectBody(JSONObject(body))
-            .addHeaders("Authentication", AuthController.loggedToken ?: "")
+            .addJSONObjectBody(bodyObject)
+            .addHeaders("Authorization", AuthController.loggedToken ?: "")
             .setExecutor(Executors.newSingleThreadExecutor())
             .build()
             .getAsJSONObject(object : JSONObjectRequestListener {

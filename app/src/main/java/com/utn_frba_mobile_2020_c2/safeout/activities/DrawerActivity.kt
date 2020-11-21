@@ -1,14 +1,22 @@
 package com.utn_frba_mobile_2020_c2.safeout.activities
 
+import android.app.PendingIntent
 import android.content.Intent
+import android.nfc.NfcAdapter
+import android.nfc.Tag
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.Settings
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.utn_frba_mobile_2020_c2.safeout.R
@@ -19,17 +27,35 @@ import com.utn_frba_mobile_2020_c2.safeout.listeners.*
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import java.io.Serializable
+import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
+import com.utn_frba_mobile_2020_c2.safeout.fragments.NfcFragment
+import kotlinx.android.synthetic.main.activity_drawer.*
+import com.utn_frba_mobile_2020_c2.safeout.extensions.*
+import com.utn_frba_mobile_2020_c2.safeout.fragments.*
+import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import kotlinx.android.synthetic.main.activity_drawer.*
+import kotlinx.android.synthetic.main.app_bar.*
 
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
+    private var mToggle: ActionBarDrawerToggle? = null
+    private var mToolBarNavigationListenerIsRegistered = false
+    private var nfcPendingIntent: PendingIntent? = null
+    private var nfcAdapter : NfcAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        GlobalUtils.drawerActivity = this
         setContentView(R.layout.activity_drawer)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        setTitle()
 
         val navView: NavigationView = findViewById(R.id.nav_view)
         navView.bringToFront()
@@ -51,13 +77,28 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val headerView = navView.getHeaderView(0)
         val drawerLoggedUser = headerView.findViewById<TextView>(R.id.drawerLoggedUser)
         drawerLoggedUser.text = loggedUserName
+        this.mToggle = toggle
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        nfcPendingIntent = PendingIntent.getActivity(this, 0,
+            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
+
     }
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            GlobalUtils.backStackSize -= 1
+            if (GlobalUtils.backStackSize >= 0) {
+                super.onBackPressed()
+                if (GlobalUtils.backStackSize == 0) {
+                    setBackButtonVisible(false)
+                }
+            } else {
+                GlobalUtils.backStackSize = 0
+                moveTaskToBack(true)
+            }
         }
     }
 
@@ -73,16 +114,32 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
-                setVisibleFragment(QrScannerFragment())
+                setVisibleFragment(QrScannerFragment.newInstance("CHECKIN"))
+            }
+            R.id.drawerItemCheckOut -> {
+                setVisibleFragment(QrScannerFragment.newInstance("CHECKOUT"))
             }
             R.id.Checkin -> {
-                val intent = Intent(this, NFCActivity::class.java)
-                startActivity(intent)
+                if (nfcAdapter == null){
+                    // Esto es momentaneo hasta que se unifique el boton del checkin
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("NFC incompatible")
+                    builder.setCancelable(true)
+                    builder.setMessage("Tu dispositivo es incompatible para el uso de NFC. Pruebe con otra forma.")
+                    builder.setPositiveButton("OK") { _, _ ->
+                    }
+                    builder.show()
+                }else {
+                    setVisibleFragment(NfcFragment())
+                }
             }
             R.id.drawerItemLogout -> {
                 AuthController.logout()
                 val intent = Intent(this, AuthActivity::class.java)
                 startActivity(intent)
+            }
+            R.id.drawerItemMyReservations -> {
+                setVisibleFragment(MyReservationsFragment())
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -93,6 +150,57 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
+    }
+    override fun onResume() {
+        super.onResume()
+        nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, null, null)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        nfcAdapter?.disableForegroundDispatch(this)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent != null) processIntent(intent)
+    }
+
+    private fun processIntent(checkIntent: Intent) {
+        if (NfcAdapter.ACTION_TAG_DISCOVERED == checkIntent.action) {
+            // aca va  a logica para registrar la entrada
+
+            val tag = checkIntent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+            var idLugar: Long = deHexadecimalAEntero(byteArrayToHexString(tag?.id))
+/*          INFO EXTRA
+            var techList = tag?.techList
+            println("Tecnologías usadas por la tarjeta :" + tag?.techList?.component1().toString())
+            tag?.id --> es un ByteArray
+ */
+            println("Tecnologías usadas por la tarjeta : " + tag.toString())
+            println("ID Tag leido del lugar en Decimal : " + idLugar)
+            println("ID Tag leido del lugar en HEXA    : " + byteArrayToHexString(tag?.id))
+
+            //TODO: Map to ID NFC
+            val placeId = "5f600c75db23bc5159a7ed44";
+            val sectionId = "5fa2fb64f434715c664c5d15";
+            val mode = "CHECKIN";
+
+            //Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
+            CheckinService.checkInToSection(sectionId) { _, error ->
+                if (error != null) {
+                    //ViewUtils.showSnackbar(, error)
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    goToCheckinResultError(mode, error)
+                } else {
+                    goToCheckinResultSuccess(mode, placeId, sectionId)
+                }
+            }
+
+        } else {
+            Toast.makeText(this, "Error, vuelva a intentar", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun pasarDatosLugar(lugar: Place) {
@@ -111,5 +219,49 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         transaction.commit()
 
     }
+  
+    private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
+        val transaction = supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, true, placeId, sectionId), "CheckInResult")
+        transaction?.addToBackStack("CheckInResult")
+        transaction?.commit()
+    }
+    private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
+        val transaction = supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, false, "", ""), "CheckInResult")
+        transaction?.addToBackStack("CheckInResult")
+        transaction?.commit()
+    }
 
+    fun setBackButtonVisible(visible: Boolean) {
+        if (visible) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            mToggle!!.isDrawerIndicatorEnabled = false
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            if (!mToolBarNavigationListenerIsRegistered) {
+                mToggle!!.toolbarNavigationClickListener = View.OnClickListener {
+                    onBackPressed()
+                }
+                mToolBarNavigationListenerIsRegistered = true
+            }
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+            mToggle!!.isDrawerIndicatorEnabled = true
+            mToggle!!.toolbarNavigationClickListener = null
+            mToolBarNavigationListenerIsRegistered = false
+        }
+    }
+
+    fun setTitle(title: String? = null) {
+        if (title == null) {
+            supportActionBar!!.setDisplayShowTitleEnabled(false)
+            imageViewLogo.visibility = View.VISIBLE
+        } else {
+            supportActionBar!!.title = title
+            imageViewLogo.visibility = View.GONE
+            supportActionBar!!.setDisplayShowTitleEnabled(true)
+
+        }
+    }
 }

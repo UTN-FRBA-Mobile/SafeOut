@@ -22,11 +22,11 @@
             app:contentInsetStartWithNavigation="0dp"
             >
             <ImageView
-                android:layout_width="match_parent"
+                android:id="@+id/imageViewLogo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:paddingRight="?attr/actionBarSize"
                 android:src="@drawable/logo"
                 />
         </androidx.appcompat.widget.Toolbar>
