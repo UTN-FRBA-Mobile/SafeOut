@@ -28,7 +28,9 @@ import com.utn_frba_mobile_2020_c2.safeout.fragments.NfcFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.extensions.*
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
+import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
 
@@ -173,10 +175,38 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             println("ID Tag leido del lugar en Decimal : " + idLugar)
             println("ID Tag leido del lugar en HEXA    : " + byteArrayToHexString(tag?.id))
 
-            Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
+            //TODO: Map to ID NFC
+            val placeId = "5f600c75db23bc5159a7ed44";
+            val sectionId = "5fa2fb64f434715c664c5d15";
+            val mode = "CHECKIN";
+
+            //Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
+            CheckinService.checkInToSection(sectionId) { _, error ->
+                if (error != null) {
+                    //ViewUtils.showSnackbar(, error)
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    goToCheckinResultError(mode, error)
+                } else {
+                    goToCheckinResultSuccess(mode, placeId, sectionId)
+                }
+            }
+
         } else {
             Toast.makeText(this, "Error, vuelva a intentar", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
+        val transaction = supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, true, placeId, sectionId), "CheckInResult")
+        transaction?.addToBackStack("CheckInResult")
+        transaction?.commit()
+    }
+    private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
+        val transaction = supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, false, "", ""), "CheckInResult")
+        transaction?.addToBackStack("CheckInResult")
+        transaction?.commit()
     }
 
     fun setBackButtonVisible(visible: Boolean) {
