@@ -5,6 +5,7 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +21,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
+import com.utn_frba_mobile_2020_c2.safeout.fragments.*
+import kotlinx.android.synthetic.main.activity_drawer.*
+import com.utn_frba_mobile_2020_c2.safeout.listeners.*
+import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
+import java.io.Serializable
 import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
@@ -35,7 +42,7 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
 
 
-class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
     private var mToggle: ActionBarDrawerToggle? = null
     private var mToolBarNavigationListenerIsRegistered = false
     private var nfcPendingIntent: PendingIntent? = null
@@ -196,6 +203,23 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         }
     }
 
+    override fun pasarDatosLugar(lugar: Place) {
+
+     // Para que me tome la clase Place como Serializable al pasarlo tuve que asignarlo
+
+        val otroLugar : Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
+        otroLugar = lugar
+        val bundle = Bundle()
+        bundle.putSerializable("lugar", otroLugar)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val placeElegido = PlaceDetailFragment()
+        placeElegido.arguments = bundle
+        transaction.replace(R.id.frameLayout, placeElegido)
+        transaction.commit()
+
+    }
+  
     private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
         val transaction = supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, true, placeId, sectionId), "CheckInResult")
