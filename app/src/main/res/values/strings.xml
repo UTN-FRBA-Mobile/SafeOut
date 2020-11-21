@@ -33,4 +33,8 @@
     <!-- Luego ver donde mandamos el API key   -->
     <string name="google_maps_key">AIzaSyBBNHFycep37WjF9t5zTaQk1nfCjwtR5KQ</string>
     <string name="back">Atrás</string>
+    <string name="search_place">Buscar Lugar…</string>
+    <string name="title_search_places">Búsqueda de Lugares</string>
+    <string name="title_map">Mapa de Lugares</string>
+    <string name="title_my_reservations">Mis Reservas</string>
 </resources>
