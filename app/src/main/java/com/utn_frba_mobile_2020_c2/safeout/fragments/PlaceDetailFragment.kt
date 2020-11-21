@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_placedetail.view.*
 import kotlinx.android.synthetic.main.fragment_placedetail.view.imageViewBackground
 import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewAddress
 import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewName
+import kotlinx.android.synthetic.main.recycler_section.view.*
 import java.io.Serializable
 import java.lang.Thread.sleep
 
@@ -111,6 +112,7 @@ class PlaceDetailFragment : Fragment() {
                             val section = Gson().fromJson<Section>(JSONObject.toString(), Section::class.java)
 
                             sectionList.add(section)
+
                         }
 
                         setRecyclerView()

@@ -2,6 +2,8 @@ package com.utn_frba_mobile_2020_c2.safeout.adapters
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
@@ -24,7 +26,11 @@ class SectionAdapter(private var sections:List<Section>, private val listener: R
             textViewSectionName.text = section.name
             textViewSectionOccupation.text = occupation.toString() + '%'
 
-            buttonReservar.setOnClickListener { listener.onClick(section, adapterPosition) }
+            if(section.reservations) {
+                buttonReservar.setOnClickListener { listener.onClick(section, adapterPosition) }
+            }else {
+                buttonReservar.visibility = View.INVISIBLE
+            }
 
         }
 
