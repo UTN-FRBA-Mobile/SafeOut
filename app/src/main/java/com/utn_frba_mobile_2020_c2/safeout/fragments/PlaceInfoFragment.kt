@@ -22,7 +22,7 @@ import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import org.json.JSONObject
 
-class PlaceDetailFragment : Fragment() {
+class PlaceInfoFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -128,8 +128,8 @@ class PlaceDetailFragment : Fragment() {
     companion object {
         private const val ARGUMENT_PLACE_ID = "ARGUMENT_PLACE_ID"
 
-        fun newInstance(placeId:String? = "", sectionId:String? = "") : PlaceDetailFragment{
-            return PlaceDetailFragment().apply {
+        fun newInstance(placeId:String? = "", sectionId:String? = "") : PlaceInfoFragment{
+            return PlaceInfoFragment().apply {
                 arguments = bundleOf(ARGUMENT_PLACE_ID to placeId)
             }
         }

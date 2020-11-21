@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import com.google.gson.annotations.SerializedName
 
 @Serializable
+
 data class Place(
     val id: String? = null,
     val name: String? = null,
@@ -15,8 +16,9 @@ data class Place(
     val location: Location? = null,
     val capacity: Int? = null,
     var occupation: Int? = null,
-    var imgResource: Bitmap? = null
-    ) {
+    var imgResource: Bitmap? = null,
+    val sections: List<Section>? = null,
+    ) : java.io.Serializable {
     companion object {
         fun fromObject(obj: JsonObject): Place {
             val id = obj.get("id").asString

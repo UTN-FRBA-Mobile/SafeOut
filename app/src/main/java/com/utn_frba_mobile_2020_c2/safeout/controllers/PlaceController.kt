@@ -28,4 +28,12 @@ object PlaceController {
         }, onError)
     }
 
+    fun getSections(placeId: String, onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
+        PlaceService.getSections(placeId ,{ response ->
+            //todo: normalize data if needed, integrate with apis
+            onSuccess(response)
+        }, onError)
+    }
+
+
 }

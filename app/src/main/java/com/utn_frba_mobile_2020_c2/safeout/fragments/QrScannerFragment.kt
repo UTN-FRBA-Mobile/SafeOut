@@ -99,7 +99,7 @@ class QrScannerFragment : Fragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(
             R.id.frameLayout,
-            PlaceDetailFragment.newInstance(placeId),
+            PlaceInfoFragment.newInstance(placeId),
             "PlaceDetail"
         )
         transaction?.addToBackStack("PlaceDetail")

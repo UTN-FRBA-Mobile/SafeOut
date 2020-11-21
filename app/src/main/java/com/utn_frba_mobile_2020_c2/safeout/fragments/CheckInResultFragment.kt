@@ -35,7 +35,7 @@ class CheckInResultFragment : Fragment() {
 
         setIcon(success)
         if (success){
-            if (mode == "CHECKIN") setTitle("Check IN Exitoso") else setTitle("Check OUT Exitoso")
+            if (mode == "CHECKIN") setTitle("¡Bienvenido!\nCheck IN Exitoso") else setTitle("¡Gracias por su visita!\nCheck OUT Exitoso")
             fetchPlaceInfo(placeId)
             fetchSectionInfo(placeId, sectionId)
 
