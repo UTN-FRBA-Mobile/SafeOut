@@ -111,7 +111,7 @@ class CheckInResultFragment : Fragment() {
         val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
         getPlaceImage(place.category);
 
-        setCheckinResult("Registro Exitoso en ${place.name}, ${place.address}")
+        setCheckinResult("${place.name}, ${place.address}")
         setOccupation("${place.occupation.toString()}/${place.capacity.toString()}");
     }
     fun getPlaceImage(category: String?) {
