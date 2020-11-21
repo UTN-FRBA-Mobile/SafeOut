@@ -12,7 +12,7 @@
             tools:visibility="visible">
 
             <TextView
-                android:id="@+id/checkinTitle"
+                android:id="@+id/registerTitle"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
               />
@@ -22,18 +22,24 @@
                 style="@style/dialog_icon"
                 android:scaleType="fitCenter" />
 
-            <TextView
-                android:id="@+id/textResult"
+            <!--TextView
+                android:id="@+id/scannedData"
                 style="@style/text_headline"
                 android:gravity="center_horizontal"
                 android:textColor="@color/success_color"
-                />
+                /-->
             <TextView
-                android:id="@+id/textResultValue"
+                android:id="@+id/textRegisterResult"
                 style="@style/text_headline"
                 android:gravity="center_horizontal"
                 android:textColor="@color/success_color"
                  />
+
+            <ImageView
+                android:id="@+id/placeImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <TextView
                 android:id="@+id/occupation"
                 style="@style/text_headline"
@@ -56,37 +62,6 @@
                 />
         </LinearLayout>
 
-        <TextView
-            android:id="@android:id/message"
-            style="@style/text_body"
-            android:gravity="center_horizontal"
-            tools:text="asdasdasdasasd" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@android:id/progress"
-        style="@style/common_block_vertical"
-        tools:visibility="visible">
-
-        <FrameLayout
-            style="@style/dialog_icon_large"
-            android:layout_width="@dimen/dialog_icon_large"
-            android:layout_height="@dimen/dialog_icon_large"
-            android:background="@drawable/circle_account_dashed">
-
-            <ImageView
-                android:id="@+id/placeImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <ImageView
-                android:id="@android:id/icon2"
-                style="@style/dialog_icon"
-                android:layout_width="@dimen/dialog_icon"
-                android:layout_height="@dimen/dialog_icon"
-                android:visibility="gone" />
-        </FrameLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -94,7 +69,7 @@
         style="@style/button_container">
 
         <Button
-            android:id="@+id/buttonBack"
+            android:id="@+id/buttonRetry"
             style="@style/button_container_bottom"
             android:text="Reintentar" />
     </LinearLayout>

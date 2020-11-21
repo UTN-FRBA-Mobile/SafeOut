@@ -1,16 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-        <style name="tab_layout" parent="Widget.Design.TabLayout">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">wrap_content</item>
-            <item name="tabBackground">@android:color/transparent</item>
-            <item name="tabTextAppearance">@style/tab_layout_text</item>
-            <item name="tabSelectedTextColor">@color/activity_background</item>
-            <item name="tabIndicatorColor">@color/activity_background</item>
-            <item name="tabGravity">fill</item>
-            <item name="tabMode">fixed</item>
-        </style>
-
         <style name="tab_layout_text" parent="TextAppearance.AppCompat.Button">
             <item name="android:textColor">@color/activity_background_dim</item>
         </style>
@@ -19,21 +8,6 @@
             <item name="android:textColor">@color/activity_background</item>
             <item name="android:layout_marginBottom">@dimen/sizeXXXS</item>
         </style>
-
-        <style name="ToolbarTitleAppearance" parent="@style/TextAppearance.AppCompat.Body2">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">wrap_content</item>
-            <item name="android:textSize">@dimen/txtM</item>
-            <item name="android:textColor">@color/primary_text</item>
-        </style>
-
-        <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">wrap_content</item>
-            <item name="android:textSize">@dimen/txtXS</item>
-            <item name="android:textColor">@color/secondary_text</item>
-        </style>
-
         <!-- Common layout helpers -->
 
         <style name="common_block_vertical">
@@ -86,55 +60,6 @@
             <item name="android:background">@color/activity_intro_background</item>
         </style>
 
-        <!-- Dividers -->
-        <style name="divider">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">@dimen/stroke_small</item>
-            <item name="android:layout_marginTop">@dimen/sizeXXS</item>
-            <item name="android:layout_marginBottom">@dimen/sizeXXS</item>
-            <item name="android:background">@color/divider</item>
-        </style>
-
-        <style name="divider_thick">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">@dimen/sizeXS</item>
-            <item name="android:background">@color/activity_background_dim</item>
-        </style>
-
-        <style name="divider_vertical">
-            <item name="android:layout_width">@dimen/stroke_small</item>
-            <item name="android:layout_height">match_parent</item>
-            <item name="android:background">@color/divider</item>
-        </style>
-
-        <!-- Headers -->
-
-        <style name="list_header" parent="common_inline_horizontal">
-            <item name="android:minHeight">@dimen/list_item_height_small</item>
-            <item name="android:gravity">start|center_vertical</item>
-            <item name="android:paddingTop">@dimen/sizeXS</item>
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-            <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
-            <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
-            <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
-            <item name="android:textColor">@color/secondary_text</item>
-        </style>
-
-        <style name="list_header_primary" parent="list_header">
-            <item name="android:textColor">@color/primary</item>
-        </style>
-
-        <style name="header" parent="common_block_horizontal" />
-
-        <style name="header_text" parent="list_header">
-            <item name="android:layout_width">0dp</item>
-            <item name="android:layout_weight">1</item>
-        </style>
-
-        <style name="header_icon" parent="list_item_meta_icon">
-            <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
-        </style>
-
         <!-- Typography -->
 
         <style name="text_caption" parent="text_title">
@@ -174,152 +99,6 @@
             <item name="android:textSize">@dimen/txtXL</item>
         </style>
 
-        <!-- Items in a list -->
-
-        <style name="list_items_wrapper" parent="common_block_vertical">
-            <item name="android:layout_height">match_parent</item>
-            <item name="android:paddingTop">@dimen/sizeXS</item>
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-            <item name="android:dividerHeight">0dp</item>
-            <item name="android:divider">@android:color/transparent</item>
-            <item name="android:clipToPadding">false</item>
-            <item name="android:orientation">vertical</item>
-        </style>
-
-        <style name="list_item" parent="common_block_horizontal">
-            <item name="android:minHeight">@dimen/list_item_height</item>
-            <item name="android:background">?attr/selectableItemBackground</item>
-        </style>
-
-        <style name="list_item_large" parent="list_item">
-            <item name="android:minHeight">@dimen/list_item_height_large</item>
-        </style>
-
-        <style name="list_item_small" parent="list_item">
-            <item name="android:minHeight">@dimen/list_item_height_small</item>
-        </style>
-
-        <style name="list_item_xsmall" parent="list_item">
-            <item name="android:minHeight">@dimen/list_item_height_xsmall</item>
-        </style>
-
-        <style name="list_item_xxsmall" parent="list_item">
-            <item name="android:minHeight">@dimen/list_item_height_xxsmall</item>
-        </style>
-
-        <style name="list_item_icon">
-            <item name="android:layout_width">@dimen/list_item_icon_width</item>
-            <item name="android:layout_height">wrap_content</item>
-            <item name="android:layout_gravity">start|center_vertical</item>
-            <item name="android:scaleType">fitStart</item>
-            <item name="android:gravity">start</item>
-            <item name="android:layout_marginTop">@dimen/sizeXS</item>
-            <item name="android:layout_marginBottom">@dimen/sizeXS</item>
-            <item name="android:layout_marginRight">-16dp</item>
-            <item name="android:paddingRight">@dimen/sizeM</item>
-            <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-        </style>
-
-        <style name="list_item_icon_xsmall" parent="list_item_icon">
-            <item name="android:layout_width">wrap_content</item>
-            <item name="android:layout_marginRight">0dp</item>
-            <item name="android:paddingRight">0dp</item>
-        </style>
-
-        <style name="list_item_bullet" parent="list_item_icon_xsmall">
-            <item name="android:layout_gravity">top</item>
-        </style>
-
-        <style name="list_item_radio" parent="list_item_icon">
-            <item name="android:layout_marginRight">-12dp</item>
-            <item name="android:layout_marginLeft">12dp</item>
-        </style>
-
-        <style name="list_item_radio_xsmall" parent="list_item_radio">
-            <item name="android:layout_width">wrap_content</item>
-            <item name="android:layout_marginRight">-4dp</item>
-            <item name="android:paddingRight">0dp</item>
-        </style>
-
-        <style name="list_item_number" parent="list_item_bullet">
-            <item name="android:background">@drawable/circle</item>
-            <item name="android:backgroundTint">@color/icon_primary</item>
-            <item name="android:gravity">center</item>
-            <item name="android:layout_marginTop">@dimen/activity_list_margin</item>
-            <item name="android:textSize">@dimen/txtXXS</item>
-            <item name="android:textColor">@color/activity_background</item>
-        </style>
-
-        <style name="list_item_text_wrapper" parent="common_block_vertical">
-            <item name="android:layout_width">0dp</item>
-            <item name="android:layout_weight">1</item>
-            <item name="android:layout_gravity">center_vertical</item>
-            <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-            <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
-            <item name="android:paddingTop">@dimen/sizeS</item>
-            <item name="android:paddingBottom">@dimen/sizeS</item>
-        </style>
-
-        <style name="list_item_title" parent="text_subtitle">
-        </style>
-
-        <style name="list_item_title_large" parent="list_item_title">
-            <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
-            <item name="android:maxLines">1</item>
-            <item name="android:singleLine">true</item>
-        </style>
-
-        <style name="list_item_title_small" parent="list_item_title">
-            <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-            <item name="android:textSize">@dimen/txtXS</item>
-            <item name="android:singleLine">false</item>
-        </style>
-
-        <style name="list_item_title_small_bold" parent="list_item_title_small">
-            <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
-        </style>
-
-        <style name="list_item_description" parent="text_body">
-            <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-            <item name="android:textColor">@color/secondary_text</item>
-        </style>
-
-        <style name="list_item_description_small" parent="list_item_description">
-            <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
-        </style>
-
-        <style name="list_item_text_link" parent="list_item_description_small">
-            <item name="android:background">@android:color/transparent</item>
-            <item name="android:textColor">@color/primary</item>
-            <item name="android:gravity">start|center_vertical</item>
-            <item name="android:minWidth">0dp</item>
-            <item name="android:layout_marginRight">@dimen/sizeXS</item>
-            <item name="android:minHeight">@dimen/list_item_height_xsmall</item>
-        </style>
-
-        <style name="list_item_meta_wrapper" parent="common_inline_vertical">
-            <item name="android:layout_gravity">center_vertical</item>
-            <item name="android:gravity">right|center_vertical</item>
-            <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
-            <item name="android:layout_marginLeft">-16dp</item>
-            <item name="android:paddingTop">@dimen/sizeXS</item>
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-        </style>
-
-        <style name="list_item_meta_icon" parent="list_item_icon">
-            <item name="android:layout_width">wrap_content</item>
-            <item name="android:layout_gravity">end|center_vertical</item>
-            <item name="android:scaleType">fitEnd</item>
-            <item name="android:gravity">end</item>
-            <item name="android:padding">0dp</item>
-            <item name="android:layout_marginTop">0dp</item>
-            <item name="android:layout_marginBottom">0dp</item>
-            <item name="android:layout_marginRight">0dp</item>
-            <item name="android:layout_marginLeft">0dp</item>
-            <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-            <item name="android:tint">@color/icon_default</item>
-        </style>
-
         <!-- Buttons -->
         <style name="button" parent="Widget.AppCompat.Button.Colored"><!--Widget.AppCompat.Button.Small-->
             <item name="android:layout_width">wrap_content</item>
@@ -335,7 +114,6 @@
         <style name="button_secondary" parent="Widget.AppCompat.Button.Borderless">
             <item name="android:layout_width">wrap_content</item>
             <item name="android:layout_height">wrap_content</item>
-            <item name="android:minWidth">@dimen/list_item_height_small</item>
             <item name="android:textColor">@color/button_borderless_primary_text</item>
             <item name="android:textAllCaps">false</item>
             <item name="android:textStyle">bold</item>
@@ -355,67 +133,6 @@
         <style name="button_secondary_inverse" parent="button_secondary">
             <item name="android:textColor">@color/button_borderless_inverse_text</item>
         </style>
-
-        <!-- Forms -->
-
-        <style name="form_wrapper" parent="common_block_vertical">
-            <item name="android:paddingTop">@dimen/sizeXS</item>
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-        </style>
-
-        <style name="form_row" parent="common_block_horizontal">
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-            <item name="android:paddingLeft">@dimen/sizeS</item>
-            <item name="android:paddingRight">@dimen/sizeS</item>
-        </style>
-
-        <style name="form_col" parent="common_inline_vertical">
-            <item name="android:layout_width">0dp</item>
-            <item name="android:layout_weight">1</item>
-        </style>
-
-        <style name="form_label" parent="common_block_horizontal">
-            <item name="android:layout_marginTop">-2.5dp</item>
-            <item name="android:layout_marginBottom">3dp</item>
-            <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
-            <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
-            <item name="android:textSize">@dimen/txtXXS</item>
-            <item name="android:textColor">@color/secondary_text</item>
-        </style>
-
-        <style name="form_label_horizontal" parent="form_label">
-            <item name="android:layout_width">wrap_content</item>
-            <item name="android:layout_height">wrap_content</item>
-            <item name="android:layout_margin">0dp</item>
-            <item name="android:paddingLeft">@dimen/sizeXXS</item>
-            <item name="android:paddingRight">@dimen/sizeXXS</item>
-            <item name="android:textSize">@dimen/txtXS</item>
-        </style>
-
-        <style name="form_birthdate_separator" parent="form_label_horizontal">
-            <item name="android:textColor">@color/disabled_text</item>
-            <item name="android:focusable">false</item>
-            <item name="android:focusableInTouchMode">false</item>
-            <item name="android:clickable">false</item>
-            <item name="android:paddingLeft">@dimen/sizeXXXS</item>
-            <item name="android:paddingRight">@dimen/sizeXXXS</item>
-        </style>
-
-        <style name="form_helper" parent="TextAppearance.AppCompat.Caption">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">wrap_content</item>
-            <!-- Negates form_row's (previous sibling) paddingBottom -->
-            <item name="android:layout_marginTop">-8dp</item>
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-            <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
-            <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
-        </style>
-
-        <style name="form_helper_error" parent="form_helper">
-            <item name="android:textColor">@color/error_color</item>
-        </style>
-
-        <!-- Buttons -->
 
         <style name="button_container" parent="common_block_vertical">
             <!-- All padding values add up to 16dp with button drawable's inset values -->
@@ -479,10 +196,6 @@
             <item name="android:maxHeight">@dimen/dialog_icon_large</item>
         </style>
 
-        <style name="dialog_icon_xxlarge" parent="dialog_icon_large">
-            <item name="android:maxHeight">@dimen/dialog_icon_xxlarge</item>
-        </style>
-
         <style name="dialog_body_title" parent="common_block_horizontal">
             <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
             <item name="android:lineSpacingMultiplier">1.2</item>
@@ -499,50 +212,10 @@
             <item name="android:textColor">@color/secondary_text</item>
         </style>
 
-        <style name="dialog_form_row" parent="form_row">
-            <item name="android:paddingLeft">@dimen/sizeM</item>
-            <item name="android:paddingRight">@dimen/sizeM</item>
-        </style>
-
         <style name="dialog_button_container" parent="button_container">
             <item name="android:orientation">horizontal</item>
             <item name="android:gravity">right|center_vertical</item>
         </style>
-
-        <!-- Cards -->
-        <style name="list_cards_wrapper" parent="list_items_wrapper">
-            <item name="android:paddingTop">@dimen/card_vertical_margin</item>
-            <item name="android:paddingBottom">@dimen/card_vertical_margin</item>
-        </style>
-
-        <style name="card" parent="common_block_vertical">
-            <item name="android:layout_marginTop">@dimen/card_vertical_margin</item>
-            <item name="android:layout_marginRight">@dimen/card_horizontal_margin</item>
-            <item name="android:layout_marginBottom">@dimen/card_vertical_margin</item>
-            <item name="android:layout_marginLeft">@dimen/card_horizontal_margin</item>
-        </style>
-
-        <style name="common_card_container" parent="common_container">
-            <item name="android:paddingTop">@dimen/sizeXS</item>
-            <item name="android:paddingBottom">@dimen/sizeXS</item>
-            <item name="android:paddingLeft">@dimen/sizeXS</item>
-            <item name="android:paddingRight">@dimen/sizeXS</item>
-        </style>
-
-        <!-- Label -->
-        <style name="label" parent="common_inline_horizontal">
-            <item name="android:background">@color/primary</item>
-        </style>
-
-        <style name="label_text">
-            <item name="android:layout_width">wrap_content</item>
-            <item name="android:layout_height">wrap_content</item>
-            <item name="android:textColor">@color/activity_background</item>
-            <item name="android:textSize">@dimen/txtXXXS</item>
-            <item name="android:paddingLeft">@dimen/sizeXXS</item>
-            <item name="android:paddingRight">@dimen/sizeXXS</item>
-        </style>
-
 
 
     <!-- Base application theme. -->
@@ -572,41 +245,6 @@
     <item name="android:backgroundDimEnabled">false</item>
     <item name="android:windowIsTranslucent">true</item>
     <item name="android:windowNoTitle">false</item>
-</style>
-
-
-<!-- Form fields -->
-<style name="form_spinner" parent="Widget.AppCompat.Spinner.Underlined" />
-
-<style name="form_spinner_item" parent="Widget.AppCompat.TextView.SpinnerItem">
-    <item name="android:paddingLeft">0dp</item>
-    <item name="android:paddingTop">2dp</item>
-    <item name="android:paddingBottom">2dp</item>
-    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
-</style>
-
-<style name="AppBaseEditText" parent="Widget.AppCompat.EditText">
-    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
-    <item name="android:background">@android:color/transparent</item>
-</style>
-
-<style name="EditText" parent="AppBaseEditText"/>
-
-<!-- Switch -->
-<style name="common_switch" parent="Theme.AppCompat.Light">
-    <!-- active thumb & track color (30% transparency) -->
-    <item name="colorControlActivated">@color/accent</item>
-    <!-- inactive thumb color -->
-    <item name="colorSwitchThumbNormal">@color/accent</item>
-    <!-- inactive track color (30% transparency) -->
-    <item name="android:colorForeground">@color/colorMed</item>
-</style>
-
-<style name="switch_notifications">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:theme">@style/common_switch</item>
-    <item name="android:layout_marginRight">@dimen/sizeS</item>
 </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />

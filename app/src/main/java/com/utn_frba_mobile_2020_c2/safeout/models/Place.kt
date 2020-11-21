@@ -39,16 +39,3 @@ data class PlaceScanInfo (
     @SerializedName("placeId") var placeId : String,
     @SerializedName("sectionId") var sectionId : String
 )
-
-data class PlaceInfoNew(
-    val id: String,
-    val sectionId: String,
-) {
-    companion object {
-        fun fromObject(obj: JsonObject): PlaceInfoNew {
-            val id = obj.get("id").asString
-            val sectionId = obj.get("sectionId").asString
-            return PlaceInfoNew(id, sectionId)
-        }
-    }
-}

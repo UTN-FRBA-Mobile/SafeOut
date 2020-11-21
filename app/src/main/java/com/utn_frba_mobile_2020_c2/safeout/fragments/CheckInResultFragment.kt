@@ -36,20 +36,24 @@ class CheckInResultFragment : Fragment() {
         //setScannedData(resultValue)
         setIcon(success)
         if (success){
-            setTItle("Check IN Exitoso")
+            setTitle("Check IN Exitoso")
             fetchPlaceInfo(placeId)
             fetchSectionInfo(placeId, sectionId)
-        }else{
-            setTItle("Check IN Fallido")
-            setScannedData(resultValue)
-            setCheckinResult("Error al intentar realizar el checkin")
 
-            // set goback listener
-            val buttonBack = view!!.findViewById(R.id.buttonBack) as Button
-            buttonBack.setOnClickListener {
-                val activity = requireActivity()
-                activity.supportFragmentManager.popBackStackImmediate()
-            }
+            var retry = view!!.findViewById(R.id.buttonRetry) as Button
+            retry.isClickable=false
+            retry.visibility= View.INVISIBLE
+        }else{
+            setTitle("Check IN Fallido")
+            //setScannedData(resultValue)
+            setRegisterResult("Error al intentar realizar el checkin")
+        }
+
+        // set retry/goback listener
+        val buttonBack = view!!.findViewById(R.id.buttonRetry) as Button
+        buttonBack.setOnClickListener {
+            val activity = requireActivity()
+            activity.supportFragmentManager.popBackStackImmediate()
         }
 
     }
@@ -65,7 +69,6 @@ class CheckInResultFragment : Fragment() {
             }
         }
     }
-
     private fun fetchSectionInfo(placeId: String?, sectionId: String?) {
         if(placeId !== null) {
             PlaceService.getSections(placeId) { sections, error ->
@@ -93,7 +96,6 @@ class CheckInResultFragment : Fragment() {
         setSectionName(section.name);
         setSectionOccupation("${section.occupation.toString()}/${section.capacity.toString()}");
     }
-
     fun setPlaceInfo(placeInfo: JsonObject?) {
         /*{
             "address": "Republica Arabe Siria 3277",
@@ -111,9 +113,10 @@ class CheckInResultFragment : Fragment() {
         val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
         getPlaceImage(place.category);
 
-        setCheckinResult("${place.name}, ${place.address}")
+        setRegisterResult("${place.name}, ${place.address}")
         setOccupation("${place.occupation.toString()}/${place.capacity.toString()}");
     }
+
     fun getPlaceImage(category: String?) {
         if(category !== null){
             PlaceController.getImage("https://salina.nixi.icu/categories/${category}/image", {
@@ -126,8 +129,9 @@ class CheckInResultFragment : Fragment() {
         val t = view!!.findViewById<View>(R.id.placeImage) as ImageView
         t.setImageBitmap(source)
     }
-    fun setTItle(text: String?) {
-        val t = view!!.findViewById<View>(R.id.checkinTitle) as TextView
+
+    fun setTitle(text: String?) {
+        val t = view!!.findViewById<View>(R.id.registerTitle) as TextView
         t.text = text
     }
     fun setIcon(success: Boolean) {
@@ -139,12 +143,12 @@ class CheckInResultFragment : Fragment() {
         }
         //"@drawable/ic_check_circle_24dp"
     }
-    fun setScannedData(text: String?) {
-        val t = view!!.findViewById<View>(R.id.textResult) as TextView
+/*    fun setScannedData(text: String?) {
+        val t = view!!.findViewById<View>(R.id.scannedData) as TextView
         t.text = text
-    }
-    fun setCheckinResult(text: String?) {
-        val t = view!!.findViewById<View>(R.id.textResultValue) as TextView
+    }*/
+    fun setRegisterResult(text: String?) {
+        val t = view!!.findViewById<View>(R.id.textRegisterResult) as TextView
         t.text = text
     }
     fun setOccupation(text: String?) {

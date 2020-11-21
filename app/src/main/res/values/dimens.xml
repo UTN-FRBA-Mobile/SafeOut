@@ -7,30 +7,27 @@
 <dimen name="nav_header_height">80dp</dimen>
 <dimen name="activity_list_margin">10dp</dimen>
 
-<dimen name="sizeXXXS">2dp</dimen>
-<dimen name="sizeXXS">4dp</dimen>
-<dimen name="sizeXS">8dp</dimen>
-<dimen name="sizeS">12dp</dimen>
-<dimen name="sizeNormal">16dp</dimen>
-<dimen name="sizeM">20dp</dimen>
-<dimen name="sizeL">24dp</dimen>
-<dimen name="sizeXL">36dp</dimen>
-<dimen name="sizeXXL">48dp</dimen>
-<dimen name="sizeXXXL">56dp</dimen>
+    <dimen name="sizeXXXS">2dp</dimen>
+    <dimen name="sizeXXS">4dp</dimen>
+    <dimen name="sizeXS">8dp</dimen>
+    <dimen name="sizeS">12dp</dimen>
+    <dimen name="sizeNormal">16dp</dimen>
 
-<dimen name="toolbar_elevation">0dp</dimen><!-- Remove elevation after adding android:id="@+id/toolbar_decoration" -->
+    <!-- Text sizes -->
+    <dimen name="txtXXXS">10sp</dimen>
+    <dimen name="txtXXS">@dimen/abc_text_size_caption_material</dimen><!-- 12sp -->
+    <dimen name="txtXS">@dimen/abc_text_size_body_1_material</dimen><!-- 14sp -->
+    <dimen name="txtS">@dimen/abc_text_size_subhead_material</dimen><!-- 16sp -->
+    <dimen name="txtM">@dimen/abc_text_size_title_material</dimen><!-- 20sp -->
+    <dimen name="txtL">@dimen/abc_text_size_headline_material</dimen><!-- 24sp -->
+
+    <dimen name="txtXL">@dimen/abc_text_size_display_1_material</dimen><!-- 34sp -->
+    <dimen name="txtXXL">@dimen/abc_text_size_display_2_material</dimen><!-- 45sp -->
+    <!-- 56sp -->
+
+    <dimen name="toolbar_elevation">0dp</dimen><!-- Remove elevation after adding android:id="@+id/toolbar_decoration" -->
 <dimen name="elevation_xsmall">1dp</dimen>
 <dimen name="elevation">4dp</dimen>
-
-<dimen name="list_item_height_xxsmall">18dp</dimen>
-<dimen name="list_item_height_xsmall">36dp</dimen>
-<dimen name="list_item_height_small">48dp</dimen>
-<dimen name="list_item_height">56dp</dimen><!--64dp-->
-<dimen name="list_item_height_large">72dp</dimen><!--80dp-->
-<dimen name="list_item_height_xlarge">88dp</dimen>
-
-<dimen name="list_item_icon_width">56dp</dimen>
-<dimen name="list_item_icon_circle">40dp</dimen>
 
 <dimen name="dialog_vertical_padding">@dimen/activity_vertical_margin</dimen>
 <dimen name="dialog_horizontal_padding">@dimen/activity_horizontal_margin</dimen>
@@ -41,38 +38,5 @@
 <dimen name="dialog_icon_large">120dp</dimen>
 <dimen name="dialog_icon_xxlarge">192dp</dimen>
 
-<dimen name="card_horizontal_margin">4dp</dimen>
-<dimen name="card_vertical_margin">4dp</dimen>
-
-<dimen name="spinner_top">12.5sp</dimen>
-<dimen name="spinner_top_nolabel">6sp</dimen>
-
-<!-- Text sizes -->
-<dimen name="txtXXXS">10sp</dimen>
-<dimen name="txtXXS">@dimen/abc_text_size_caption_material</dimen><!-- 12sp -->
-<dimen name="txtXS">@dimen/abc_text_size_body_1_material</dimen><!-- 14sp -->
-<dimen name="txtS">@dimen/abc_text_size_subhead_material</dimen><!-- 16sp -->
-<dimen name="txtM">@dimen/abc_text_size_title_material</dimen><!-- 20sp -->
-<dimen name="txtL">@dimen/abc_text_size_headline_material</dimen><!-- 24sp -->
-
-<dimen name="txtXL">@dimen/abc_text_size_display_1_material</dimen><!-- 34sp -->
-<dimen name="txtXXL">@dimen/abc_text_size_display_2_material</dimen><!-- 45sp -->
-<!-- 56sp -->
-
-<dimen name="stroke_small">1dp</dimen>
-
-<dimen name="radius_small">@dimen/abc_control_corner_material</dimen>
-<dimen name="radius_medium">@dimen/sizeXXS</dimen>
-<dimen name="radius_large">@dimen/sizeXS</dimen>
-
-<!-- Chips used in Shopping Home -->
-<dimen name="chip_padding">4dp</dimen>
-<dimen name="chip_side_padding">8dp</dimen>
-<dimen name="chip_spacing">6dp</dimen>
-<dimen name="chip_line_spacing">6dp</dimen>
-<dimen name="chip_corner_radius">16dp</dimen>
-<dimen name="chip_text_size">14sp</dimen>
-
-<!-- FAB Button -->
 <dimen name="action_button_margin">0dp</dimen>
 </resources>
