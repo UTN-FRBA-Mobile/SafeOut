@@ -18,6 +18,7 @@ import com.utn_frba_mobile_2020_c2.safeout.models.*
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import org.json.JSONObject
 
 class CheckInResultFragment : Fragment() {
 
@@ -27,16 +28,14 @@ class CheckInResultFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val resultValue = requireArguments().getString(ARGUMENT_RESULT)
+        val mode = requireArguments().getString(ARGUMENT_MODE)
         val success = requireArguments().getBoolean(ARGUMENT_SUCCESS)
         val placeId = requireArguments().getString(ARGUMENT_PLACE_ID)
         val sectionId = requireArguments().getString(ARGUMENT_SECTION_ID)
 
-        //this is only to show the scanned text, remove then
-        //setScannedData(resultValue)
         setIcon(success)
         if (success){
-            setTitle("Check IN Exitoso")
+            if (mode == "CHECKIN") setTitle("Check IN Exitoso") else setTitle("Check OUT Exitoso")
             fetchPlaceInfo(placeId)
             fetchSectionInfo(placeId, sectionId)
 
@@ -44,9 +43,12 @@ class CheckInResultFragment : Fragment() {
             retry.isClickable=false
             retry.visibility= View.INVISIBLE
         }else{
-            setTitle("Check IN Fallido")
-            //setScannedData(resultValue)
-            setRegisterResult("Error al intentar realizar el checkin")
+            if (mode == "CHECKIN"){
+                setTitle("Check IN Fallido")
+            } else {
+                setTitle("Check OUT Fallido")
+                setRegisterResult("Error al intentar realizar el checkin")
+            }
         }
 
         // set retry/goback listener
@@ -164,14 +166,14 @@ class CheckInResultFragment : Fragment() {
         t.text = text
     }
     companion object {
-        private const val ARGUMENT_RESULT = "ARGUMENT_RESULT"
+        private const val ARGUMENT_MODE = "ARGUMENT_MODE"
         private const val ARGUMENT_SUCCESS = "ARGUMENT_SUCCESS"
         private const val ARGUMENT_PLACE_ID = "ARGUMENT_PLACE_ID"
         private const val ARGUMENT_SECTION_ID = "ARGUMENT_SECTION_ID"
 
-        fun newInstance(result: String, success: Boolean, placeId:String? = "", sectionId:String? = "") : CheckInResultFragment{
+        fun newInstance(mode: String? = "CHECKIN", success: Boolean, placeId:String? = "", sectionId:String? = "") : CheckInResultFragment{
             return CheckInResultFragment().apply {
-                arguments = bundleOf(ARGUMENT_RESULT to result, ARGUMENT_SUCCESS to success, ARGUMENT_PLACE_ID to placeId, ARGUMENT_SECTION_ID to sectionId)
+                arguments = bundleOf(ARGUMENT_MODE to mode, ARGUMENT_SUCCESS to success, ARGUMENT_PLACE_ID to placeId, ARGUMENT_SECTION_ID to sectionId)
             }
         }
 

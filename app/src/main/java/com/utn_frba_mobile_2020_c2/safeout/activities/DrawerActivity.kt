@@ -105,7 +105,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
-                setVisibleFragment(QrScannerFragment())
+                setVisibleFragment(QrScannerFragment.newInstance("CHECKIN"))
+            }
+            R.id.drawerItemCheckOut -> {
+                setVisibleFragment(QrScannerFragment.newInstance("CHECKOUT"))
             }
             R.id.Checkin -> {
                 if (nfcAdapter == null){

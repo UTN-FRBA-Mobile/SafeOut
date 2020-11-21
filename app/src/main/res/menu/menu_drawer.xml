@@ -20,6 +20,10 @@
             android:title="Check IN QR" />
 
         <item
+            android:id="@+id/drawerItemCheckOut"
+            android:title="Check OUT QR" />
+
+        <item
             android:id="@+id/Checkin"
             android:title="Check IN NFC" />
 

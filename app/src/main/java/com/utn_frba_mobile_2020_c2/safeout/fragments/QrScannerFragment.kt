@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.budiyev.android.codescanner.*
 import com.google.gson.Gson
@@ -30,6 +31,7 @@ class QrScannerFragment : Fragment() {
         }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            val mode = requireArguments().getString(QrScannerFragment.ARGUMENT_MODE)
             val scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
             val activity = requireActivity()
             PlaceController.init(activity)
@@ -44,23 +46,34 @@ class QrScannerFragment : Fragment() {
                         val sectionId = placeinfo.sectionId
                         //Toast.makeText(activity, "QR válido: ${it.text}", Toast.LENGTH_LONG).show()
 
-                        CheckinService.checkInToSection(sectionId) { _, error ->
-                            if (error != null) {
-                                ViewUtils.showSnackbar(view!!, error)
-                                goToCheckinResultError(it.text, error)
-                            } else {
-                                goToCheckinResultSuccess(it.text, placeId, sectionId)
+                        if(mode != null && mode == "CHECKOUT" ){
+                            CheckinService.checkOutOfSection(sectionId) { _, error ->
+                                if (error != null) {
+                                    ViewUtils.showSnackbar(view!!, error)
+                                    goToCheckinResultError(mode, error)
+                                } else {
+                                    goToCheckinResultSuccess(mode, placeId, sectionId)
+                                }
+                            }
+                        }else{
+                            CheckinService.checkInToSection(sectionId) { _, error ->
+                                if (error != null) {
+                                    ViewUtils.showSnackbar(view!!, error)
+                                    goToCheckinResultError(mode, error)
+                                } else {
+                                    goToCheckinResultSuccess(mode, placeId, sectionId)
+                                }
                             }
                         }
                     }
                     catch (e: Exception) {
-                        goToCheckinResultError(it.text, e.toString())
+                        goToCheckinResultError(mode, e.toString())
                     }
                 }
             }
             codeScanner.errorCallback = ErrorCallback {
                 activity.runOnUiThread {
-                    goToCheckinResultError("", it.message + "")
+                    goToCheckinResultError(mode, it.message + "")
                 }
             }
             checkPermission();
@@ -70,17 +83,17 @@ class QrScannerFragment : Fragment() {
             }
         }
 
-    private fun goToCheckinResultSuccess(scannedData: String, placeId: String, sectionId: String) {
+    private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
         //Toast.makeText(activity, "scanned placeinfo: ${placeId}, ${sectionId}", Toast.LENGTH_LONG).show()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(scannedData, true, placeId, sectionId), "CheckInResult")
+        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, true, placeId, sectionId), "CheckInResult")
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
-    private fun goToCheckinResultError(scannedData: String, error: String) {
+    private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
         //Toast.makeText(activity, "Error al leer QR: ${scannedData} ${error}", Toast.LENGTH_LONG).show()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance("${scannedData} ${error}", false, "", ""), "CheckInResult")
+        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, false, "", ""), "CheckInResult")
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
@@ -126,4 +139,15 @@ class QrScannerFragment : Fragment() {
             codeScanner.releaseResources()
             super.onPause()
         }
+
+    companion object {
+        private const val ARGUMENT_MODE = "ARGUMENT_MODE"
+
+        fun newInstance(mode: String? = "CHECKIN") : QrScannerFragment{
+            return QrScannerFragment().apply {
+                arguments = bundleOf(ARGUMENT_MODE to mode)
+            }
+        }
+
+    }
     }
