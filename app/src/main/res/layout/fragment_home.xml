@@ -27,6 +27,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/buttonVerInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/verinfo"
+        android:elevation="10dp"
+        android:gravity="start|center_vertical"
+        android:minWidth="300dp"
+        android:paddingLeft="20dp"
+        android:scaleType="centerInside"
+        android:shadowRadius="0.5"
+        android:text="@string/drawer_showInfo"
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonListar" />
+
         <Button
             android:id="@+id/buttonCheckin"
             android:layout_width="wrap_content"
@@ -45,7 +65,7 @@
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonListar" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonVerInfo" />
 
 
         <Button
@@ -66,27 +86,8 @@
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonCheckin" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonVerInfo" />
 
-        <Button
-            android:id="@+id/buttonVerInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginTop="32dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/verinfo"
-            android:elevation="10dp"
-            android:gravity="start|center_vertical"
-            android:minWidth="300dp"
-            android:paddingLeft="20dp"
-            android:scaleType="centerInside"
-            android:shadowRadius="0.5"
-            android:text="@string/drawer_showInfo"
-            android:textSize="24sp"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonCheckOut" />
 
 
 

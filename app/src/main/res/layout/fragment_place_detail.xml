@@ -14,8 +14,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".fragments.CheckInResultFragment"
+    tools:context=".fragments.PlaceDetailFragment"
     style="@style/common_block_vertical">
+
+    <TextView
+        android:id="@+id/detailTitle"
+        style="@style/text_headline"
+        android:gravity="center_horizontal"
+        android:textColor="@color/success_color"
+        />
+
+    <ImageView
+        android:id="@+id/placeImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <LinearLayout style="@style/dialog_container">
 
@@ -25,67 +37,29 @@
             tools:visibility="visible">
 
             <TextView
-                android:id="@+id/registerTitle"
-                style="@style/text_headline"
-                android:gravity="center_horizontal"
-                android:textColor="@color/success_color"
-              />
-
-            <ImageView
-                android:id="@+id/checkImage"
-                style="@style/dialog_icon"
-                android:scaleType="fitCenter" />
-
-            <!--TextView
-                android:id="@+id/scannedData"
-                style="@style/text_headline"
-                android:gravity="center_horizontal"
-                android:textColor="@color/success_color"
-                /-->
-            <TextView
-                android:id="@+id/textRegisterResult"
+                android:id="@+id/placeName"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
                  />
 
             <TextView
-                android:id="@+id/occupation"
+                android:id="@+id/placeAddress"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
                 />
 
             <TextView
-                android:id="@+id/sectionName"
+                android:id="@+id/placeOccupation"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
                 />
 
-            <TextView
-                android:id="@+id/sectionOccupation"
-                style="@style/dialog_title"
-                android:gravity="center_horizontal"
-                android:textColor="@color/colorPrimary"
-                />
-
-            <ImageView
-                android:id="@+id/placeImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@android:id/button1"
-        style="@style/button_container">
-
-        <Button
-            android:id="@+id/buttonRetry"
-            style="@style/button_container_bottom"
-            android:text="Reintentar" />
-    </LinearLayout>
 </LinearLayout>
 </androidx.cardview.widget.CardView>

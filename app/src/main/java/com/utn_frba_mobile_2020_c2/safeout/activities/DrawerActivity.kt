@@ -5,8 +5,7 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
-import android.os.Parcelable
-import android.provider.Settings
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -34,13 +33,12 @@ import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.NfcFragment
 import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.extensions.*
+
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
-import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
-
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
     private var mToggle: ActionBarDrawerToggle? = null
@@ -80,9 +78,24 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         this.mToggle = toggle
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        nfcPendingIntent = PendingIntent.getActivity(this, 0,
-            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
+        if (nfcAdapter == null) {
+            val nav_Menu: Menu = navView.getMenu()
+            nav_Menu.findItem(R.id.CheckinNFC).setVisible(false)
+        }
+        /*// TODO: How to force update of items?
+        val nav_Menu: Menu = navView.getMenu()
+        if(GlobalUtils.checkedInSection !== null){
+            nav_Menu.findItem(R.id.drawerItemCheckIn).setVisible(false)
+            nav_Menu.findItem(R.id.drawerItemCheckOut).setVisible(true)
+        }else{
+            nav_Menu.findItem(R.id.drawerItemCheckOut).setVisible(false)
+            nav_Menu.findItem(R.id.drawerItemCheckIn).setVisible(true)
+        }*/
 
+        nfcPendingIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0
+        )
     }
 
     override fun onBackPressed() {
@@ -114,13 +127,11 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
-                setVisibleFragment(QrScannerFragment.newInstance("CHECKIN"))
+                val mode = if(GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
+                setVisibleFragment(QrScannerFragment.newInstance(mode))
             }
-            R.id.drawerItemCheckOut -> {
-                setVisibleFragment(QrScannerFragment.newInstance("CHECKOUT"))
-            }
-            R.id.Checkin -> {
-                if (nfcAdapter == null){
+            R.id.CheckinNFC -> {
+                if (nfcAdapter == null) {
                     // Esto es momentaneo hasta que se unifique el boton del checkin
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("NFC incompatible")
@@ -129,7 +140,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                     builder.setPositiveButton("OK") { _, _ ->
                     }
                     builder.show()
-                }else {
+                } else {
                     setVisibleFragment(NfcFragment())
                 }
             }
@@ -185,16 +196,29 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             //TODO: Map to ID NFC
             val placeId = "5f600c75db23bc5159a7ed44";
             val sectionId = "5fa2fb64f434715c664c5d15";
-            val mode = "CHECKIN";
+            val mode = if(GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
 
             //Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
-            CheckinService.checkInToSection(sectionId) { _, error ->
-                if (error != null) {
-                    //ViewUtils.showSnackbar(, error)
-                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                    goToCheckinResultError(mode, error)
-                } else {
-                    goToCheckinResultSuccess(mode, placeId, sectionId)
+
+            if(mode == "CHECKOUT"){
+                CheckinService.checkOutOfSection(sectionId) { _, error ->
+                    if (error != null) {
+                        //ViewUtils.showSnackbar(, error)
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                        goToCheckinResultError(mode, error)
+                    } else {
+                        goToCheckinResultSuccess(mode, placeId, sectionId)
+                    }
+                }
+            }else{
+                CheckinService.checkInToSection(sectionId) { _, error ->
+                    if (error != null) {
+                        //ViewUtils.showSnackbar(, error)
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                        goToCheckinResultError(mode, error)
+                    } else {
+                        goToCheckinResultSuccess(mode, placeId, sectionId)
+                    }
                 }
             }
 
@@ -205,7 +229,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     override fun pasarDatosLugar(lugar: Place) {
 
-     // Para que me tome la clase Place como Serializable al pasarlo tuve que asignarlo
+        // Para que me tome la clase Place como Serializable al pasarlo tuve que asignarlo
 
         val otroLugar : Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
         otroLugar = lugar
@@ -221,14 +245,30 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
   
     private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
+        if ( mode != "READ")  GlobalUtils.checkedInSection = if ( mode == "CHECKIN") sectionId else null
+
         val transaction = supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, true, placeId, sectionId), "CheckInResult")
+        transaction?.replace(
+            R.id.frameLayout, CheckInResultFragment.newInstance(
+                mode,
+                true,
+                placeId,
+                sectionId
+            ), "CheckInResult"
+        )
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
     private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
         val transaction = supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, false, "", ""), "CheckInResult")
+        transaction?.replace(
+            R.id.frameLayout, CheckInResultFragment.newInstance(
+                mode,
+                false,
+                "",
+                ""
+            ), "CheckInResult"
+        )
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
