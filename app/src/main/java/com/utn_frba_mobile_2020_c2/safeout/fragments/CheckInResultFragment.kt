@@ -45,9 +45,10 @@ class CheckInResultFragment : Fragment() {
         }else{
             if (mode == "CHECKIN"){
                 setTitle("Check IN Fallido")
+                setRegisterResult("Error al intentar realizar el checkin")
             } else {
                 setTitle("Check OUT Fallido")
-                setRegisterResult("Error al intentar realizar el checkin")
+                setRegisterResult("Error al intentar realizar el checkout")
             }
         }
 
@@ -88,15 +89,15 @@ class CheckInResultFragment : Fragment() {
 
     fun setSectionInfo(section: SectionInfo) {
         /*{
-"capacity": 50,
-"name": "Exterior",
-"place": "5f600c75db23bc5159a7ed39",
-"reservations": true,
-"occupation": 18,
-"id": "5fa2fb64f434715c664c5d11"
-}*/
-        setSectionName(section.name);
-        setSectionOccupation("${section.occupation.toString()}/${section.capacity.toString()}");
+            "capacity": 50,
+            "name": "Exterior",
+            "place": "5f600c75db23bc5159a7ed39",
+            "reservations": true,
+            "occupation": 18,
+            "id": "5fa2fb64f434715c664c5d11"
+            }*/
+        //setSectionName(section.name);
+        setSectionOccupation("${section.name} : ${section.occupation.toString()}/${section.capacity.toString()}");
     }
     fun setPlaceInfo(placeInfo: JsonObject?) {
         /*{
@@ -115,7 +116,7 @@ class CheckInResultFragment : Fragment() {
         val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
         getPlaceImage(place.category);
 
-        setRegisterResult("${place.name}, ${place.address}")
+        setRegisterResult("${place.name}\n${place.address}")
         setOccupation("${place.occupation.toString()}/${place.capacity.toString()}");
     }
 

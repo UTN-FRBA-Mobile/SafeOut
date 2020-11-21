@@ -11,22 +11,27 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.budiyev.android.codescanner.*
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.CodeScannerView
+import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
 import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.models.PlaceScanInfo
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
-import java.lang.Exception
 
 class QrScannerFragment : Fragment() {
         private lateinit var codeScanner: CodeScanner
         val MY_CAMERA_PERMISSION_REQUEST = 1111
         private var mPermissionGranted = false
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                                  savedInstanceState: Bundle?): View? {
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
             return inflater.inflate(R.layout.qr_scanner_fragment, container, false)
         }
 
@@ -46,25 +51,7 @@ class QrScannerFragment : Fragment() {
                         val sectionId = placeinfo.sectionId
                         //Toast.makeText(activity, "QR válido: ${it.text}", Toast.LENGTH_LONG).show()
 
-                        if(mode != null && mode == "CHECKOUT" ){
-                            CheckinService.checkOutOfSection(sectionId) { _, error ->
-                                if (error != null) {
-                                    ViewUtils.showSnackbar(view!!, error)
-                                    goToCheckinResultError(mode, error)
-                                } else {
-                                    goToCheckinResultSuccess(mode, placeId, sectionId)
-                                }
-                            }
-                        }else{
-                            CheckinService.checkInToSection(sectionId) { _, error ->
-                                if (error != null) {
-                                    ViewUtils.showSnackbar(view!!, error)
-                                    goToCheckinResultError(mode, error)
-                                } else {
-                                    goToCheckinResultSuccess(mode, placeId, sectionId)
-                                }
-                            }
-                        }
+                        registerAction(mode, placeId, sectionId)
                     }
                     catch (e: Exception) {
                         goToCheckinResultError(mode, e.toString())
@@ -83,17 +70,72 @@ class QrScannerFragment : Fragment() {
             }
         }
 
-    private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
-        //Toast.makeText(activity, "scanned placeinfo: ${placeId}, ${sectionId}", Toast.LENGTH_LONG).show()
+    private fun registerAction(mode: String?, placeId: String, sectionId: String){
+            if(mode != null) {
+                if (mode == "READ") {
+                    goToPlaceDetail(placeId)
+                } else if (mode == "CHECKOUT") {
+                    CheckinService.checkOutOfSection(sectionId) { _, error ->
+                        if (error != null) {
+                            ViewUtils.showSnackbar(view!!, error)
+                            goToCheckinResultError(mode, error)
+                        } else {
+                            goToCheckinResultSuccess(mode, placeId, sectionId)
+                        }
+                    }
+                } else {
+                    CheckinService.checkInToSection(sectionId) { _, error ->
+                        if (error != null) {
+                            ViewUtils.showSnackbar(view!!, error)
+                            goToCheckinResultError(mode, error)
+                        } else {
+                            goToCheckinResultSuccess(mode, placeId, sectionId)
+                        }
+                    }
+                }
+            }
+    }
+    private fun goToPlaceDetail(placeId: String) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, true, placeId, sectionId), "CheckInResult")
+        transaction?.replace(
+            R.id.frameLayout,
+            PlaceDetailFragment.newInstance(placeId),
+            "PlaceDetail"
+        )
+        transaction?.addToBackStack("PlaceDetail")
+        transaction?.commit()
+    }
+
+    private fun goToCheckinResultSuccess(
+        mode: String? = "CHECKIN",
+        placeId: String,
+        sectionId: String
+    ) {
+        //Toast.makeText(activity, "scanned placeinfo: ${placeId}, ${sectionId}", Toast.LENGTH_LONG).show()
+        if ( mode != "READ")  GlobalUtils.checkedInSection = if ( mode == "CHECKIN") sectionId else null
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(
+            R.id.frameLayout, CheckInResultFragment.newInstance(
+                mode,
+                true,
+                placeId,
+                sectionId
+            ), "CheckInResult"
+        )
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
     private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
         //Toast.makeText(activity, "Error al leer QR: ${scannedData} ${error}", Toast.LENGTH_LONG).show()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.frameLayout, CheckInResultFragment.newInstance(mode, false, "", ""), "CheckInResult")
+        transaction?.replace(
+            R.id.frameLayout, CheckInResultFragment.newInstance(
+                mode,
+                false,
+                "",
+                ""
+            ), "CheckInResult"
+        )
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
