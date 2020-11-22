@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/colorWhite"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="15dp"
+    android:padding="15dp"
+    app:layout_constraintCircleRadius="@dimen/material_emphasis_disabled">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.PlaceDetailFragment"
+    style="@style/common_block_vertical">
+
+    <TextView
+        android:id="@+id/detailTitle"
+        style="@style/text_headline"
+        android:gravity="center_horizontal"
+        android:textColor="@color/success_color"
+        />
+
+    <ImageView
+        android:id="@+id/placeImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout style="@style/dialog_container">
+
+        <LinearLayout
+            android:id="@android:id/content"
+            style="@style/common_block_vertical"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/placeName"
+                style="@style/dialog_title"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"
+                 />
+
+            <TextView
+                android:id="@+id/placeAddress"
+                style="@style/dialog_title"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"
+                />
+
+            <TextView
+                android:id="@+id/placeOccupation"
+                style="@style/dialog_title"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorPrimary"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>

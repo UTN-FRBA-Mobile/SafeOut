@@ -6,5 +6,70 @@
     <color name="colorSecondary">#3F88C5</color>
     <color name="colorTertiary">#ECC30B</color>
     <color name="colorLightGrey">#CCCCCC</color>
+    <color name="colorGrey">#999999</color>
+    <color name="colorDarkGrey">#333333</color>
     <color name="colorWhite">#F9F9F9</color>
-    </resources>
+    <color name="colorBgItem">#3C3C3C</color>
+
+    <color name="colorSuccess">#35890B</color>
+    <color name="colorError">#C13606</color>
+    <color name="colorWarning">#F4A823</color>
+
+        <!-- Brandbook -->
+        <color name="brand_blue">#3785d3</color>
+        <color name="brand_blue_bright">#1da4fc</color>
+        <color name="brand_red">#db3a32</color>
+        <color name="brand_orange_dark">#fd5c32</color>
+        <color name="brand_orange">#fd8832</color>
+        <color name="brand_yellow">#fdb132</color>
+
+        <!-- Neutral scale -->
+        <color name="colorXXDark">#1F2C31</color>
+        <color name="colorXDark">#364D55</color>
+        <color name="colorDark">#6D878F</color>
+        <color name="colorLight">#C0CBCF</color>
+        <color name="colorXLight">#E3E7E8</color>
+        <color name="colorXXLight">#F7F9FA</color>
+
+        <!-- Structure -->
+        <color name="status_background">@color/activity_background</color>
+        <color name="toolbar_background">@color/activity_background</color>
+        <color name="activity_background">#ffffff</color>
+        <color name="activity_background_dim">@color/colorXXLight</color>
+        <color name="activity_intro_background">@color/colorXLight</color>
+        <color name="navbar_background">@color/colorXXDark</color>
+        <color name="divider">#1A364D55</color> <!-- @color/primary_text al 10% -->
+
+        <!-- Typography -->
+        <color name="primary_text">@color/colorXDark</color>
+        <color name="secondary_text">@color/colorDark</color>
+        <color name="disabled_text">@color/colorLight</color>
+        <color name="link_text">@color/primary</color>
+
+        <!-- Material -->
+        <color name="primary">@color/brand_blue</color>
+        <color name="accent">@color/brand_orange</color>
+
+        <!-- Buttons -->
+        <color name="primary_button">@color/accent</color>
+        <color name="disabled_button">#CCCCCC</color>
+
+        <!-- Icons -->
+        <color name="icon_default">@color/primary_text</color>
+        <color name="icon_disabled">@color/disabled_text</color>
+        <color name="icon_primary">@color/primary</color>
+
+        <!-- Status -->
+        <color name="error_color">@color/brand_red</color>
+
+        <color name="warning_color">@color/brand_yellow</color>
+        <color name="warning_background">#FDE0AF</color>
+
+        <color name="success_color">@color/primary</color><!--#06D1AA-->
+        <color name="success_background">#B3E0FF</color><!--#ABF5E6-->
+
+        <color name="info_color">@color/brand_blue_bright</color>
+        <color name="info_background">#E8F6FF</color>
+
+
+</resources>

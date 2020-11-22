@@ -5,20 +5,23 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
 import android.app.SearchManager
-import androidx.appcompat.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener
+import androidx.core.os.bundleOf
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.PlaceAdapter
-import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
+import com.utn_frba_mobile_2020_c2.safeout.listeners.PlaceCommunicator
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_placelist.*
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_placelist.view.*
 
 
@@ -35,6 +38,7 @@ class PlaceListFragment : Fragment() {
     private lateinit var recycler:RecyclerView
     private lateinit var adapter: PlaceAdapter
 
+    private lateinit var communicator: PlaceCommunicator
 
     private fun getPlaces(): ArrayList<Place> {
         return object : ArrayList<Place>() {
@@ -46,6 +50,7 @@ class PlaceListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ViewUtils.setAppBarTitle(context!!.getString(R.string.title_search_places))
         setHasOptionsMenu(true)
         arguments?.let {
             //param1 = it.getString(ARG_PARAM1)
@@ -76,6 +81,9 @@ class PlaceListFragment : Fragment() {
             override fun onClick(place: Place, position: Int) {
                 activity?.toast("Let's go to ${place.name}!")
 
+                communicator = activity as PlaceCommunicator
+                communicator.pasarDatosLugar(place)
+
             }
 
         }))
@@ -89,8 +97,10 @@ class PlaceListFragment : Fragment() {
         inflater.inflate(R.menu.main_menu, menu)
 
         val menuItem = menu!!.findItem(R.id.search)
+        menuItem.expandActionView()
 
         val searchView = menuItem.actionView as SearchView
+        searchView.queryHint = context!!.getString(R.string.search_place)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {

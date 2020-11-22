@@ -28,6 +28,7 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
 
 
         fun bind(place: Place, listener: RecyclerPlaceListener) = with(itemView){
+
             textViewName.text = place.name
             textViewAddress.text = place.address
             textViewCategory.text = place.category
@@ -65,7 +66,7 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
 
                     if (queryString != null && queryString.length > 2) {
 
-                                PlaceController.search(queryString, {
+                                PlaceController.search(queryString, { it ->
 
                                     for (i in 0 until it.length()) {
 

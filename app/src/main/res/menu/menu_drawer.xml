@@ -17,11 +17,15 @@
 
         <item
             android:id="@+id/drawerItemCheckIn"
-            android:title="Check IN QR" />
+            android:title="Check IN/OUT QR" />
 
         <item
-            android:id="@+id/Checkin"
-            android:title="Check IN NFC" />
+            android:id="@+id/CheckinNFC"
+            android:title="Check IN/OUT NFC" />
+
+        <item
+            android:id="@+id/drawerItemMyReservations"
+            android:title="@string/drawer_myReservations" />
 
     </group>
 

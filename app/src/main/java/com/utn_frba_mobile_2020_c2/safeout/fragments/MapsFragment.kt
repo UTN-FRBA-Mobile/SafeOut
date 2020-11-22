@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,7 +27,9 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.dto.Bounds
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import org.json.JSONArray
+
 
 class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
@@ -62,6 +63,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        ViewUtils.setAppBarTitle(context!!.getString(R.string.title_map))
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
@@ -107,7 +109,8 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         mapa.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener {
             @Override
             fun onMarkerClick(marker: Marker): Boolean {
-
+                var mStackLevel = 0
+                mStackLevel++;
                 var marker: Marker? = markers.find { e -> e.id == marker.id }
 
                 println(marker?.title)
@@ -115,11 +118,25 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                 var bundle: Bundle = Bundle()
                 bundle.putString("marker", marker?.title)
 
-                val fragment: Fragment = MarkInformation()
-                fragment.onAttach(context!!)
-                fragment.onCreate(bundle)
-                val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-                transaction.add(R.id.marker_information, fragment).commit()
+                val ft = fragmentManager!!.beginTransaction()
+                val prev = fragmentManager!!.findFragmentByTag("dialog")
+                if (prev != null) {
+                    ft.remove(prev)
+                }
+                ft.addToBackStack(null)
+
+                // Create and show the dialog.
+
+                // Create and show the dialog.
+                val newFragment: ItemListDialogFragment = ItemListDialogFragment.newInstance(mStackLevel)
+                newFragment.show(ft, "dialog")
+
+
+//                val fragment: Fragment = MarkInformation()
+//                fragment.onAttach(context!!)
+//                fragment.onCreate(bundle)
+//                val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
+//                transaction.add(R.id.marker_information, fragment).commit()
 
 /*
                 var fragment = MarkInformation()
