@@ -17,12 +17,16 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import com.utn_frba_mobile_2020_c2.safeout.models.SectionInfo
+import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_placedetail.view.*
 import kotlinx.android.synthetic.main.fragment_placedetail.view.imageViewBackground
 import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewAddress
 import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewName
 import kotlinx.android.synthetic.main.recycler_section.view.*
 import java.io.Serializable
+import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import java.lang.Thread.sleep
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,7 +45,7 @@ class PlaceDetailFragment : Fragment() {
     private var param2: String? = null
 
     private val layoutManager by lazy { LinearLayoutManager(context) }
-    private var sectionList: ArrayList<Section> = arrayListOf()
+    //private var sectionList: List<Section> = arrayListOf()
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: SectionAdapter
@@ -72,7 +76,7 @@ class PlaceDetailFragment : Fragment() {
         detalle = objetoDetalle?.getSerializable("lugar")
         lugarElegido = detalle as Place
 
-        getSections(lugarElegido.id!!)
+        getSections2(lugarElegido.id!!)
 
         view.textViewAddress.text = lugarElegido.address.toString()
         view.textViewName.text    = lugarElegido.name.toString()
@@ -82,13 +86,13 @@ class PlaceDetailFragment : Fragment() {
         return view
     }
 
-    private fun setRecyclerView(){
+    private fun setRecyclerView(sectionList: List<SectionInfo>){
         recycler.setHasFixedSize(true)
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.layoutManager = layoutManager
 
         adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
-            override fun onClick(section: Section, position: Int) {
+            override fun onClick(section: SectionInfo, position: Int) {
                 activity?.toast("Let's go to ${section.name}!")
 
             }
@@ -99,32 +103,19 @@ class PlaceDetailFragment : Fragment() {
 
     }
 
-    private fun getSections(placeId: String): ArrayList<Section> {
-        return object : ArrayList<Section>() {
-            init {
-                PlaceController.getSections(
-                    placeId
-                    ,{
+    private fun getSections2(placeId: String) {
 
-                        for (i in 0 until it.length()) {
-
-                            val JSONObject = it.getJSONObject(i)
-                            val section = Gson().fromJson<Section>(JSONObject.toString(), Section::class.java)
-
-                            sectionList.add(section)
-
-                        }
-
-                        setRecyclerView()
-
-                    }
-                    ,{_, message ->
-                        if (message != null) {
-                            //todo toast
-                        }}
-                )
+    PlaceService.getSections(placeId) { sections, error ->
+        if (error != null) {
+            ViewUtils.showSnackbar(view!!, error)
+        } else {
+              val sectionList =  JsonUtils.arrayToList(sections!!) {
+                SectionInfo.fromObject(it)
             }
+
+            setRecyclerView(sectionList)
         }
+    }
     }
 
     companion object {

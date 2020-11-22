@@ -17,7 +17,6 @@ data class Place(
     val capacity: Int? = null,
     var occupation: Int? = null,
     var imgResource: Bitmap? = null,
-    val sections: List<Section>? = null,
     ) : java.io.Serializable {
     companion object {
         fun fromObject(obj: JsonObject): Place {

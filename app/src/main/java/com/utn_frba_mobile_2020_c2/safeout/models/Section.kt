@@ -29,6 +29,7 @@ data class SectionInfo(
     val name: String,
     val occupation: Int,
     val capacity: Int,
+    val reservations: Boolean,
 ) {
     companion object {
         fun fromObject(obj: JsonObject): SectionInfo {
@@ -36,7 +37,8 @@ data class SectionInfo(
             val name = obj.get("name").asString
             val occupation = obj.get("occupation").asInt
             val capacity = obj.get("capacity").asInt
-            return SectionInfo(id, name, occupation, capacity)
+            val reservations = obj.get("reservations").asBoolean
+            return SectionInfo(id, name, occupation, capacity, reservations)
         }
     }
 }

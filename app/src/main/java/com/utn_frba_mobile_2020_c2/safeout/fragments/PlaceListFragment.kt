@@ -84,18 +84,6 @@ class PlaceListFragment : Fragment() {
                 communicator = activity as PlaceCommunicator
                 communicator.pasarDatosLugar(place)
 
-               // val placeDetailFragment = (PlaceDetailFragment())
-                  //  val fragmentTransaction = fragmentManager?.beginTransaction()
-                  //  if (fragmentTransaction != null) {
-
-                   //     fragmentTransaction.replace(R.id.frameLayout, placeDetailFragment, "placeDetailFragment")
-                   //     fragmentTransaction.addToBackStack("placeDetailFragment")
-
-                   //     fragmentTransaction.commit()
-                 //       }
-
-                    //this.fragmentManager?.beginTransaction()?.replace(R.id.container, fragment)?.commit()
-
             }
 
         }))
