@@ -45,7 +45,6 @@ class PlaceDetailFragment : Fragment() {
     private var param2: String? = null
 
     private val layoutManager by lazy { LinearLayoutManager(context) }
-    //private var sectionList: List<Section> = arrayListOf()
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: SectionAdapter

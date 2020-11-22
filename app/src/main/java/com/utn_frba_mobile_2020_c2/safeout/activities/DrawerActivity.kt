@@ -36,15 +36,25 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.*
 
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
+import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.serialization.descriptors.PrimitiveKind
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
     private var mToggle: ActionBarDrawerToggle? = null
     private var mToolBarNavigationListenerIsRegistered = false
     private var nfcPendingIntent: PendingIntent? = null
     private var nfcAdapter : NfcAdapter? = null
+
+    private val ID_SUBE   = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4"
+    private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
+    private val ID_CONEJO_MESA = "5fa2fb73f434715c664caf45"
+
+    private val ID_MASTER = 1558907772936448 // Corresponde al Restaurant "Siga la Vaca" de Monroe 1802 "5f600c7adb23bc5159a7fb8d"
+    private val ID_VACA   = "5f600c7adb23bc5159a7fb8d"
+    private val ID_VACA_INTERIOR   = "5fa2fb71f434715c664ca417"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,16 +141,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(QrScannerFragment.newInstance(mode))
             }
             R.id.CheckinNFC -> {
-                if (nfcAdapter == null) {
-                    // Esto es momentaneo hasta que se unifique el boton del checkin
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("NFC incompatible")
-                    builder.setCancelable(true)
-                    builder.setMessage("Tu dispositivo es incompatible para el uso de NFC. Pruebe con otra forma.")
-                    builder.setPositiveButton("OK") { _, _ ->
-                    }
-                    builder.show()
-                } else {
+                if (nfcAdapter != null) {
                     setVisibleFragment(NfcFragment())
                 }
             }
@@ -184,31 +185,47 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
             val tag = checkIntent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             var idLugar: Long = deHexadecimalAEntero(byteArrayToHexString(tag?.id))
+
 /*          INFO EXTRA
             var techList = tag?.techList
             println("Tecnologías usadas por la tarjeta :" + tag?.techList?.component1().toString())
             tag?.id --> es un ByteArray
- */
+
             println("Tecnologías usadas por la tarjeta : " + tag.toString())
             println("ID Tag leido del lugar en Decimal : " + idLugar)
             println("ID Tag leido del lugar en HEXA    : " + byteArrayToHexString(tag?.id))
+ */
 
-            //TODO: Map to ID NFC
-            val placeId = "5f600c75db23bc5159a7ed44";
-            val sectionId = "5fa2fb64f434715c664c5d15";
+            var placeId : String
+            var sectionId :String
+
+            when(idLugar){
+                ID_SUBE -> { placeId = ID_CONEJO
+                             sectionId = ID_CONEJO_MESA
+                }
+                ID_MASTER -> { placeId = ID_VACA
+                               sectionId = ID_VACA_INTERIOR
+                }
+                else -> {placeId = idLugar.toString()
+                         sectionId = "mapear"}
+            }
+
+            // TODO: Map to ID NFC
+            // todo: Si hago checkin con reserva previa, restarle a la reserva y sumar ocupacion.
+            // Todo: si hago checkin y no tengo reserva me tengo que fijar ocupacion
+
             val mode = if(GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
-
-            //Toast.makeText(this, "Check in exitoso, Bienvenido!", Toast.LENGTH_LONG).show()
 
             if(mode == "CHECKOUT"){
                 CheckinService.checkOutOfSection(sectionId) { _, error ->
-                    if (error != null) {
+
+                        if (error != null) {
                         //ViewUtils.showSnackbar(, error)
                         Toast.makeText(this, error, Toast.LENGTH_LONG).show()
                         goToCheckinResultError(mode, error)
-                    } else {
-                        goToCheckinResultSuccess(mode, placeId, sectionId)
-                    }
+                        } else {
+                            goToCheckinResultSuccess(mode, placeId, sectionId)
+                        }
                 }
             }else{
                 CheckinService.checkInToSection(sectionId) { _, error ->
@@ -222,7 +239,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 }
             }
 
-        } else {
+    }else{
             Toast.makeText(this, "Error, vuelva a intentar", Toast.LENGTH_LONG).show()
         }
     }
