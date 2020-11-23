@@ -1,5 +1,7 @@
 package com.utn_frba_mobile_2020_c2.safeout.models
 
+import android.location.Location
+import com.google.gson.JsonObject
 import kotlinx.serialization.Serializable
 
 object ModelMaps {

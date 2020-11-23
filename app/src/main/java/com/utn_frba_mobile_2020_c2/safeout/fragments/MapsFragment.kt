@@ -38,8 +38,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private lateinit var lastLocation : Location
     private var markers : MutableList<Marker> = ArrayList()
 
-    //dummy
-    private var resutText: TextView? = null
+    private val gson = GsonBuilder().create()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -109,39 +108,8 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         mapa.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener {
             @Override
             fun onMarkerClick(marker: Marker): Boolean {
-                var mStackLevel = 0
-                mStackLevel++;
                 var marker: Marker? = markers.find { e -> e.id == marker.id }
-
-                println(marker?.title)
-
-                var bundle: Bundle = Bundle()
-                bundle.putString("marker", marker?.title)
-
-                val ft = fragmentManager!!.beginTransaction()
-                val prev = fragmentManager!!.findFragmentByTag("dialog")
-                if (prev != null) {
-                    ft.remove(prev)
-                }
-                ft.addToBackStack(null)
-
-                // Create and show the dialog.
-
-                // Create and show the dialog.
-                val newFragment: ItemListDialogFragment = ItemListDialogFragment.newInstance(mStackLevel)
-                newFragment.show(ft, "dialog")
-
-
-//                val fragment: Fragment = MarkInformation()
-//                fragment.onAttach(context!!)
-//                fragment.onCreate(bundle)
-//                val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
-//                transaction.add(R.id.marker_information, fragment).commit()
-
-/*
-                var fragment = MarkInformation()
-                fragment.arguments = bundle
-                fragment.onCreate(bundle)*/
+                marker?.title?.let { it1 -> MarkDetailFragment.newInstance(it1).show(childFragmentManager, "MarkDetailFragment") }
                 return true
             }
             onMarkerClick(it)
@@ -187,7 +155,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
            mapa.addMarker(
                MarkerOptions()
                    .position(newLocation)
-                   .title(place.toString())
+                   .title(gson.toJson(place).toString())
                    .icon(context?.let { bitmapDescriptorFromVector(it, icon) })
            )
        )
