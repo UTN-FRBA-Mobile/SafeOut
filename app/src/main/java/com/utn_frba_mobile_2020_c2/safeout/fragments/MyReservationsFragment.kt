@@ -27,30 +27,7 @@ class MyReservationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         ViewUtils.setAppBarTitle(context!!.getString(R.string.title_my_reservations))
-        val view = inflater.inflate(R.layout.fragment_my_reservations, container, false)
-        view.buttonAddReservation.setOnClickListener {
-            val place = Place(
-                "5f600c77db23bc5159a7f207",
-                "La Farola",
-                "Avenida Alvarez Thomas 1302",
-                "Restorán",
-                Place.createLocation(-58.4607498, -34.5784344),
-                60,
-                27,
-            )
-            val section = Section(
-                "5fa2fb72f434715c664cad80",
-                "Exterior",
-                14,
-                50,
-                place,
-                true,
-            )
-            val arguments = JsonObject()
-            arguments.add("section", section.toObject())
-            ViewUtils.pushFragment(this, AddReservationFragment(), arguments)
-        }
-        return view
+        return inflater.inflate(R.layout.fragment_my_reservations, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,7 +77,7 @@ class MyReservationsFragment : Fragment() {
     }
 
     private fun onCancelReservation(reservation: Reservation, position: Int) {
-        ViewUtils.showDialog(context!!, context!!.getString(R.string.dialog_cancel_reservation), positiveAction = {
+        ViewUtils.showConfirmationDialog(context!!, context!!.getString(R.string.dialog_cancel_reservation), positiveAction = {
             ReservationService.cancelReservation(reservation.id) { _, error ->
                 if (error != null) {
                     ViewUtils.showSnackbar(view!!, error)

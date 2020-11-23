@@ -79,8 +79,6 @@ class PlaceListFragment : Fragment() {
 
         adapter = (PlaceAdapter(list, object : RecyclerPlaceListener {
             override fun onClick(place: Place, position: Int) {
-                activity?.toast("Let's go to ${place.name}!")
-
                 communicator = activity as PlaceCommunicator
                 communicator.pasarDatosLugar(place)
 

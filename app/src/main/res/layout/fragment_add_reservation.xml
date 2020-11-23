@@ -167,4 +167,9 @@
         android:enabled="false"
         />
 
+    <include
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        layout="@layout/progress_bar"/>
+
 </RelativeLayout>

@@ -9,6 +9,7 @@ import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.extensions.optionallyGet
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
 import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
@@ -59,7 +60,17 @@ class AddReservationFragment : Fragment() {
     }
 
     private fun submitReservation(view: View) {
-        // TODO
+        progressBar.visibility = View.VISIBLE
+        ReservationService.submitReservation(section!!.id, DateUtils.dateFromString(time!!)) { _, error ->
+            progressBar.visibility = View.GONE
+            if (error != null) {
+                ViewUtils.showAlertDialog(context!!, error)
+            } else {
+                ViewUtils.showAlertDialog(context!!, context!!.getString(R.string.dialog_reservation_submitted), null) {
+                    ViewUtils.goBack(this)
+                }
+            }
+        }
     }
 
 }

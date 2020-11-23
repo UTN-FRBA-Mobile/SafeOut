@@ -28,7 +28,25 @@ object ViewUtils {
         textView.textSize = 16f
         snackbar.show()
     }
-    fun showDialog(
+    fun showAlertDialog(
+        context: Context,
+        message: String,
+        buttonText: String? = null,
+        buttonAction: (() -> Unit)? = null,
+    ) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.app_name))
+        builder.setMessage(message)
+        builder.setPositiveButton(buttonText ?: context.getString(R.string.dialog_accept)) { dialog, _ ->
+            if (buttonAction != null) {
+                buttonAction()
+            }
+            dialog.dismiss()
+        }
+        val alert = builder.create()
+        alert.show()
+    }
+    fun showConfirmationDialog(
         context: Context,
         message: String,
         positiveText: String? = null,
@@ -77,16 +95,21 @@ object ViewUtils {
         val index =  GlobalUtils.backStackSize - 1
         return GlobalUtils.arguments[index]
     }
-    fun goBack(current: Fragment, arguments: JsonObject? = null) {
-        GlobalUtils.arguments.removeAt(GlobalUtils.backStackSize - 1)
+    fun goBack(current: Fragment? = null, arguments: JsonObject? = null) {
+        val index = GlobalUtils.backStackSize - 1
+        if (index >= 0) {
+            GlobalUtils.arguments.removeAt(index)
+        }
         GlobalUtils.backStackSize -= 1
+        if (GlobalUtils.backStackSize == 0) {
+            GlobalUtils.drawerActivity!!.setBackButtonVisible(false)
+        }
         if (arguments != null) {
-            println("arguments from goBack")
-            println(arguments)
             val currentArgs = GlobalUtils.arguments[GlobalUtils.backStackSize - 1] ?: JsonObject()
             currentArgs.extend(arguments)
-            println(currentArgs)
         }
-        current.fragmentManager!!.popBackStackImmediate()
+        if (current != null) {
+            current.fragmentManager!!.popBackStackImmediate()
+        }
     }
 }

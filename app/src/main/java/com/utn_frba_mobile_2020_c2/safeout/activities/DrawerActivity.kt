@@ -38,6 +38,7 @@ import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -112,13 +113,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            GlobalUtils.arguments.removeAt(GlobalUtils.backStackSize - 1)
-            GlobalUtils.backStackSize -= 1
+            ViewUtils.goBack()
             if (GlobalUtils.backStackSize >= 0) {
                 super.onBackPressed()
-                if (GlobalUtils.backStackSize == 0) {
-                    setBackButtonVisible(false)
-                }
             } else {
                 GlobalUtils.backStackSize = 0
                 moveTaskToBack(true)

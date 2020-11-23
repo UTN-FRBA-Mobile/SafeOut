@@ -1,6 +1,5 @@
 package com.utn_frba_mobile_2020_c2.safeout.utils
 
-import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.chrono.IsoChronology
@@ -11,6 +10,7 @@ import java.util.*
 
 object DateUtils {
     private const val ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    private val UTC_ZONE_ID = ZoneId.of("UTC")
 
     enum class Pattern {
         ISO, DISPLAY, DISPLAY_DATE, DISPLAY_TIME
@@ -34,7 +34,7 @@ object DateUtils {
     fun dateFromString(string: String): Date {
         val formatter = DateTimeFormatter.ofPattern(ISO_PATTERN)
         val localDate = LocalDateTime.parse(string, formatter)
-        return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant())
+        return Date.from(localDate.atZone(UTC_ZONE_ID).toInstant())
     }
 
     private fun getPattern(displayDate: Boolean, displayTime: Boolean): String {
@@ -54,12 +54,8 @@ object DateUtils {
             Pattern.DISPLAY_TIME -> getPattern(displayDate=false, displayTime=true)
         }
         val formatter = DateTimeFormatter.ofPattern(format)
-        val instant = if (pattern == Pattern.ISO) {
-            date.toInstant()
-        } else {
-            Date.from(date.toInstant().minus(Duration.ofHours(3))).toInstant()
-        }
-        val localDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        val zoneId = if (pattern == Pattern.ISO) UTC_ZONE_ID else ZoneId.of("America/Buenos_Aires")
+        val localDate = LocalDateTime.ofInstant(date.toInstant(), zoneId)
         var string = formatter.format(localDate)
         if (pattern == Pattern.DISPLAY || pattern == Pattern.DISPLAY_DATE) {
             // No sé por qué no me auto-traducía el mes, así que tuve que hacer este hack horrible

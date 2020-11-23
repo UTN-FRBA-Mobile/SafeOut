@@ -34,6 +34,8 @@
     <string name="dialog_cancel_reservation">¿Seguro que quieres cancelar esta reserva?</string>
     <string name="dialog_yes">Sí</string>
     <string name="dialog_no">No</string>
+    <string name="dialog_accept">Aceptar</string>
+    <string name="dialog_reservation_submitted">Reserva confirmada con éxito.</string>
     <string name="snackbar_reservation_canceled">Reserva cancelada</string>
     <string name="no_reservations">Sin reservas</string>
     <!-- Luego ver donde mandamos el API key   -->
@@ -49,6 +51,7 @@
     <string name="title_my_reservations">Mis Reservas</string>
     <string name="title_select_date">Seleccionar Día</string>
     <string name="title_select_time">Seleccionar Hora</string>
+    <string name="title_place_detail">Detalle del Lugar</string>
     <string name="occupation_level_1">Vacío</string>
     <string name="occupation_level_2">Poca gente</string>
     <string name="occupation_level_3">A la mitad</string>

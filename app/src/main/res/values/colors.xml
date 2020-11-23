@@ -78,4 +78,6 @@
     <color name="occupation_level_5">#FF7E79</color>
     <color name="occupation_level_6">#929292</color>
 
+    <color name="backdrop">#55000000</color>
+
 </resources>

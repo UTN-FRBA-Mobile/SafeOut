@@ -126,7 +126,7 @@ object  RequestUtils2 {
                         json!!
                     } as T
                 } else {
-                    errorMessage = (json as JsonObject?)?.get("message")?.toString() ?: defaultErrorMessage
+                    errorMessage = (json as JsonObject?)?.get("message")?.asString ?: defaultErrorMessage
                 }
             }
             AsyncUtils.updateUi {
