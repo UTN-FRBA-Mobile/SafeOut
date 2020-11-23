@@ -112,6 +112,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            GlobalUtils.arguments.removeAt(GlobalUtils.backStackSize - 1)
             GlobalUtils.backStackSize -= 1
             if (GlobalUtils.backStackSize >= 0) {
                 super.onBackPressed()

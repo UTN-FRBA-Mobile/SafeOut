@@ -18,6 +18,20 @@ data class Place(
     var occupation: Int? = null,
     var imgResource: Bitmap? = null,
     ) : java.io.Serializable {
+    fun toObject(): JsonObject {
+        val obj = JsonObject()
+        obj.addProperty("id", id)
+        obj.addProperty("name", name)
+        obj.addProperty("address", address)
+        obj.addProperty("category", category)
+        val locationObject = JsonObject()
+        locationObject.addProperty("longitude", location?.longitude)
+        locationObject.addProperty("latitude", location?.latitude)
+        obj.add("location", locationObject)
+        obj.addProperty("capacity", capacity)
+        obj.addProperty("occupation", occupation)
+        return obj
+    }
     companion object {
         fun fromObject(obj: JsonObject): Place {
             val id = obj.get("id").asString
@@ -25,13 +39,18 @@ data class Place(
             val address = obj.get("address").asString
             val category = obj.get("category").asString
             val locationObject = obj.get("location").asJsonObject
-            val location = Location("")
-            location.latitude = locationObject.get("latitude").asDouble
-            location.longitude = locationObject.get("longitude").asDouble
+            val longitude = locationObject.get("longitude").asDouble
+            val latitude = locationObject.get("latitude").asDouble
+            val location = createLocation(longitude, latitude)
             val capacity = obj.get("capacity").asInt
             val occupation = obj.get("occupation").asInt
-
             return Place(id, name, address, category, location, capacity, occupation)
+        }
+        fun createLocation(longitude: Double, latitude: Double): Location {
+            val location = Location("")
+            location.longitude = longitude
+            location.latitude = latitude
+                return location
         }
     }
 }

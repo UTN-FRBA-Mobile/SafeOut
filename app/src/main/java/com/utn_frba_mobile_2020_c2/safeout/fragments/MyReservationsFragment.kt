@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.ReservationsRecyclerViewAdapter
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
+import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_my_reservations.*
@@ -25,7 +29,26 @@ class MyReservationsFragment : Fragment() {
         ViewUtils.setAppBarTitle(context!!.getString(R.string.title_my_reservations))
         val view = inflater.inflate(R.layout.fragment_my_reservations, container, false)
         view.buttonAddReservation.setOnClickListener {
-            ViewUtils.pushFragment(this, AddReservationFragment())
+            val place = Place(
+                "5f600c77db23bc5159a7f207",
+                "La Farola",
+                "Avenida Alvarez Thomas 1302",
+                "Restorán",
+                Place.createLocation(-58.4607498, -34.5784344),
+                60,
+                27,
+            )
+            val section = Section(
+                "5fa2fb72f434715c664cad80",
+                "Exterior",
+                14,
+                50,
+                place,
+                true,
+            )
+            val arguments = JsonObject()
+            arguments.add("section", section.toObject())
+            ViewUtils.pushFragment(this, AddReservationFragment(), arguments)
         }
         return view
     }

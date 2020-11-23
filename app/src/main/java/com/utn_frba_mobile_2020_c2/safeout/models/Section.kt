@@ -11,6 +11,16 @@ data class Section(
     val place: Place,
     val reservations: Boolean,
 ) {
+    fun toObject(): JsonObject {
+        val obj = JsonObject()
+        obj.addProperty("id", id)
+        obj.addProperty("name", name)
+        obj.addProperty("occupation", occupation)
+        obj.addProperty("capacity", capacity)
+        obj.add("place", place.toObject())
+        obj.addProperty("reservations", reservations)
+        return obj
+    }
     companion object {
         fun fromObject(obj: JsonObject): Section {
             val id = obj.get("id").asString

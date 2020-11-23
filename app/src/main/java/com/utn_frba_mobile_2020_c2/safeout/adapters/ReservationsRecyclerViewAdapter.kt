@@ -30,7 +30,7 @@ class ReservationsRecyclerViewAdapter(context: Context?) :
         val reservation = data[position]
         holder.sectionTextView.text = "Sector ${reservation.section.name} de ${reservation.section.place.name}"
         holder.addressTextView.text = reservation.section.place.address
-        holder.dateTextView.text = DateUtils.dateToString(reservation.date, DateUtils.DISPLAY)
+        holder.dateTextView.text = DateUtils.dateToString(reservation.date, DateUtils.Pattern.DISPLAY)
         holder.cancelReservationButton.setOnClickListener {
             mCancelReservationHandler(reservation, position)
         }

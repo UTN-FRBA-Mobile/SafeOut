@@ -2,6 +2,7 @@ package com.utn_frba_mobile_2020_c2.safeout.utils
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 object JsonUtils {
@@ -67,5 +68,13 @@ object JsonUtils {
             list.add(item)
         }
         return list
+    }
+
+    fun objectFromMap(map: Map<String, String>): JsonObject {
+        val obj = JsonObject()
+        for ((key, value) in map) {
+            obj.addProperty(key, value)
+        }
+        return obj
     }
 }

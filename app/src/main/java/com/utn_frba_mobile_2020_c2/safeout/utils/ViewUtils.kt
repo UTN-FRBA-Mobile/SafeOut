@@ -1,13 +1,17 @@
 package com.utn_frba_mobile_2020_c2.safeout.utils
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.extensions.extend
 
 object ViewUtils {
     fun showSnackbar(view: View, message: String) {
@@ -50,15 +54,39 @@ object ViewUtils {
         val alert = builder.create()
         alert.show()
     }
-    fun pushFragment(current: Fragment, next: Fragment) {
+    fun pushFragment(current: Fragment, next: Fragment, arguments: JsonObject? = null) {
         val fragmentTransaction = current.fragmentManager!!.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, next)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
         GlobalUtils.drawerActivity?.setBackButtonVisible(true)
+        GlobalUtils.arguments.add(arguments)
         GlobalUtils.backStackSize += 1
     }
     fun setAppBarTitle(title: String? = null) {
         GlobalUtils.drawerActivity?.setTitle(title)
+    }
+    fun createBundle(map: Map<String, String>): Bundle {
+        val bundle = Bundle()
+        for ((key, value) in map) {
+            bundle.putString(key, value)
+        }
+        return bundle
+    }
+    fun getArguments(): JsonObject? {
+        val index =  GlobalUtils.backStackSize - 1
+        return GlobalUtils.arguments[index]
+    }
+    fun goBack(current: Fragment, arguments: JsonObject? = null) {
+        GlobalUtils.arguments.removeAt(GlobalUtils.backStackSize - 1)
+        GlobalUtils.backStackSize -= 1
+        if (arguments != null) {
+            println("arguments from goBack")
+            println(arguments)
+            val currentArgs = GlobalUtils.arguments[GlobalUtils.backStackSize - 1] ?: JsonObject()
+            currentArgs.extend(arguments)
+            println(currentArgs)
+        }
+        current.fragmentManager!!.popBackStackImmediate()
     }
 }

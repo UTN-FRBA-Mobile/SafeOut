@@ -71,5 +71,11 @@
         <color name="info_color">@color/brand_blue_bright</color>
         <color name="info_background">#E8F6FF</color>
 
+    <color name="occupation_level_1">#73FA79</color>
+    <color name="occupation_level_2">#D4FB79</color>
+    <color name="occupation_level_3">#FFFC79</color>
+    <color name="occupation_level_4">#FFD479</color>
+    <color name="occupation_level_5">#FF7E79</color>
+    <color name="occupation_level_6">#929292</color>
 
 </resources>
