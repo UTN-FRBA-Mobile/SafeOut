@@ -1,13 +1,17 @@
 package com.utn_frba_mobile_2020_c2.safeout.utils
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.extensions.extend
 
 object ViewUtils {
     fun showSnackbar(view: View, message: String) {
@@ -24,7 +28,25 @@ object ViewUtils {
         textView.textSize = 16f
         snackbar.show()
     }
-    fun showDialog(
+    fun showAlertDialog(
+        context: Context,
+        message: String,
+        buttonText: String? = null,
+        buttonAction: (() -> Unit)? = null,
+    ) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.app_name))
+        builder.setMessage(message)
+        builder.setPositiveButton(buttonText ?: context.getString(R.string.dialog_accept)) { dialog, _ ->
+            if (buttonAction != null) {
+                buttonAction()
+            }
+            dialog.dismiss()
+        }
+        val alert = builder.create()
+        alert.show()
+    }
+    fun showConfirmationDialog(
         context: Context,
         message: String,
         positiveText: String? = null,
@@ -50,15 +72,44 @@ object ViewUtils {
         val alert = builder.create()
         alert.show()
     }
-    fun pushFragment(current: Fragment, next: Fragment) {
+    fun pushFragment(current: Fragment, next: Fragment, arguments: JsonObject? = null) {
         val fragmentTransaction = current.fragmentManager!!.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, next)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
         GlobalUtils.drawerActivity?.setBackButtonVisible(true)
+        GlobalUtils.arguments.add(arguments)
         GlobalUtils.backStackSize += 1
     }
     fun setAppBarTitle(title: String? = null) {
         GlobalUtils.drawerActivity?.setTitle(title)
+    }
+    fun createBundle(map: Map<String, String>): Bundle {
+        val bundle = Bundle()
+        for ((key, value) in map) {
+            bundle.putString(key, value)
+        }
+        return bundle
+    }
+    fun getArguments(): JsonObject? {
+        val index =  GlobalUtils.backStackSize - 1
+        return GlobalUtils.arguments[index]
+    }
+    fun goBack(current: Fragment? = null, arguments: JsonObject? = null) {
+        val index = GlobalUtils.backStackSize - 1
+        if (index >= 0) {
+            GlobalUtils.arguments.removeAt(index)
+        }
+        GlobalUtils.backStackSize -= 1
+        if (GlobalUtils.backStackSize == 0) {
+            GlobalUtils.drawerActivity!!.setBackButtonVisible(false)
+        }
+        if (arguments != null) {
+            val currentArgs = GlobalUtils.arguments[GlobalUtils.backStackSize - 1] ?: JsonObject()
+            currentArgs.extend(arguments)
+        }
+        if (current != null) {
+            current.fragmentManager!!.popBackStackImmediate()
+        }
     }
 }

@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.ReservationsRecyclerViewAdapter
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
+import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_my_reservations.*
@@ -23,11 +27,7 @@ class MyReservationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         ViewUtils.setAppBarTitle(context!!.getString(R.string.title_my_reservations))
-        val view = inflater.inflate(R.layout.fragment_my_reservations, container, false)
-        view.buttonAddReservation.setOnClickListener {
-            ViewUtils.pushFragment(this, AddReservationFragment())
-        }
-        return view
+        return inflater.inflate(R.layout.fragment_my_reservations, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,7 +77,7 @@ class MyReservationsFragment : Fragment() {
     }
 
     private fun onCancelReservation(reservation: Reservation, position: Int) {
-        ViewUtils.showDialog(context!!, context!!.getString(R.string.dialog_cancel_reservation), positiveAction = {
+        ViewUtils.showConfirmationDialog(context!!, context!!.getString(R.string.dialog_cancel_reservation), positiveAction = {
             ReservationService.cancelReservation(reservation.id) { _, error ->
                 if (error != null) {
                     ViewUtils.showSnackbar(view!!, error)

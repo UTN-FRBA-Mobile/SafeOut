@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    >
+    <View
+        android:id="@+id/viewLevelIndicator"
+        android:background="@drawable/circle"
+        android:layout_height="16dp"
+        android:layout_width="16dp"
+        />
+    <Space
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        />
+    <TextView
+        android:id="@+id/textViewLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Mucha gente"
+        android:textAllCaps="true"
+        android:textAlignment="textEnd"
+        android:textStyle="bold"
+        />
+</LinearLayout>

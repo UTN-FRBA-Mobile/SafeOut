@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.SectionAdapter
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
@@ -44,6 +45,8 @@ class PlaceDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var place: Place? = null
+
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
     private lateinit var recycler: RecyclerView
@@ -63,7 +66,7 @@ class PlaceDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        ViewUtils.setAppBarTitle(context!!.getString(R.string.title_place_detail))
 
         val view = inflater.inflate(R.layout.fragment_placedetail, container, false)
         recycler = view.recyclerViewSections as RecyclerView
@@ -74,6 +77,7 @@ class PlaceDetailFragment : Fragment() {
 
         detalle = objetoDetalle?.getSerializable("lugar")
         lugarElegido = detalle as Place
+        this.place = lugarElegido
 
         getSections2(lugarElegido.id!!)
 
@@ -88,18 +92,24 @@ class PlaceDetailFragment : Fragment() {
     private fun setRecyclerView(sectionList: List<SectionInfo>){
         recycler.setHasFixedSize(true)
         recycler.itemAnimator = DefaultItemAnimator()
-        recycler.layoutManager = layoutManager
+        recycler.layoutManager = LinearLayoutManager(activity)
 
         adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
             override fun onClick(section: SectionInfo, position: Int) {
-                activity?.toast("Let's go to ${section.name}!")
-
+                makeReservation(section)
             }
 
         }))
 
         recycler.adapter = adapter
 
+    }
+
+    private fun makeReservation(info: SectionInfo) {
+        val section = Section(info.id, info.name, info.occupation, info.capacity, this.place!!, info.reservations)
+        val arguments = JsonObject()
+        arguments.add("section", section.toObject())
+        ViewUtils.pushFragment(this, AddReservationFragment(), arguments)
     }
 
     private fun getSections2(placeId: String) {
