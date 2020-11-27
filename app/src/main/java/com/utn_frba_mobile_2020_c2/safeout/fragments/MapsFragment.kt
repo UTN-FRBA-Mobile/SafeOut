@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
@@ -23,12 +22,14 @@ import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.dto.Bounds
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
-import org.json.JSONObject
+import org.json.JSONArray
+
 
 class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
@@ -37,8 +38,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private lateinit var lastLocation : Location
     private var markers : MutableList<Marker> = ArrayList()
 
-    //dummy
-    private var resutText: TextView? = null
+    private val gson = GsonBuilder().create()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -104,31 +104,34 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
             }
             onCameraIdle()
         })
+
+        mapa.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener {
+            @Override
+            fun onMarkerClick(marker: Marker): Boolean {
+                var marker: Marker? = markers.find { e -> e.id == marker.id }
+                marker?.title?.let { it1 -> MarkDetailFragment.newInstance(it1).show(childFragmentManager, "MarkDetailFragment") }
+                return true
+            }
+            onMarkerClick(it)
+        })
     }
 
     private fun loadPlaces(){
         // pedir las ubicaciones y mapearlas a los puntos
-        val bounds = mapa.projection.visibleRegion.latLngBounds
+        val bounds = Bounds.toJson(mapa.projection.visibleRegion.latLngBounds)
         val body = mapOf<String, Any>("bounds" to bounds)
-        RequestUtils.post("/places/locate", body, { response ->
+        RequestUtils.postArray("/places/locate", body, { response ->
             showData(response)
         }, { status, error ->
             println(status)
             println(error)
         })
-//        for (i in 1..10) {
-//            val ranlat = Random.nextDouble()/50
-//            val ranlng = Random.nextDouble()/50
-//
-//            val newLocation = LatLng(baseLat - ranlat, baseLng + ranlng)
-//            mapa.addMarker(MarkerOptions().position(newLocation).title("Marker $i"))
-//        }
-        //mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(lastLocation.latitude, lastLocation.longitude), 15f))
-
     }
 
-    private fun showData(obj: JSONObject){
-        val lista = Gson().fromJson(obj.toString(), ModelMaps.Places::class.java).places
+    private fun showData(obj: JSONArray){
+        if(obj.length() <= 0 ) return
+        val gson = GsonBuilder().create()
+        val lista = gson.fromJson(obj.toString(), Array<ModelMaps.Place>::class.java).toList()
         lista.iterator().forEach { data ->
             run {
                 activity?.runOnUiThread(Runnable {
@@ -139,17 +142,10 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun newMarker(place: ModelMaps.Place){
-
-        val newLocation = LatLng(
-            place.location.coordinates[0].toDouble(),
-            place.location.coordinates[1].toDouble()
-        )
-
-        val oc = (place.sections.occupation.toDouble() / place.sections.capacity.toDouble())
-
-
+        val newLocation = LatLng(place.location.latitude, place.location.longitude)
+        val oc = (place.occupation.toDouble() / place.capacity.toDouble())
         var icon = R.drawable.ic_ubicacion_medium
-        if(oc >= 0.70){
+        if(oc >= 0.90){
             icon = R.drawable.ic_ubicacion_full
         }else if( oc <= 0.5){
             icon = R.drawable.ic_ubicacion_empty
@@ -159,7 +155,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
            mapa.addMarker(
                MarkerOptions()
                    .position(newLocation)
-                   .title(place.name)
+                   .title(gson.toJson(place).toString())
                    .icon(context?.let { bitmapDescriptorFromVector(it, icon) })
            )
        )

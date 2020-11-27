@@ -47,7 +47,7 @@ object PlaceService {
 
     fun search(
         query: String,  onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.postPlaces("/places/search"
+        RequestUtils.postArray("/places/search"
             ,mapOf(
                 "query" to query
 /*                ,
@@ -67,7 +67,7 @@ object PlaceService {
 
     fun getSections(
         placeId: String,  onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
-        RequestUtils.postPlaces("/places/${placeId}/sections"
+        RequestUtils.postArray("/places/${placeId}/sections"
             ,mapOf(
                 "placeId" to placeId
             )

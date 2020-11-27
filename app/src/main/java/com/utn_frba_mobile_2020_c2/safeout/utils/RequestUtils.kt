@@ -134,7 +134,7 @@ object RequestUtils {
             })
     }
 
-    fun postPlaces(
+    fun postArray(
         uri: String,
         body: Map<String, Any>,
         onResponse: (JSONArray) -> Unit,
