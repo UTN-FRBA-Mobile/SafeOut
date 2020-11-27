@@ -10,6 +10,8 @@ import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import com.utn_frba_mobile_2020_c2.safeout.models.SectionInfo
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
 import kotlinx.android.synthetic.main.recycler_section.view.*
 
 
@@ -27,16 +29,34 @@ class SectionAdapter(private var sections:List<SectionInfo>, private val listene
             textViewSectionName.text = sectionInfo.name
             textViewSectionOccupation.text = occupation.toString() + '%'
 
-            if(sectionInfo.reservations) {
-                buttonReservar.setOnClickListener { listener.onClick(sectionInfo, adapterPosition) }
+            if (modo == "SIN_RESERVA"){
+                buttonReservar.setOnClickListener {
+                    listener.onClick(
+                        sectionInfo,
+                        adapterPosition
+                    )
+                }
+                if (sectionInfo.reservations) {
+                    buttonReservar.text = "Reservar"
+                }else{
+                    buttonReservar.text = "Ingresar"
+                }
             }else {
-                buttonReservar.visibility = View.INVISIBLE
-            }
 
+                if (sectionInfo.reservations) {
+                    buttonReservar.setOnClickListener {
+                        listener.onClick(
+                            sectionInfo,
+                            adapterPosition
+                        )
+                    }
+                } else {
+                    buttonReservar.visibility = View.INVISIBLE
+                }
+            }
         }
 
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         parent.inflate(

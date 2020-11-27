@@ -16,6 +16,7 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.models.*
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import org.json.JSONObject
@@ -35,7 +36,15 @@ class CheckInResultFragment : Fragment() {
 
         setIcon(success)
         if (success){
-            if (mode == "CHECKIN") setTitle("¡Bienvenido!\nCheck IN Exitoso") else setTitle("¡Gracias por su visita!\nCheck OUT Exitoso")
+            if (mode == "CHECKIN"){
+                setTitle("¡Bienvenido!\nCheck IN Exitoso")
+                GlobalUtils.modo = "CHECKOUT"
+                GlobalUtils.checkedInSection = sectionId
+            }else {
+                GlobalUtils.modo = null
+                setTitle("¡Gracias por su visita!\nCheck OUT Exitoso")
+            }
+
             fetchPlaceInfo(placeId)
             fetchSectionInfo(placeId, sectionId)
 

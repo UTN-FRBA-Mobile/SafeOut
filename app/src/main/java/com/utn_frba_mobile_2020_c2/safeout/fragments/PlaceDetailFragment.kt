@@ -5,6 +5,8 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.graphics.component1
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import com.utn_frba_mobile_2020_c2.safeout.models.SectionInfo
+import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_placedetail.view.*
@@ -28,6 +31,10 @@ import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewName
 import kotlinx.android.synthetic.main.recycler_section.view.*
 import java.io.Serializable
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
+import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
+import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
 import java.lang.Thread.sleep
 
 // TODO: Rename parameter arguments, choose names that match
@@ -44,13 +51,11 @@ class PlaceDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
     private var place: Place? = null
-
-    private val layoutManager by lazy { LinearLayoutManager(context) }
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: SectionAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -76,6 +81,7 @@ class PlaceDetailFragment : Fragment() {
         var detalle : Serializable?
 
         detalle = objetoDetalle?.getSerializable("lugar")
+
         lugarElegido = detalle as Place
         this.place = lugarElegido
 
@@ -84,6 +90,7 @@ class PlaceDetailFragment : Fragment() {
         view.textViewAddress.text = lugarElegido.address.toString()
         view.textViewName.text    = lugarElegido.name.toString()
         view.textViewCat.text = lugarElegido.category.toString()
+
         view.imageViewBackground.setImageBitmap(lugarElegido.imgResource)
 
         return view
@@ -96,7 +103,13 @@ class PlaceDetailFragment : Fragment() {
 
         adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
             override fun onClick(section: SectionInfo, position: Int) {
+
+            if (section.reservations){
                 makeReservation(section)
+            }else{
+                hacerIngreso(section)
+
+            }
             }
 
         }))
@@ -112,6 +125,32 @@ class PlaceDetailFragment : Fragment() {
         ViewUtils.pushFragment(this, AddReservationFragment(), arguments)
     }
 
+    private fun hacerIngreso(info: SectionInfo){
+        GlobalUtils.checkedInSection = info.id
+
+        modo = "CHECKIN"
+        CheckinService.checkInToSection(info.id) { _, error ->
+            if (error != null) {
+                val activity = requireActivity()
+                Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(
+            R.id.frameLayout, CheckInResultFragment.newInstance(
+                modo,
+                true,
+                this.place?.id,
+                info.id
+            ), "CheckInResult"
+        )
+        transaction?.addToBackStack("CheckInResult")
+        transaction?.commit()
+
+    }
+
+
     private fun getSections2(placeId: String) {
 
     PlaceService.getSections(placeId) { sections, error ->
@@ -123,6 +162,7 @@ class PlaceDetailFragment : Fragment() {
             }
 
             setRecyclerView(sectionList)
+
         }
     }
     }

@@ -66,6 +66,7 @@ class AddReservationFragment : Fragment() {
             if (error != null) {
                 ViewUtils.showAlertDialog(context!!, error)
             } else {
+                GlobalUtils.modo = null
                 ViewUtils.showAlertDialog(context!!, context!!.getString(R.string.dialog_reservation_submitted), null) {
                     ViewUtils.goBack(this)
                 }

@@ -18,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
@@ -35,9 +36,13 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.extensions.*
 
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
+import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
+import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
+import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
@@ -47,15 +52,16 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var mToggle: ActionBarDrawerToggle? = null
     private var mToolBarNavigationListenerIsRegistered = false
     private var nfcPendingIntent: PendingIntent? = null
-    private var nfcAdapter : NfcAdapter? = null
+    private var nfcAdapter: NfcAdapter? = null
+    private var evitarIngreso = false
 
-    private val ID_SUBE   = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4"
+    private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
     private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
-    private val ID_CONEJO_MESA = "5fa2fb73f434715c664caf45"
+//    private val ID_ITALIA_EXTERIOR = "5fa2fb64f434715c664c5d11" // -> Con reserva
 
     private val ID_MASTER = 1558907772936448 // Corresponde al Restaurant "Siga la Vaca" de Monroe 1802 "5f600c7adb23bc5159a7fb8d"
-    private val ID_VACA   = "5f600c7adb23bc5159a7fb8d"
-    private val ID_VACA_INTERIOR   = "5fa2fb71f434715c664ca417"
+    private val ID_ITALIA = "5f600c76db23bc5159a7eed4"
+//    private val ID_ITALIA_INTERIOR = "5fa2fb64f434715c664c5d10"  // -> Sin reserva
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +141,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
-                val mode = if(GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
+                val mode = if (GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
                 setVisibleFragment(QrScannerFragment.newInstance(mode))
             }
             R.id.CheckinNFC -> {
@@ -161,6 +167,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
     override fun onResume() {
         super.onResume()
         nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, null, null)
@@ -179,8 +186,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
     private fun processIntent(checkIntent: Intent) {
         if (NfcAdapter.ACTION_TAG_DISCOVERED == checkIntent.action) {
-            // aca va  a logica para registrar la entrada
-
             val tag = checkIntent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             var idLugar: Long = deHexadecimalAEntero(byteArrayToHexString(tag?.id))
 
@@ -194,51 +199,92 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             println("ID Tag leido del lugar en HEXA    : " + byteArrayToHexString(tag?.id))
  */
 
-            var placeId : String
-            var sectionId :String
+            var placeId: String
 
-            when(idLugar){
-                ID_SUBE -> { placeId = ID_CONEJO
-                             sectionId = ID_CONEJO_MESA
+            when (idLugar) {
+                ID_SUBE -> {
+                    placeId = ID_CONEJO
                 }
-                ID_MASTER -> { placeId = ID_VACA
-                               sectionId = ID_VACA_INTERIOR
+                ID_MASTER -> {
+                    placeId = ID_ITALIA
                 }
-                else -> {placeId = idLugar.toString()
-                         sectionId = "mapear"}
+                else -> {
+                    placeId = idLugar.toString()
+                }
             }
 
-            // TODO: Map to ID NFC
-            // todo: Si hago checkin con reserva previa, restarle a la reserva y sumar ocupacion.
-            // Todo: si hago checkin y no tengo reserva me tengo que fijar ocupacion
 
-            val mode = if(GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
+            var mode: String? = null
+            ReservationService.getReservations{reservations, error ->
+                if(error == null) {
+                    val list = JsonUtils.arrayToList(reservations!!) {
+                        Reservation.fromObject(it)
+                    }
+                    list?.find { it?.section.place.id == placeId }?.let {
 
-            if(mode == "CHECKOUT"){
-                CheckinService.checkOutOfSection(sectionId) { _, error ->
+                        CheckinService.checkInToSection(it?.section.id) { _, error ->
+                            if (error != null) {
 
-                        if (error != null) {
-                        //ViewUtils.showSnackbar(, error)
-                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                        goToCheckinResultError(mode, error)
-                        } else {
-                            goToCheckinResultSuccess(mode, placeId, sectionId)
+                                ViewUtils.showAlertDialog(this, "Ingreso a reservación fuera\ndel horario elegido.", "Entendido!")
+                                goToCheckinResultError("CHECKIN", error)
+
+                            } else {
+                                goToCheckinResultSuccess("CHECKIN", placeId, it?.section.id)
+
+                            }
                         }
+                    }
+                }else{
+                    println("Reservas:" + error)
                 }
-            }else{
-                CheckinService.checkInToSection(sectionId) { _, error ->
+            }
+
+            if (GlobalUtils.checkedInSection == null) {
+                mode = "CHECKIN"
+
+                elegirSeccionSinReserva(placeId)
+            } else {
+                mode = "CHECKOUT"
+
+                CheckinService.checkOutOfSection(GlobalUtils.checkedInSection!!) { _, error ->
                     if (error != null) {
                         //ViewUtils.showSnackbar(, error)
                         Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+
                         goToCheckinResultError(mode, error)
                     } else {
-                        goToCheckinResultSuccess(mode, placeId, sectionId)
+                        goToCheckinResultSuccess(mode, placeId, GlobalUtils.checkedInSection!!)
+
                     }
                 }
             }
 
-    }else{
+        } else {
             Toast.makeText(this, "Error, vuelva a intentar", Toast.LENGTH_LONG).show()
+        }
+    }
+
+     private fun elegirSeccionSinReserva(placeId: String) {
+
+        if (placeId != null){
+            PlaceService.getPlaceInfo(placeId){ placeInfo, error ->
+                if (error == null) {
+                    val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
+                    val lugarElegido: Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
+                    lugarElegido = place
+                    val bundle = Bundle()
+                    bundle.putSerializable("lugar", lugarElegido)
+                    modo = "SIN_RESERVA"
+
+                    val transaction = this.supportFragmentManager.beginTransaction()
+                    val placeElegido = PlaceDetailFragment()
+                    placeElegido.arguments = bundle
+                    transaction.replace(R.id.frameLayout, placeElegido)
+                    transaction.commit()
+                }else{
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
@@ -274,6 +320,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         transaction?.addToBackStack("CheckInResult")
         transaction?.commit()
     }
+
     private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
         val transaction = supportFragmentManager?.beginTransaction()
         transaction?.replace(

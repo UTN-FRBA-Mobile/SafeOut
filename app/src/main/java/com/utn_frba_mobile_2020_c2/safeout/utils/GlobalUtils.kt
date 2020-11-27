@@ -8,4 +8,5 @@ object GlobalUtils {
     var checkedInSection: String? = null
     var backStackSize = 0
     var arguments: ArrayList<JsonObject?> = ArrayList()
+    var modo: String? = null
 }

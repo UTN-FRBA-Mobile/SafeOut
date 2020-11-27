@@ -19,6 +19,7 @@ import com.utn_frba_mobile_2020_c2.safeout.listeners.PlaceCommunicator
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
+import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_placelist.*
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
@@ -52,6 +53,7 @@ class PlaceListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         ViewUtils.setAppBarTitle(context!!.getString(R.string.title_search_places))
         setHasOptionsMenu(true)
+
         arguments?.let {
             //param1 = it.getString(ARG_PARAM1)
             //param2 = it.getString(ARG_PARAM2)
