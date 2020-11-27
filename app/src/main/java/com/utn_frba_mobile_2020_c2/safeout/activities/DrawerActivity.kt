@@ -229,7 +229,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                                 goToCheckinResultError("CHECKIN", error)
 
                             } else {
-                                goToCheckinResultSuccess("CHECKIN", placeId, it?.section.id)
+                                if (modo == "CHECKOUT") {
+                                    goToCheckinResultSuccess("CHECKIN", placeId, it?.section.id)
+                                }
 
                             }
                         }
