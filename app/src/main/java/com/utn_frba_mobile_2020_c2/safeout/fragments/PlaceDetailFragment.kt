@@ -104,19 +104,11 @@ class PlaceDetailFragment : Fragment() {
         adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
             override fun onClick(section: SectionInfo, position: Int) {
 
-                if  (modo == "SIN_RESERVA"){
+                if (modo == "SIN_RESERVA"){
                     hacerIngreso(section)
                 }else{
                     makeReservation(section)
                 }
- /*
-            if (section.reservations){
-                makeReservation(section)
-            }else{
-                hacerIngreso(section)
-            }
-
-  */
             }
 
         }))
@@ -133,28 +125,37 @@ class PlaceDetailFragment : Fragment() {
     }
 
     private fun hacerIngreso(info: SectionInfo){
-        GlobalUtils.checkedInSection = info.id
-
         modo = "CHECKIN"
         CheckinService.checkInToSection(info.id) { _, error ->
             if (error != null) {
-                val activity = requireActivity()
-                Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                ViewUtils.showSnackbar(view!!, error)
+                goToCheckinResultError(modo, error)
+            } else {
+                goToCheckinResultSuccess(modo, this.place?.id!!, info.id)
             }
         }
+    }
 
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(
-            R.id.frameLayout, CheckInResultFragment.newInstance(
-                modo,
-                true,
-                this.place?.id,
-                info.id
-            ), "CheckInResult"
-        )
-        transaction?.addToBackStack("CheckInResult")
-        transaction?.commit()
-
+    private fun goToCheckinResultSuccess(
+        mode: String? = "CHECKIN",
+        placeId: String,
+        sectionId: String
+    ) {
+        if ( mode != "READ")  GlobalUtils.checkedInSection = if ( mode == "CHECKIN") sectionId else null
+        ViewUtils.pushFragment(this, CheckInResultFragment.newInstance(
+            mode,
+            true,
+            placeId,
+            sectionId
+        ))
+    }
+    private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
+        ViewUtils.pushFragment(this, CheckInResultFragment.newInstance(
+            mode,
+            false,
+            "",
+            ""
+        ))
     }
 
 

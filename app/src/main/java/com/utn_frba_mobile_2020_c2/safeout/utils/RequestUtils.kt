@@ -174,7 +174,7 @@ object RequestUtils {
     fun getImage(
         imageUrl: String,
         onResponse: (Bitmap) -> Unit,
-        onError: ((status: Int, message: String?) -> Unit)? = null
+        callbackError: ((status: Int, message: String?) -> Unit)? = null
     ) {
 
         AndroidNetworking.get(imageUrl)
@@ -192,7 +192,9 @@ object RequestUtils {
                 }
 
                 override fun onError(error: ANError) {
-                    onError(error)
+                    if (callbackError != null) {
+                        callbackError(error.errorCode,error.message)
+                    }
                 }
             });
     }
