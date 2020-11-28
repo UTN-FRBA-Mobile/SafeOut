@@ -25,6 +25,16 @@ class CheckInResultFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        val mode = requireArguments().getString(CheckInResultFragment.ARGUMENT_MODE)
+        var title = R.string.scan_qr_in;
+        if(mode != null) {
+            if (mode == "READ") {
+                title = R.string.scan_qr_get;
+            } else if (mode == "CHECKOUT") {
+                title = R.string.scan_qr_out;
+            }
+        }
+        ViewUtils.setAppBarTitle(context!!.getString(title))
         return inflater.inflate(R.layout.fragment_register_result , container, false)
     }
 
@@ -55,9 +65,12 @@ class CheckInResultFragment : Fragment() {
             if (mode == "CHECKIN"){
                 setTitle("Check IN Fallido")
                 setRegisterResult("Error al intentar realizar el checkin")
-            } else {
+            } else if (mode == "CHECKOUT"){
                 setTitle("Check OUT Fallido")
                 setRegisterResult("Error al intentar realizar el checkout")
+            } else{
+                setTitle("Error de lectura")
+                setRegisterResult("Error al intentar realizar el obtener el detalle del lugar")
             }
         }
 

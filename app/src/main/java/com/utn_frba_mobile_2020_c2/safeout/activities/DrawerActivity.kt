@@ -63,6 +63,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private val ID_ITALIA = "5f600c76db23bc5159a7eed4"
 //    private val ID_ITALIA_INTERIOR = "5fa2fb64f434715c664c5d10"  // -> Sin reserva
 
+    private val ID_SUBE_J: Long = 909384705
+    private val ID_SUBE_J_PLACE = "5f600c75db23bc5159a7ed60" //con reserva
+
+    private val ID_SUBE_J2: Long = 750959485
+    private val ID_SUBE_J2_PLACE = "5f600c75db23bc5159a7ed47" //Sin reserva
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GlobalUtils.drawerActivity = this
@@ -207,6 +213,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 }
                 ID_MASTER -> {
                     placeId = ID_ITALIA
+                }
+                ID_SUBE_J -> {
+                    placeId = ID_SUBE_J_PLACE
+                }
+                ID_SUBE_J2 -> {
+                    placeId = ID_SUBE_J2_PLACE
                 }
                 else -> {
                     placeId = idLugar.toString()
