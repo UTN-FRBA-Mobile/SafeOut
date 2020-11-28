@@ -56,10 +56,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var evitarIngreso = false
 
     private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
+    private val ID_SUBE_J: Long = 909384705
     private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
 //    private val ID_ITALIA_EXTERIOR = "5fa2fb64f434715c664c5d11" // -> Con reserva
 
     private val ID_MASTER = 1558907772936448 // Corresponde al Restaurant "Siga la Vaca" de Monroe 1802 "5f600c7adb23bc5159a7fb8d"
+    private val ID_SUBE_J2: Long = 750959485
     private val ID_ITALIA = "5f600c76db23bc5159a7eed4"
 //    private val ID_ITALIA_INTERIOR = "5fa2fb64f434715c664c5d10"  // -> Sin reserva
 
@@ -206,6 +208,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                     placeId = ID_CONEJO
                 }
                 ID_MASTER -> {
+                    placeId = ID_ITALIA
+                }
+                ID_SUBE_J -> {
+                    placeId = ID_CONEJO
+                }
+                ID_SUBE_J2 -> {
                     placeId = ID_ITALIA
                 }
                 else -> {
