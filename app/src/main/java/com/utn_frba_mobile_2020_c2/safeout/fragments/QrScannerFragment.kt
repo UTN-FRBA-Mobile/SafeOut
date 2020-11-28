@@ -18,10 +18,13 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.google.gson.Gson
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
+import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.PlaceScanInfo
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
+import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import java.io.Serializable
 
 class QrScannerFragment : Fragment() {
         private lateinit var codeScanner: CodeScanner
@@ -32,6 +35,16 @@ class QrScannerFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
+            val mode = requireArguments().getString(QrScannerFragment.ARGUMENT_MODE)
+            var title = R.string.scan_qr_in;
+            if(mode != null) {
+                if (mode == "READ") {
+                    title = R.string.scan_qr_get;
+                } else if (mode == "CHECKOUT") {
+                    title = R.string.scan_qr_out;
+                }
+            }
+            ViewUtils.setAppBarTitle(context!!.getString(title))
             return inflater.inflate(R.layout.qr_scanner_fragment, container, false)
         }
 
@@ -51,7 +64,11 @@ class QrScannerFragment : Fragment() {
                         val sectionId = placeinfo.sectionId
                         //Toast.makeText(activity, "QR válido: ${it.text}", Toast.LENGTH_LONG).show()
 
-                        registerAction(mode, placeId, sectionId)
+                        if(placeId != null && !placeId.isEmpty() && !placeId.isBlank()){
+                            registerAction(mode, placeId, GlobalUtils.checkedInSection)
+                        }else{
+                            goToCheckinResultError(mode, "ID de lugar escaneado inválido")
+                        }
                     }
                     catch (e: Exception) {
                         goToCheckinResultError(mode, e.toString())
@@ -70,7 +87,20 @@ class QrScannerFragment : Fragment() {
             }
         }
 
-    private fun registerAction(mode: String?, placeId: String, sectionId: String){
+    private fun registerAction(mode: String? = "CHECKIN", placeId: String, sectionId: String?){
+            if (mode == "CHECKOUT") {
+                if (sectionId != null) {
+                    checkout(mode, placeId, sectionId);
+                }else{
+                    ViewUtils.showSnackbar(view!!, "Error al intentar checkout")
+                }
+            }else{
+                goToPlaceDetail(placeId)
+            }
+
+    }
+
+    private fun registerAction_(mode: String?, placeId: String, sectionId: String){
             if(mode != null) {
                 if (mode == "READ") {
                     goToPlaceDetail(placeId)
@@ -95,7 +125,8 @@ class QrScannerFragment : Fragment() {
                 }
             }
     }
-    private fun goToPlaceDetail(placeId: String) {
+
+    private fun goToPlaceDetail_(placeId: String) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(
             R.id.frameLayout,
@@ -106,6 +137,48 @@ class QrScannerFragment : Fragment() {
         transaction?.commit()
     }
 
+    private fun goToPlaceDetail(placeId: String) {
+        PlaceService.getPlaceInfo(placeId) { placeInfo, error ->
+            if (error == null) {
+                val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
+                val lugarElegido: Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
+                lugarElegido = place
+                val bundle = Bundle()
+                bundle.putSerializable("lugar", lugarElegido)
+                GlobalUtils.modo = "SIN_RESERVA"
+
+                //val transaction = activity?.supportFragmentManager?.beginTransaction()
+                val placeElegido = PlaceDetailFragment()
+                placeElegido.arguments = bundle
+                //transaction?.replace(R.id.frameLayout, placeElegido)
+                //transaction?.commit()
+                ViewUtils.pushFragment(this, placeElegido)
+
+            } else {
+                ViewUtils.showSnackbar(view!!, error)
+                goToCheckinResultError(null, error)
+            }
+        }
+    }
+
+    private fun checkout(mode: String?, placeId: String, sectionId: String) {
+        PlaceService.getPlaceInfo(placeId) { placeInfo, error ->
+            if (error == null) {
+                CheckinService.checkOutOfSection(sectionId) { _, error ->
+                    if (error != null) {
+                        ViewUtils.showSnackbar(view!!, error)
+                        goToCheckinResultError(mode, error)
+                    } else {
+                        goToCheckinResultSuccess(mode, placeId, sectionId)
+                    }
+                }
+
+            } else {
+                ViewUtils.showSnackbar(view!!, error)
+            }
+        }
+    }
+
     private fun goToCheckinResultSuccess(
         mode: String? = "CHECKIN",
         placeId: String,
@@ -113,7 +186,7 @@ class QrScannerFragment : Fragment() {
     ) {
         //Toast.makeText(activity, "scanned placeinfo: ${placeId}, ${sectionId}", Toast.LENGTH_LONG).show()
         if ( mode != "READ")  GlobalUtils.checkedInSection = if ( mode == "CHECKIN") sectionId else null
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        /*val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(
             R.id.frameLayout, CheckInResultFragment.newInstance(
                 mode,
@@ -123,11 +196,17 @@ class QrScannerFragment : Fragment() {
             ), "CheckInResult"
         )
         transaction?.addToBackStack("CheckInResult")
-        transaction?.commit()
+        transaction?.commit()*/
+        ViewUtils.pushFragment(this, CheckInResultFragment.newInstance(
+            mode,
+            true,
+            placeId,
+            sectionId
+        ))
     }
     private fun goToCheckinResultError(mode: String? = "CHECKIN", error: String) {
         //Toast.makeText(activity, "Error al leer QR: ${scannedData} ${error}", Toast.LENGTH_LONG).show()
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        /*val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(
             R.id.frameLayout, CheckInResultFragment.newInstance(
                 mode,
@@ -137,7 +216,13 @@ class QrScannerFragment : Fragment() {
             ), "CheckInResult"
         )
         transaction?.addToBackStack("CheckInResult")
-        transaction?.commit()
+        transaction?.commit()*/
+        ViewUtils.pushFragment(this, CheckInResultFragment.newInstance(
+            mode,
+            false,
+            "",
+            ""
+        ))
     }
 
     fun checkPermission(){

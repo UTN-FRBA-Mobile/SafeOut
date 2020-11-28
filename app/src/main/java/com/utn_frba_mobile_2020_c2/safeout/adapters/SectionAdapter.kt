@@ -39,11 +39,16 @@ class SectionAdapter(private var sections:List<SectionInfo>, private val listene
                         adapterPosition
                     )
                 }
+                buttonReservar.text = "Ingresar"
+
+       /*
                 if (sectionInfo.reservations) {
                     buttonReservar.text = "Reservar"
                 }else{
                     buttonReservar.text = "Ingresar"
                 }
+     */
+
             }else {
 
                 if (sectionInfo.reservations) {

@@ -104,12 +104,19 @@ class PlaceDetailFragment : Fragment() {
         adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
             override fun onClick(section: SectionInfo, position: Int) {
 
+                if  (modo == "SIN_RESERVA"){
+                    hacerIngreso(section)
+                }else{
+                    makeReservation(section)
+                }
+ /*
             if (section.reservations){
                 makeReservation(section)
             }else{
                 hacerIngreso(section)
-
             }
+
+  */
             }
 
         }))

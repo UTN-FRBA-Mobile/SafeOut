@@ -79,7 +79,7 @@ class PlaceListFragment : Fragment() {
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.layoutManager = layoutManager
 
-        adapter = (PlaceAdapter(list, object : RecyclerPlaceListener {
+        adapter = (PlaceAdapter(list, recycler, object : RecyclerPlaceListener {
             override fun onClick(place: Place, position: Int) {
                 communicator = activity as PlaceCommunicator
                 communicator.pasarDatosLugar(place)

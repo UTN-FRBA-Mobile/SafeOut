@@ -19,7 +19,7 @@ import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.recycler_place.view.*
 import kotlin.collections.ArrayList
 
-class PlaceAdapter(private var places:List<Place>, private val listener: RecyclerPlaceListener)
+class PlaceAdapter(private var places:List<Place>,  private var view : View, private val listener: RecyclerPlaceListener)
     : RecyclerView.Adapter<PlaceAdapter.ViewHolder>(), Filterable{
 
     private var placesFilterList: ArrayList<Place> = arrayListOf()
@@ -84,6 +84,7 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
                                             }
                                             ,{_, message ->
                                                 if (message != null) {
+                                                    ViewUtils.showSnackbar(view, message)
                                                     //todo toast
                                                 }}
                                             )
