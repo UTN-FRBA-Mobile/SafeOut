@@ -65,9 +65,12 @@ class CheckInResultFragment : Fragment() {
             if (mode == "CHECKIN"){
                 setTitle("Check IN Fallido")
                 setRegisterResult("Error al intentar realizar el checkin")
-            } else {
+            } else if (mode == "CHECKOUT"){
                 setTitle("Check OUT Fallido")
                 setRegisterResult("Error al intentar realizar el checkout")
+            } else{
+                setTitle("Error de lectura")
+                setRegisterResult("Error al intentar realizar el obtener el detalle del lugar")
             }
         }
 

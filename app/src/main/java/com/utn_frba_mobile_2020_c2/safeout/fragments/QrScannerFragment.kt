@@ -64,7 +64,11 @@ class QrScannerFragment : Fragment() {
                         val sectionId = placeinfo.sectionId
                         //Toast.makeText(activity, "QR válido: ${it.text}", Toast.LENGTH_LONG).show()
 
-                        registerAction(mode, placeId, GlobalUtils.checkedInSection)
+                        if(placeId != null && !placeId.isEmpty() && !placeId.isBlank()){
+                            registerAction(mode, placeId, GlobalUtils.checkedInSection)
+                        }else{
+                            goToCheckinResultError(mode, "ID de lugar escaneado inválido")
+                        }
                     }
                     catch (e: Exception) {
                         goToCheckinResultError(mode, e.toString())
@@ -86,14 +90,7 @@ class QrScannerFragment : Fragment() {
     private fun registerAction(mode: String? = "CHECKIN", placeId: String, sectionId: String?){
             if (mode == "CHECKOUT") {
                 if (sectionId != null) {
-                    CheckinService.checkOutOfSection(sectionId) { _, error ->
-                        if (error != null) {
-                            ViewUtils.showSnackbar(view!!, error)
-                            goToCheckinResultError(mode, error)
-                        } else {
-                            goToCheckinResultSuccess(mode, placeId, sectionId)
-                        }
-                    }
+                    checkout(mode, placeId, sectionId);
                 }else{
                     ViewUtils.showSnackbar(view!!, "Error al intentar checkout")
                 }
@@ -159,10 +156,28 @@ class QrScannerFragment : Fragment() {
 
             } else {
                 ViewUtils.showSnackbar(view!!, error)
+                goToCheckinResultError(null, error)
             }
         }
     }
 
+    private fun checkout(mode: String?, placeId: String, sectionId: String) {
+        PlaceService.getPlaceInfo(placeId) { placeInfo, error ->
+            if (error == null) {
+                CheckinService.checkOutOfSection(sectionId) { _, error ->
+                    if (error != null) {
+                        ViewUtils.showSnackbar(view!!, error)
+                        goToCheckinResultError(mode, error)
+                    } else {
+                        goToCheckinResultSuccess(mode, placeId, sectionId)
+                    }
+                }
+
+            } else {
+                ViewUtils.showSnackbar(view!!, error)
+            }
+        }
+    }
 
     private fun goToCheckinResultSuccess(
         mode: String? = "CHECKIN",
