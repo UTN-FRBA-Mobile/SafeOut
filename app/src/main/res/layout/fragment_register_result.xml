@@ -49,11 +49,21 @@
                 android:textColor="@color/colorPrimary"
                  />
 
-            <TextView
+            <!--TextView
                 android:id="@+id/occupation"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
+                /-->
+
+            <com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
+                android:id="@+id/occupationDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layoutDirection="rtl"
+                tools:layout="@layout/occupation_display"
                 />
 
             <TextView
@@ -63,11 +73,21 @@
                 android:textColor="@color/colorPrimary"
                 />
 
-            <TextView
+            <!--TextView
                 android:id="@+id/sectionOccupation"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
+                /-->
+
+            <com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
+                android:id="@+id/sectionOccupationDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layoutDirection="rtl"
+                tools:layout="@layout/occupation_display"
                 />
 
             <ImageView

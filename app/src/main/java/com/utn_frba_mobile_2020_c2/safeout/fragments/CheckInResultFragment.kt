@@ -19,6 +19,7 @@ import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
 import org.json.JSONObject
 
 class CheckInResultFragment : Fragment() {
@@ -119,7 +120,7 @@ class CheckInResultFragment : Fragment() {
             "id": "5fa2fb64f434715c664c5d11"
             }*/
         //setSectionName(section.name);
-        setSectionOccupation("${section.name} : ${section.occupation.toString()}/${section.capacity.toString()}");
+        setSectionOccupation("${section.name} : ${section.occupation.toString()}/${section.capacity.toString()}", section.occupation, section.capacity);
     }
     fun setPlaceInfo(placeInfo: JsonObject?) {
         /*{
@@ -139,7 +140,7 @@ class CheckInResultFragment : Fragment() {
         getPlaceImage(place.category);
 
         setRegisterResult("${place.name}\n${place.address}")
-        setOccupation("${place.occupation.toString()}/${place.capacity.toString()}");
+        setOccupation("${place.occupation.toString()}/${place.capacity.toString()}", place.occupation, place.capacity);
     }
 
     fun getPlaceImage(category: String?) {
@@ -176,17 +177,25 @@ class CheckInResultFragment : Fragment() {
         val t = view!!.findViewById<View>(R.id.textRegisterResult) as TextView
         t.text = text
     }
-    fun setOccupation(text: String?) {
-        val t = view!!.findViewById<View>(R.id.occupation) as TextView
-        t.text = text
+    fun setOccupation(text: String?, occupation: Int?, capacity: Int?) {
+        //val t = view!!.findViewById<View>(R.id.occupation) as TextView
+        //t.text = text
+        if(occupation !== null && capacity !== null){
+            val occupationDisplay: OccupationDisplay = view!!.findViewById(R.id.occupationDisplay)
+            occupationDisplay.level = OccupationDisplay.calculateLevel(occupation, capacity)
+        }
     }
     fun setSectionName(text: String?) {
         val t = view!!.findViewById<View>(R.id.sectionName) as TextView
         t.text = text
     }
-    fun setSectionOccupation(text: String?) {
-        val t = view!!.findViewById<View>(R.id.sectionOccupation) as TextView
-        t.text = text
+    fun setSectionOccupation(text: String?, occupation: Int?, capacity: Int?) {
+        //val t = view!!.findViewById<View>(R.id.sectionOccupation) as TextView
+        //t.text = text
+        if(occupation !== null && capacity !== null){
+            val occupationDisplay: OccupationDisplay = view!!.findViewById(R.id.sectionOccupationDisplay)
+            occupationDisplay.level = OccupationDisplay.calculateLevel(occupation, capacity)
+        }
     }
     companion object {
         private const val ARGUMENT_MODE = "ARGUMENT_MODE"
