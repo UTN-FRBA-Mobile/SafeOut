@@ -13,6 +13,7 @@
     tools:context=".fragments.MarkDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/marker_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="250dp">
 
@@ -78,8 +79,8 @@
             android:layout_height="40dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/mark_address"
-            tools:layout_editor_absoluteX="1dp"
-            tools:ignore="MissingConstraints">
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="1dp">
 
             <TextView
                 android:id="@+id/mark_capacity"
@@ -97,9 +98,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10pt"
-                android:textStyle="bold">
-
-            </TextView>
+                android:textStyle="bold"></TextView>
 
             <TextView
                 android:id="@+id/mark_ocupation"
@@ -117,12 +116,8 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10pt"
-                android:textStyle="bold">
-
-            </TextView>
-
+                android:textStyle="bold"></TextView>
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -150,9 +145,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10pt"
-                android:textStyle="bold">
-
-            </TextView>
+                android:textStyle="bold"></TextView>
 
             <TextView
                 android:id="@+id/value_ocupation"
@@ -170,36 +163,26 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10pt"
-                android:textStyle="bold">
-
-            </TextView>
-
+                android:textStyle="bold"></TextView>
         </LinearLayout>
-
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             tools:ignore="MissingConstraints">
+
             <Button
                 android:id="@+id/button_info"
                 android:layout_width="118dp"
                 android:layout_height="55dp"
+                android:layout_gravity="bottom|right|end"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_gravity="bottom|right|end"
                 android:background="@color/colorPrimary"
                 android:clickable="true"
                 android:text="Mas Info"
                 tools:ignore="MissingConstraints" />
-
         </FrameLayout>
-
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>
