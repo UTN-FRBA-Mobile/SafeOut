@@ -27,6 +27,7 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.dto.Bounds
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import org.json.JSONArray
 
@@ -37,7 +38,6 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private lateinit var mapa : GoogleMap
     private lateinit var lastLocation : Location
     private var markers : MutableList<Marker> = ArrayList()
-
     private val gson = GsonBuilder().create()
 
     companion object {
@@ -108,8 +108,10 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         mapa.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener {
             @Override
             fun onMarkerClick(marker: Marker): Boolean {
-                var marker: Marker? = markers.find { e -> e.id == marker.id }
-                marker?.title?.let { it1 -> MarkDetailFragment.newInstance(it1).show(childFragmentManager, "MarkDetailFragment") }
+                var m = markers.find { e -> e.id == marker.id }!!.title
+                var fragment = childFragmentManager
+                fragment.popBackStack("Maps_Fragment", 1)
+                MarkDetailFragment.newInstance(m).show(childFragmentManager, "MarkDetailFragment")
                 return true
             }
             onMarkerClick(it)

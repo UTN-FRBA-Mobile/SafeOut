@@ -1,29 +1,33 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mark_detail_place"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/colorLightGrey"
-    app:cardCornerRadius="8dp"
+    android:layout_gravity="center_vertical"
     android:layout_margin="15dp"
     android:padding="15dp"
+    app:cardBackgroundColor="@color/colorLightGrey"
+    app:cardCornerRadius="8dp"
     app:layout_constraintCircleRadius="@dimen/material_emphasis_disabled"
     tools:context=".fragments.MarkDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="250dp">
 
         <TextView
             android:id="@+id/mark_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="41dp"
             android:layout_margin="5dp"
             android:layout_marginTop="32dp"
+            android:gravity="center"
             android:shadowColor="#000"
             android:shadowDx="3"
             android:shadowDy="3"
             android:shadowRadius="3"
+            android:text="Nombre"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
             android:textSize="14pt"
@@ -47,8 +51,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mark_name"
-            />
+            app:layout_constraintTop_toBottomOf="@id/mark_name" />
 
         <TextView
             android:id="@+id/mark_address"
@@ -59,103 +62,143 @@
             android:shadowDx="3"
             android:shadowDy="3"
             android:shadowRadius="3"
+            android:text="Una Direccion"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
             android:textSize="8pt"
             android:textStyle="bold"
-            android:text="Una Direccion"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mark_category" />
 
         <LinearLayout
             android:id="@+id/linear_capacity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="381dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/mark_address"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/mark_ocupation"
-                android:text="Ocupacion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="32dp"
-                android:shadowColor="#000"
-                android:shadowDx="3"
-                android:shadowDy="3"
-                android:shadowRadius="3"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="10pt"
-                android:textStyle="bold"
-                android:layout_gravity="left" >
-
-            </TextView>
+            tools:layout_editor_absoluteX="1dp"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/mark_capacity"
-                android:text="Capacidad"
-                android:layout_width="wrap_content"
+                android:layout_width="184dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="32dp"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
                 android:shadowColor="#000"
                 android:shadowDx="3"
                 android:shadowDy="3"
                 android:shadowRadius="3"
+                android:text="Capacidad"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10pt"
-                android:textStyle="bold"
-                android:layout_gravity="right">
+                android:textStyle="bold">
 
             </TextView>
+
+            <TextView
+                android:id="@+id/mark_ocupation"
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+                android:shadowColor="#000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="3"
+                android:text="Ocupacion"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="10pt"
+                android:textStyle="bold">
+
+            </TextView>
+
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:id="@+id/linearLayout"
+            android:layout_width="385dp"
+            android:layout_height="38dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf = "@+id/linear_capacity">
-
-            <TextView
-                android:id="@+id/value_ocupation"
-                android:text="XX"
-                android:layout_height="10dp"
-                android:layout_width="match_parent"
-                android:textColor="@color/colorPrimary"
-                android:textSize="9dp"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf = "@id/mark_ocupation"/>
+            app:layout_constraintTop_toBottomOf="@+id/linear_capacity"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="-1dp">
 
             <TextView
                 android:id="@+id/value_capacity"
-                android:text="YY"
-                android:layout_height="10dp"
-                android:layout_width="match_parent"
-                android:textColor="@color/colorPrimary"
-                android:textSize="9dp"
+                android:layout_width="180dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="32dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                app:layout_constraintTop_toBottomOf = "@id/mark_capacity"/>
+                android:shadowColor="#000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="3"
+                android:text="XX"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="10pt"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/value_ocupation"
+                android:layout_width="196dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:shadowColor="#000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="3"
+                android:text="YY"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="10pt"
+                android:textStyle="bold">
+
+            </TextView>
 
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/button_info"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
-            android:layout_gravity="bottom"
-            android:text="Mas Info"
-            android:clickable="true"
-            app:layout_constraintEnd_toEndOf ="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear_capacity"/>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:ignore="MissingConstraints">
+            <Button
+                android:id="@+id/button_info"
+                android:layout_width="118dp"
+                android:layout_height="55dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="bottom|right|end"
+                android:background="@color/colorPrimary"
+                android:clickable="true"
+                android:text="Mas Info"
+                tools:ignore="MissingConstraints" />
+
+        </FrameLayout>
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
