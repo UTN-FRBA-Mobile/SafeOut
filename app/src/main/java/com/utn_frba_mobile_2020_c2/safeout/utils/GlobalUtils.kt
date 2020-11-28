@@ -9,4 +9,5 @@ object GlobalUtils {
     var backStackSize = 0
     var arguments: ArrayList<JsonObject?> = ArrayList()
     var modo: String? = null
+    var modoReserva: String? = null
 }

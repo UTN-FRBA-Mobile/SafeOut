@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -10,18 +11,15 @@
         android:id="@+id/textViewSectionName"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:shadowRadius="3"
         android:textColor="@color/colorPrimary"
         android:textSize="8pt"
-        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/textViewSectionOccupation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+<!--
     <TextView
         android:id="@+id/textViewSectionOccupation"
         android:layout_width="100dp"
@@ -34,10 +32,26 @@
         app:layout_constraintStart_toEndOf="@id/textViewSectionName"
         app:layout_constraintEnd_toStartOf="@id/buttonReservar"
         app:layout_constraintTop_toTopOf="parent" />
+-->
+    <com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
+        android:id="@+id/reservationDateOccupationDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layoutDirection="rtl"
+        tools:layout="@layout/occupation_display"
+        app:level="70"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewSectionName"
+        app:layout_constraintEnd_toStartOf="@id/buttonReservar"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
     <Button
         android:id="@+id/buttonReservar"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_marginStart="8dp"
         android:background="@color/colorPrimary"
@@ -45,7 +59,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewSectionOccupation"
+
         app:layout_constraintTop_toTopOf="parent" />
 
 

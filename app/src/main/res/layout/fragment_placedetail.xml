@@ -98,58 +98,61 @@
         app:layout_constraintTop_toBottomOf="@id/textViewAddress" />
 
 
-        <TextView
-            android:id="@+id/nombre"
-            android:layout_width = "wrap_content"
-            android:layout_height = "match_parent"
-            android:layout_weight = "1"
-            android:gravity = "center"
-            android:padding = "4dp"
-            android:text="@string/title_sectionName"
-            android:textColor="@color/colorPrimary"
-            android:textSize="8pt"
-            android:textAllCaps="true"
-            android:layout_marginTop="8dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/ocupacion"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleSection" />
+    <TextView
+        android:id="@+id/nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/title_sectionName"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="8pt"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewSections"
+        app:layout_constraintEnd_toStartOf="@id/ocupacion"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleSection" />
 
 
     <TextView
-            android:id="@+id/ocupacion"
-            android:layout_width = "wrap_content"
-            android:layout_height = "match_parent"
-            android:layout_weight = "1"
-            android:gravity = "center"
-            android:text = "@string/title_sectionOccupation"
-            android:textColor="@color/colorPrimary"
-            android:textSize="8pt"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/reserva"
-            app:layout_constraintStart_toEndOf="@id/nombre"
-            app:layout_constraintTop_toBottomOf="@id/titleSection" />
+        android:id="@+id/ocupacion"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/title_sectionOccupation"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="8pt"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewSections"
+        app:layout_constraintEnd_toStartOf="@id/reserva"
+        app:layout_constraintStart_toEndOf="@id/nombre"
+        app:layout_constraintTop_toBottomOf="@id/titleSection" />
 
 
-        <TextView
-            android:id="@+id/reserva"
-            android:layout_width = "wrap_content"
-            android:layout_height = "match_parent"
-            android:layout_weight = "1"
-            android:gravity = "center"
-            android:text = "@string/title_sectionBtn"
-            android:textColor="@color/colorPrimary"
-            android:textSize="8pt"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ocupacion"
-            app:layout_constraintTop_toBottomOf="@id/titleSection"
-
-            />
+    <TextView
+        android:id="@+id/reserva"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/title_sectionBtn"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="8pt"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewSections"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ocupacion"
+        app:layout_constraintTop_toBottomOf="@id/titleSection" />
 
 
     <androidx.recyclerview.widget.RecyclerView

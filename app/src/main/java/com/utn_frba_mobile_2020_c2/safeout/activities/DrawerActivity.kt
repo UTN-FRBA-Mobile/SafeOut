@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
@@ -40,6 +41,7 @@ import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
+import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
@@ -108,6 +110,8 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             nav_Menu.findItem(R.id.drawerItemCheckOut).setVisible(false)
             nav_Menu.findItem(R.id.drawerItemCheckIn).setVisible(true)
         }*/
+
+        println("GlobalUtils.modoReserva" + GlobalUtils.modoReserva)
 
         nfcPendingIntent = PendingIntent.getActivity(
             this, 0,
@@ -213,51 +217,62 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 }
             }
 
-
             var mode: String? = null
-            ReservationService.getReservations{reservations, error ->
+
+            println("GlobalUtils.modoReserva" + GlobalUtils.modoReserva)
+
+            ReservationService.getReservations { reservations, error ->
                 if(error == null) {
                     val list = JsonUtils.arrayToList(reservations!!) {
                         Reservation.fromObject(it)
                     }
-                    list?.find { it?.section.place.id == placeId }?.let {
-
+                   val unaReserva = list?.find { it?.section.place.id == placeId }?.let {
                         CheckinService.checkInToSection(it?.section.id) { _, error ->
                             if (error != null) {
+                                if (GlobalUtils.modoReserva == "CHECKOUT"){
+                                    goToCheckinResultSuccess("CHECKOUT", placeId, it?.section.id)
 
-                                ViewUtils.showAlertDialog(this, "Ingreso a reservación fuera\ndel horario elegido.", "Entendido!")
-                                goToCheckinResultError("CHECKIN", error)
+                                }else {
+                                    ViewUtils.showAlertDialog(
+                                        this,
+                                        "Para el ingreso a tu reservacion a ${it.section.place.name} aun es muy temprano.",
+                                        "Entendido!"
+                                    )
 
+                                    goToCheckinResultError("CHECKIN", error)
+                                }
                             } else {
-                                if (modo == "CHECKOUT") {
+                                if (GlobalUtils.modoReserva == null) {
                                     goToCheckinResultSuccess("CHECKIN", placeId, it?.section.id)
                                 }
-
                             }
                         }
                     }
-                }else{
-                    println("Reservas:" + error)
-                }
-            }
 
-            if (GlobalUtils.checkedInSection == null) {
-                mode = "CHECKIN"
+                    if (unaReserva == null){
+                        if (GlobalUtils.checkedInSection == null) {
+                            mode = "CHECKIN"
 
-                elegirSeccionSinReserva(placeId)
-            } else {
-                mode = "CHECKOUT"
+                            elegirSeccionSinReserva(placeId)
+                        } else {
+                            mode = "CHECKOUT"
 
-                CheckinService.checkOutOfSection(GlobalUtils.checkedInSection!!) { _, error ->
-                    if (error != null) {
-                        //ViewUtils.showSnackbar(, error)
-                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                            CheckinService.checkOutOfSection(GlobalUtils.checkedInSection!!) { _, error ->
+                                if (error != null) {
+                                    //ViewUtils.showSnackbar(, error)
+                                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
 
-                        goToCheckinResultError(mode, error)
-                    } else {
-                        goToCheckinResultSuccess(mode, placeId, GlobalUtils.checkedInSection!!)
+                                    goToCheckinResultError(mode, error)
+                                } else {
+                                    goToCheckinResultSuccess(mode, placeId, GlobalUtils.checkedInSection!!)
 
+                                }
+                            }
+                        }
                     }
+
+                }else{
+                    Toast.makeText(this, "Error al acceder a la base de reservas", Toast.LENGTH_LONG).show()
                 }
             }
 

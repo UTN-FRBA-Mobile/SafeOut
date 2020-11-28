@@ -39,9 +39,13 @@ class CheckInResultFragment : Fragment() {
             if (mode == "CHECKIN"){
                 setTitle("¡Bienvenido!\nCheck IN Exitoso")
                 GlobalUtils.modo = "CHECKOUT"
+                if (GlobalUtils.modoReserva == null){GlobalUtils.modoReserva = "CHECKOUT"}
+
                 GlobalUtils.checkedInSection = sectionId
             }else {
                 GlobalUtils.modo = null
+                if (GlobalUtils.modoReserva == "CHECKOUT"){GlobalUtils.modoReserva = null}
+
                 setTitle("¡Gracias por su visita!\nCheck OUT Exitoso")
             }
 

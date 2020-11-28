@@ -1,10 +1,12 @@
 package com.utn_frba_mobile_2020_c2.safeout.adapters
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.core.graphics.set
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -13,6 +15,7 @@ import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
+import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.recycler_place.view.*
 import kotlin.collections.ArrayList
 
@@ -75,7 +78,7 @@ class PlaceAdapter(private var places:List<Place>, private val listener: Recycle
                                         val place = Gson().fromJson<Place>(JSONObject.toString(), Place::class.java)
                                         place.imgResource = placeImage
 
-                                        PlaceController.getImage("https://salina.nixi.icu/categories/${place.category}/image"
+                                       PlaceController.getImage("https://salina.nixi.icu/categories/${place.category}/image"
                                             ,{
                                                 place.imgResource = it
                                             }

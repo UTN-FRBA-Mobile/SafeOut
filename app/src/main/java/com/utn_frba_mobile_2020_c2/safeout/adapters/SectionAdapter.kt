@@ -12,6 +12,7 @@ import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import com.utn_frba_mobile_2020_c2.safeout.models.SectionInfo
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
+import com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
 import kotlinx.android.synthetic.main.recycler_section.view.*
 
 
@@ -24,10 +25,12 @@ class SectionAdapter(private var sections:List<SectionInfo>, private val listene
 
         fun bind(sectionInfo: SectionInfo, listener: RecyclerSectionListener) = with(itemView) {
 
-            var occupation = ((sectionInfo.occupation.toDouble() / sectionInfo.capacity) * 100).toInt()
+        //    var occupation = ((sectionInfo.occupation.toDouble() / sectionInfo.capacity) * 100).toInt()
 
             textViewSectionName.text = sectionInfo.name
-            textViewSectionOccupation.text = occupation.toString() + '%'
+            //textViewSectionOccupation.text = occupation.toString() + '%'
+            reservationDateOccupationDisplay.level = OccupationDisplay.calculateLevel(sectionInfo.occupation, sectionInfo.capacity)
+
 
             if (modo == "SIN_RESERVA"){
                 buttonReservar.setOnClickListener {

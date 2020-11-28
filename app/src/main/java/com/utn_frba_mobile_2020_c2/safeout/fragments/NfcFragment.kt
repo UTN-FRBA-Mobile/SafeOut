@@ -20,7 +20,11 @@ class NfcFragment :Fragment() {
     lateinit var nfcAdapter: NfcAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
-        ViewUtils.setAppBarTitle(context!!.getString(R.string.check_in))
+        if (GlobalUtils.checkedInSection == null ) {
+            ViewUtils.setAppBarTitle(context!!.getString(R.string.check_in))
+        }else{
+            ViewUtils.setAppBarTitle(context!!.getString(R.string.check_out))
+        }
         return inflater.inflate(R.layout.nfc_fragment, container, false)
 
     }
@@ -30,9 +34,7 @@ class NfcFragment :Fragment() {
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this.context)
 
-        if (nfcAdapter.isEnabled){
-            println("estaba activado")
-        }else{
+        if (!nfcAdapter.isEnabled){
             val builder = AlertDialog.Builder(this.context!!)
             builder.setTitle("NFC desactivado")
             builder.setCancelable(true)
