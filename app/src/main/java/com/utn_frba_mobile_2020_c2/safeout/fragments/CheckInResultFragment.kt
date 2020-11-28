@@ -19,7 +19,6 @@ import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
-import org.json.JSONObject
 
 class CheckInResultFragment : Fragment() {
 
@@ -114,33 +113,12 @@ class CheckInResultFragment : Fragment() {
     }
 
     fun setSectionInfo(section: SectionInfo) {
-        /*{
-            "capacity": 50,
-            "name": "Exterior",
-            "place": "5f600c75db23bc5159a7ed39",
-            "reservations": true,
-            "occupation": 18,
-            "id": "5fa2fb64f434715c664c5d11"
-            }*/
         //setSectionName(section.name);
         setSectionOccupation("${section.name} : ${section.occupation.toString()}/${section.capacity.toString()}");
     }
     fun setPlaceInfo(placeInfo: JsonObject?) {
-        /*{
-            "address": "Republica Arabe Siria 3277",
-            "category": "Restorán",
-            "location":{
-            "longitude": -58.4117268,
-            "latitude": -34.578246
-        },
-            "name": "Bella Italia",
-            "id": "5f600c75db23bc5159a7ed39",
-            "capacity": 120,
-            "occupation": 18
-        }*/
-
         val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
-        getPlaceImage(place.category);
+        //getPlaceImage(place.category);
 
         setRegisterResult("${place.name}\n${place.address}")
         setOccupation("${place.occupation.toString()}/${place.capacity.toString()}");
@@ -181,16 +159,16 @@ class CheckInResultFragment : Fragment() {
         t.text = text
     }
     fun setOccupation(text: String?) {
-        val t = view!!.findViewById<View>(R.id.occupation) as TextView
-        t.text = text
+        //val t = view!!.findViewById<View>(R.id.occupation) as TextView
+        //t.text = text
     }
     fun setSectionName(text: String?) {
-        val t = view!!.findViewById<View>(R.id.sectionName) as TextView
-        t.text = text
+        //val t = view!!.findViewById<View>(R.id.sectionName) as TextView
+        //t.text = text
     }
     fun setSectionOccupation(text: String?) {
-        val t = view!!.findViewById<View>(R.id.sectionOccupation) as TextView
-        t.text = text
+        //val t = view!!.findViewById<View>(R.id.sectionOccupation) as TextView
+        //t.text = text
     }
     companion object {
         private const val ARGUMENT_MODE = "ARGUMENT_MODE"

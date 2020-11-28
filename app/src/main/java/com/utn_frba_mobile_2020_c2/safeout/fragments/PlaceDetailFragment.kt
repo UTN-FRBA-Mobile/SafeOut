@@ -104,19 +104,11 @@ class PlaceDetailFragment : Fragment() {
         adapter = (SectionAdapter(sectionList, object : RecyclerSectionListener {
             override fun onClick(section: SectionInfo, position: Int) {
 
-                if  (modo == "SIN_RESERVA"){
+                if (modo == "SIN_RESERVA"){
                     hacerIngreso(section)
                 }else{
                     makeReservation(section)
                 }
- /*
-            if (section.reservations){
-                makeReservation(section)
-            }else{
-                hacerIngreso(section)
-            }
-
-  */
             }
 
         }))
@@ -133,9 +125,7 @@ class PlaceDetailFragment : Fragment() {
     }
 
     private fun hacerIngreso(info: SectionInfo){
-
         modo = "CHECKIN"
-
         CheckinService.checkInToSection(info.id) { _, error ->
             if (error != null) {
                 ViewUtils.showSnackbar(view!!, error)
@@ -144,7 +134,6 @@ class PlaceDetailFragment : Fragment() {
                 goToCheckinResultSuccess(modo, this.place?.id!!, info.id)
             }
         }
-
     }
 
     private fun goToCheckinResultSuccess(

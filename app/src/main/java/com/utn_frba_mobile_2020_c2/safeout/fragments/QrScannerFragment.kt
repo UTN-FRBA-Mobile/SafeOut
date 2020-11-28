@@ -95,15 +95,14 @@ class QrScannerFragment : Fragment() {
                     ViewUtils.showSnackbar(view!!, "Error al intentar checkout")
                 }
             }else{
-                goToPlaceDetail(placeId)
+                goToPlaceDetail(placeId, mode!!)
             }
-
     }
 
     private fun registerAction_(mode: String?, placeId: String, sectionId: String){
             if(mode != null) {
                 if (mode == "READ") {
-                    goToPlaceDetail(placeId)
+                    goToPlaceDetail(placeId, mode!!)
                 } else if (mode == "CHECKOUT") {
                     CheckinService.checkOutOfSection(sectionId) { _, error ->
                         if (error != null) {
@@ -137,7 +136,7 @@ class QrScannerFragment : Fragment() {
         transaction?.commit()
     }
 
-    private fun goToPlaceDetail(placeId: String) {
+    private fun goToPlaceDetail(placeId: String, mode: String) {
         PlaceService.getPlaceInfo(placeId) { placeInfo, error ->
             if (error == null) {
                 val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
@@ -145,7 +144,7 @@ class QrScannerFragment : Fragment() {
                 lugarElegido = place
                 val bundle = Bundle()
                 bundle.putSerializable("lugar", lugarElegido)
-                GlobalUtils.modo = "SIN_RESERVA"
+                if(mode === "CHECKIN") GlobalUtils.modo = "SIN_RESERVA"
 
                 //val transaction = activity?.supportFragmentManager?.beginTransaction()
                 val placeElegido = PlaceDetailFragment()

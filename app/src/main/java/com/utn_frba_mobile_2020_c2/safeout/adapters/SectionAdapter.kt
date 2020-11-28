@@ -32,25 +32,7 @@ class SectionAdapter(private var sections:List<SectionInfo>, private val listene
             reservationDateOccupationDisplay.level = OccupationDisplay.calculateLevel(sectionInfo.occupation, sectionInfo.capacity)
 
 
-            if (modo == "SIN_RESERVA"){
-                buttonReservar.setOnClickListener {
-                    listener.onClick(
-                        sectionInfo,
-                        adapterPosition
-                    )
-                }
-                buttonReservar.text = "Ingresar"
-
-       /*
-                if (sectionInfo.reservations) {
-                    buttonReservar.text = "Reservar"
-                }else{
-                    buttonReservar.text = "Ingresar"
-                }
-     */
-
-            }else {
-
+            if (modo !== "SIN_RESERVA"){
                 if (sectionInfo.reservations) {
                     buttonReservar.setOnClickListener {
                         listener.onClick(
@@ -61,6 +43,15 @@ class SectionAdapter(private var sections:List<SectionInfo>, private val listene
                 } else {
                     buttonReservar.visibility = View.INVISIBLE
                 }
+
+            } else {
+                buttonReservar.setOnClickListener {
+                    listener.onClick(
+                        sectionInfo,
+                        adapterPosition
+                    )
+                }
+                buttonReservar.text = "Ingresar"
             }
         }
 

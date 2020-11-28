@@ -49,31 +49,31 @@
                 android:textColor="@color/colorPrimary"
                  />
 
-            <TextView
+            <!--TextView
                 android:id="@+id/occupation"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
-                />
+                /-->
 
-            <TextView
+            <!--TextView
                 android:id="@+id/sectionName"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
-                />
+                /-->
 
-            <TextView
+            <!--TextView
                 android:id="@+id/sectionOccupation"
                 style="@style/dialog_title"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimary"
-                />
+                /-->
 
-            <ImageView
+            <!--ImageView
                 android:id="@+id/placeImage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"/-->
         </LinearLayout>
 
     </LinearLayout>
