@@ -333,7 +333,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         transaction.commit()
 
     }
-  
+
     private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
         if ( mode != "READ")  GlobalUtils.checkedInSection = if ( mode == "CHECKIN") sectionId else null
 

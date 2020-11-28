@@ -46,54 +46,27 @@ class HomeFragment : Fragment() {
 
            val view = inflater.inflate(R.layout.fragment_home, container, false)
            val placeListFragment = (PlaceListFragment())
-           //val qrScannerFragment = (QrScannerFragment())
 
            view.buttonListar.setOnClickListener(){
 
                val fragmentTransaction = this.fragmentManager?.beginTransaction()
                if (fragmentTransaction != null) {
                    fragmentTransaction.replace(R.id.frameLayout, placeListFragment)
-                   //fragmentTransaction.replace(R.id.frameLayout, qrScannerFragment)
                }
                if (fragmentTransaction != null) {
                    fragmentTransaction.commit()
                }
-               //this.fragmentManager?.beginTransaction()?.replace(R.id.container, fragment)?.commit()
            }
            view.buttonCheckin.setOnClickListener(){
-               /*val fragmentTransaction = this.fragmentManager?.beginTransaction()
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("CHECKIN"), "QrScannerFragment")
-                   fragmentTransaction.addToBackStack("QrScannerFragment")
-               }
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.commit()
-               }*/
                ViewUtils.pushFragment(this, QrScannerFragment.newInstance("CHECKIN"))
            }
 
            view.buttonCheckOut.setOnClickListener(){
-               /*val fragmentTransaction = this.fragmentManager?.beginTransaction()
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("CHECKOUT"), "QrScannerFragment")
-                   fragmentTransaction.addToBackStack("QrScannerFragment")
-               }
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.commit()
-               }*/
                ViewUtils.pushFragment(this, QrScannerFragment.newInstance("CHECKOUT"))
 
            }
 
            view.buttonVerInfo.setOnClickListener(){
-               /*val fragmentTransaction = this.fragmentManager?.beginTransaction()
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, QrScannerFragment.newInstance("READ"), "QrScannerFragment")
-                   fragmentTransaction.addToBackStack("QrScannerFragment")
-               }
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.commit()
-               }*/
                ViewUtils.pushFragment(this, QrScannerFragment.newInstance("READ"))
 
            }
