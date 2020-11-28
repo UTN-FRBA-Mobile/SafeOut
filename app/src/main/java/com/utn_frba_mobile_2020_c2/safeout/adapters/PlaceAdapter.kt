@@ -66,7 +66,6 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
                 }
                 else
                 {
-
                     if (queryString != null && queryString.length > 2) {
 
                                 PlaceController.search(queryString, { it ->
@@ -82,11 +81,10 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
                                             ,{
                                                 place.imgResource = it
                                             }
-                                            ,{_, message ->
-                                                if (message != null) {
-                                                    ViewUtils.showSnackbar(view, message)
-                                                    //todo toast
-                                                }}
+                                            ,{ _, _ ->
+                                               ViewUtils.showSnackbar(view, R.string.error_image.toString())
+
+                                                }
                                             )
 
                                         placesFilterList.add(place)
@@ -94,7 +92,7 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
 
                                 }, { _, message ->
                                     if (message != null) {
-                                        //todo toast
+                                        ViewUtils.showSnackbar(view, message)
                                     }
 
                             })
