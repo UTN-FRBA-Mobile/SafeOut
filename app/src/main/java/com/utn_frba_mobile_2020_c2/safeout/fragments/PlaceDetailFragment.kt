@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.SectionAdapter
+import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
@@ -84,7 +85,18 @@ class PlaceDetailFragment : Fragment() {
         view.textViewName.text    = lugarElegido.name.toString()
         view.textViewCat.text = lugarElegido.category.toString()
 
-        view.imageViewBackground.setImageBitmap(lugarElegido.imgResource)
+        if (lugarElegido.imgResource == null){
+            PlaceController.getImage("https://salina.nixi.icu/categories/${lugarElegido.category}/image"
+                ,{ bitmap ->
+                    view.imageViewBackground.setImageBitmap(bitmap)
+                }
+                , { _, _ ->
+                    ViewUtils.showAlertDialog(activity!!, getString(R.string.error_image), "Aceptar!")
+                }
+            )
+        }else{
+            view.imageViewBackground.setImageBitmap(lugarElegido.imgResource)
+        }
 
         return view
     }
