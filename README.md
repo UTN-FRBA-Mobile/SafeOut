@@ -1,5 +1,7 @@
 # SafeOut
-Safe Out
+App mobile Android para la búsqueda, consulta y reserva de lugares en la Ciudad de Buenos Aires.
+Registro y contabilización de entradas y salidas de personas.
+Consulta en tiempo real del estado de ocupación de un lugar para usuarios finales y dueños de lugares.
 
 # Introducción - Problemática y propuesta
 En el contexto de pandemia que estamos atravesando, es imperativo que en cualquier lugar público se establezcan límites en cuanto a la cantidad de personas que pueden estar presentes al mismo tiempo.
