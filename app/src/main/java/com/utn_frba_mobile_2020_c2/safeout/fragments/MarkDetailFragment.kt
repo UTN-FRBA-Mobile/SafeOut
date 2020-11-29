@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
@@ -86,22 +87,10 @@ class MarkDetailFragment() : DialogFragment() {
                     PlaceController.getImage("https://salina.nixi.icu/categories/${lugar.category}/image"
                         ,{ bitmap ->
                             lugar.imgResource = bitmap
-                            val serializer : Serializable = lugar
-                            val bundle = Bundle()
-                            bundle.putSerializable("lugar", serializer)
-                            val placeElegido = PlaceDetailFragment()
-                            placeElegido.arguments = bundle
-                            //val transaction = this.parentFragment!!.fragmentManager!!.beginTransaction()
-                            //activity!!.supportFragmentManager.popBackStackImmediate()
-                            //transaction.replace(R.id.frameLayout, placeElegido).addToBackStack(this.tag).commitAllowingStateLoss()
-
+                            val arguments = JsonObject()
+                            arguments.add("place", lugar.toObject())
+                            ViewUtils.pushFragment(parentFragment!!, PlaceDetailFragment(), arguments)
                             dialog!!.cancel()
-                            val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
-                            fragmentTransaction.replace(R.id.frameLayout, placeElegido)
-                            fragmentTransaction.addToBackStack(this.tag)
-                            fragmentTransaction.commitAllowingStateLoss()
-
-
                         }
                         , { _, _ ->
                             ViewUtils.showAlertDialog(activity!!, getString(R.string.error_image), "Aceptar!")

@@ -48,18 +48,18 @@ class HomeFragment : Fragment() {
            val placeListFragment = (PlaceListFragment())
            //val qrScannerFragment = (QrScannerFragment())
 
-           view.buttonListar.setOnClickListener(){
-
+           view.buttonMap.setOnClickListener {
                val fragmentTransaction = this.fragmentManager?.beginTransaction()
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, placeListFragment)
-                   //fragmentTransaction.replace(R.id.frameLayout, qrScannerFragment)
-               }
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.commit()
-               }
-               //this.fragmentManager?.beginTransaction()?.replace(R.id.container, fragment)?.commit()
+               fragmentTransaction?.replace(R.id.frameLayout, MapsFragment())
+               fragmentTransaction?.commit()
            }
+
+           view.buttonListar.setOnClickListener {
+               val fragmentTransaction = this.fragmentManager?.beginTransaction()
+               fragmentTransaction?.replace(R.id.frameLayout, placeListFragment)
+               fragmentTransaction?.commit()
+           }
+
            view.buttonCheckin.setOnClickListener(){
                /*val fragmentTransaction = this.fragmentManager?.beginTransaction()
                if (fragmentTransaction != null) {

@@ -5,6 +5,7 @@ import android.location.Location
 import com.google.gson.JsonObject
 import kotlinx.serialization.Serializable
 import com.google.gson.annotations.SerializedName
+import com.utn_frba_mobile_2020_c2.safeout.utils.BitmapUtils
 
 @Serializable
 
@@ -30,6 +31,9 @@ data class Place(
         obj.add("location", locationObject)
         obj.addProperty("capacity", capacity)
         obj.addProperty("occupation", occupation)
+        if (imgResource != null) {
+            obj.addProperty("imgResource", BitmapUtils.bitmapToString(imgResource!!))
+        }
         return obj
     }
     companion object {
@@ -44,7 +48,12 @@ data class Place(
             val location = createLocation(longitude, latitude)
             val capacity = obj.get("capacity").asInt
             val occupation = obj.get("occupation").asInt
-            return Place(id, name, address, category, location, capacity, occupation)
+            val imgResource = if (obj.has("imgResource")) {
+                BitmapUtils.bitmapFromString(obj.get("imgResource").asString)
+            } else {
+                null
+            }
+            return Place(id, name, address, category, location, capacity, occupation, imgResource)
         }
         fun createLocation(longitude: Double, latitude: Double): Location {
             val location = Location("")

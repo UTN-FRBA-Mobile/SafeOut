@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -25,7 +24,6 @@ import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.listeners.*
-import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import java.io.Serializable
 import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
@@ -33,22 +31,16 @@ import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.NfcFragment
-import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.extensions.*
 
-import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
-import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
-import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
-import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.serialization.descriptors.PrimitiveKind
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
     private var mToggle: ActionBarDrawerToggle? = null
@@ -176,15 +168,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fragmentTransaction.commit()
     }
 
-    private fun pushFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
-        setBackButtonVisible(true)
-        GlobalUtils.backStackSize += 1
-    }
-
 
     override fun onResume() {
         super.onResume()
@@ -310,17 +293,11 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             PlaceService.getPlaceInfo(placeId){ placeInfo, error ->
                 if (error == null) {
                     val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
-                    val lugarElegido: Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
-                    lugarElegido = place
-                    val bundle = Bundle()
-                    bundle.putSerializable("lugar", lugarElegido)
-                    modo = "SIN_RESERVA"
+                    GlobalUtils.modo = "SIN_RESERVA"
 
-                    val transaction = this.supportFragmentManager.beginTransaction()
-                    val placeElegido = PlaceDetailFragment()
-                    placeElegido.arguments = bundle
-                    transaction.replace(R.id.frameLayout, placeElegido)
-                    transaction.commit()
+                    val arguments = JsonObject()
+                    arguments.add("place", place.toObject())
+                    ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
                 }else{
                     //Toast.makeText(this, error, Toast.LENGTH_LONG).show()
                     goToCheckinResultError(modo, error)
@@ -330,20 +307,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun pasarDatosLugar(lugar: Place) {
-
-        // Para que me tome la clase Place como Serializable al pasarlo tuve que asignarlo
-
-        val otroLugar : Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
-        otroLugar = lugar
-        val bundle = Bundle()
-        bundle.putSerializable("lugar", otroLugar)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val placeElegido = PlaceDetailFragment()
-        placeElegido.arguments = bundle
-        transaction.replace(R.id.frameLayout, placeElegido)
-        transaction.commit()
-
+        val arguments = JsonObject()
+        arguments.add("place", lugar.toObject())
+        ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
     }
   
     private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {

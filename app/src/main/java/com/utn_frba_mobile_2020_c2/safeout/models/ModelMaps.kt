@@ -1,9 +1,5 @@
 package com.utn_frba_mobile_2020_c2.safeout.models
 
-import android.location.Location
-import com.google.gson.JsonObject
-import kotlinx.serialization.Serializable
-
 object ModelMaps {
     data class Places(val places: List<Place>)
     data class Place(var id: String, var name: String, var category: String, var address: String, var location: Point, var capacity: Number, var occupation: Number)
