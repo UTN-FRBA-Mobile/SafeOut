@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -25,7 +24,6 @@ import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.listeners.*
-import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import java.io.Serializable
 import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
@@ -33,29 +31,22 @@ import com.utn_frba_mobile_2020_c2.safeout.fragments.MapsFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.PlaceListFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.QrScannerFragment
 import com.utn_frba_mobile_2020_c2.safeout.fragments.NfcFragment
-import kotlinx.android.synthetic.main.activity_drawer.*
 import com.utn_frba_mobile_2020_c2.safeout.extensions.*
 
-import com.utn_frba_mobile_2020_c2.safeout.fragments.*
 import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
-import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
-import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
 import com.utn_frba_mobile_2020_c2.safeout.utils.JsonUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
-import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.serialization.descriptors.PrimitiveKind
 
 class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PlaceCommunicator {
     private var mToggle: ActionBarDrawerToggle? = null
     private var mToolBarNavigationListenerIsRegistered = false
     private var nfcPendingIntent: PendingIntent? = null
     private var nfcAdapter: NfcAdapter? = null
-    private var evitarIngreso = false
 
     private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
     private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
@@ -117,8 +108,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             nav_Menu.findItem(R.id.drawerItemCheckIn).setVisible(true)
         }*/
 
-        println("GlobalUtils.modoReserva" + GlobalUtils.modoReserva)
-
         nfcPendingIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0
@@ -156,6 +145,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
             R.id.CheckinNFC -> {
                 if (nfcAdapter != null) {
+                 //   pushFragment(NfcFragment())
                     setVisibleFragment(NfcFragment())
                 }
             }
@@ -177,6 +167,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -231,8 +222,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
             var mode: String? = null
 
-            println("GlobalUtils.modoReserva" + GlobalUtils.modoReserva)
-
             ReservationService.getReservations { reservations, error ->
                 if(error == null) {
                     val list = JsonUtils.arrayToList(reservations!!) {
@@ -242,18 +231,23 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                         CheckinService.checkInToSection(it?.section.id) { _, error ->
                             if (error != null) {
                                 if (GlobalUtils.modoReserva == "CHECKOUT"){
-                                    goToCheckinResultSuccess("CHECKOUT", placeId, it?.section.id)
 
+                                    CheckinService.checkOutOfSection(GlobalUtils.checkedInSection!!) { _, error ->
+                                        if (error != null) {
+                                            goToCheckinResultError("CHECKOUT", error)
+                                        } else {
+                                            goToCheckinResultSuccess("CHECKOUT", placeId, it?.section.id)
+                                        }
+                                    }
                                 }else {
                                     ViewUtils.showAlertDialog(
                                         this,
                                         "Para el ingreso a tu reservacion a ${it.section.place.name} aun es muy temprano.",
                                         "Entendido!"
                                     )
-
                                     goToCheckinResultError("CHECKIN", error)
                                 }
-                            } else {
+                            }else{
                                 if (GlobalUtils.modoReserva == null) {
                                     goToCheckinResultSuccess("CHECKIN", placeId, it?.section.id)
                                 }
@@ -299,39 +293,23 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             PlaceService.getPlaceInfo(placeId){ placeInfo, error ->
                 if (error == null) {
                     val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
-                    val lugarElegido: Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
-                    lugarElegido = place
-                    val bundle = Bundle()
-                    bundle.putSerializable("lugar", lugarElegido)
-                    modo = "SIN_RESERVA"
+                    GlobalUtils.modo = "SIN_RESERVA"
 
-                    val transaction = this.supportFragmentManager.beginTransaction()
-                    val placeElegido = PlaceDetailFragment()
-                    placeElegido.arguments = bundle
-                    transaction.replace(R.id.frameLayout, placeElegido)
-                    transaction.commit()
+                    val arguments = JsonObject()
+                    arguments.add("place", place.toObject())
+                    ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
                 }else{
-                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    goToCheckinResultError("CHECKIN", error)
                 }
             }
         }
     }
 
     override fun pasarDatosLugar(lugar: Place) {
-
-        // Para que me tome la clase Place como Serializable al pasarlo tuve que asignarlo
-
-        val otroLugar : Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
-        otroLugar = lugar
-        val bundle = Bundle()
-        bundle.putSerializable("lugar", otroLugar)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val placeElegido = PlaceDetailFragment()
-        placeElegido.arguments = bundle
-        transaction.replace(R.id.frameLayout, placeElegido)
-        transaction.commit()
-
+        val arguments = JsonObject()
+        arguments.add("place", lugar.toObject())
+        ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
     }
 
     private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {

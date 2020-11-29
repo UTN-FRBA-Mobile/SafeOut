@@ -1,13 +1,15 @@
 package com.utn_frba_mobile_2020_c2.safeout.utils
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
@@ -72,14 +74,20 @@ object ViewUtils {
         val alert = builder.create()
         alert.show()
     }
-    fun pushFragment(current: Fragment, next: Fragment, arguments: JsonObject? = null) {
-        val fragmentTransaction = current.fragmentManager!!.beginTransaction()
+    private fun pushFragment(manager: FragmentManager, next: Fragment, arguments: JsonObject? = null) {
+        val fragmentTransaction = manager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, next)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
         GlobalUtils.drawerActivity?.setBackButtonVisible(true)
         GlobalUtils.arguments.add(arguments)
         GlobalUtils.backStackSize += 1
+    }
+    fun pushFragment(current: Fragment, next: Fragment, arguments: JsonObject? = null) {
+        pushFragment(current.fragmentManager!!, next, arguments)
+    }
+    fun pushFragment(current: AppCompatActivity, next: Fragment, arguments: JsonObject? = null) {
+        pushFragment(current.supportFragmentManager!!, next, arguments)
     }
     fun setAppBarTitle(title: String? = null) {
         GlobalUtils.drawerActivity?.setTitle(title)

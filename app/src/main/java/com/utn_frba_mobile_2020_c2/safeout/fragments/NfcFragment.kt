@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
-import kotlinx.android.synthetic.main.activity_drawer.*
-import kotlinx.android.synthetic.main.fragment_my_reservations.view.*
 
-class NfcFragment :Fragment() {
+class NfcFragment : Fragment() {
     lateinit var nfcAdapter: NfcAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
@@ -49,6 +46,8 @@ class NfcFragment :Fragment() {
             }
             builder.show()
         }
+
+       // ViewUtils.goBack(this)
     }
 }
 

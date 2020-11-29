@@ -1,22 +1,16 @@
 package com.utn_frba_mobile_2020_c2.safeout.fragments
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.graphics.component1
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.adapters.SectionAdapter
-import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
-import com.utn_frba_mobile_2020_c2.safeout.extensions.toast
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.models.Section
@@ -28,14 +22,10 @@ import kotlinx.android.synthetic.main.fragment_placedetail.view.*
 import kotlinx.android.synthetic.main.fragment_placedetail.view.imageViewBackground
 import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewAddress
 import kotlinx.android.synthetic.main.fragment_placedetail.view.textViewName
-import kotlinx.android.synthetic.main.recycler_section.view.*
 import java.io.Serializable
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
-import com.utn_frba_mobile_2020_c2.safeout.services.ReservationService
-import com.utn_frba_mobile_2020_c2.safeout.utils.DateUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
-import java.lang.Thread.sleep
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,13 +66,16 @@ class PlaceDetailFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_placedetail, container, false)
         recycler = view.recyclerViewSections as RecyclerView
 
-        var objetoDetalle = this.arguments
-        var lugarElegido : Place
-        var detalle : Serializable?
+//        var objetoDetalle = this.arguments
+//        var lugarElegido : Place
+//        var detalle : Serializable?
 
-        detalle = objetoDetalle?.getSerializable("lugar")
+        val arguments = ViewUtils.getArguments()!!
+        val lugarElegido = Place.fromObject(arguments.get("place").asJsonObject)
 
-        lugarElegido = detalle as Place
+//        detalle = objetoDetalle?.getSerializable("lugar")
+
+//        lugarElegido = detalle as Place
         this.place = lugarElegido
 
         getSections2(lugarElegido.id!!)

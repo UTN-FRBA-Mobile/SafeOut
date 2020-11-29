@@ -9,11 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
+import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import kotlinx.android.synthetic.main.activity_auth.*
+import kotlinx.android.synthetic.main.fragment_add_reservation.*
 import kotlinx.android.synthetic.main.fragment_mark_detail.*
 import java.io.Serializable
 
@@ -79,13 +83,19 @@ class MarkDetailFragment() : DialogFragment() {
                 if (error != null) {
                     ViewUtils.showSnackbar(view!!, error)
                 } else {
-                    val lugar : Serializable =  Gson().fromJson(placeInfo.toString(), Place::class.java)
-                    val bundle = Bundle()
-                    bundle.putSerializable("lugar", lugar)
-                    val placeElegido = PlaceDetailFragment()
-                    placeElegido.arguments = bundle
-                    val transaction = activity!!.supportFragmentManager.beginTransaction()
-                    transaction.addToBackStack("place_detail").replace(R.id.frameLayout, placeElegido).commit()
+                    var lugar : Place =  Gson().fromJson(placeInfo.toString(), Place::class.java)
+                    PlaceController.getImage("https://salina.nixi.icu/categories/${lugar.category}/image"
+                        ,{ bitmap ->
+                            lugar.imgResource = bitmap
+                            val arguments = JsonObject()
+                            arguments.add("place", lugar.toObject())
+                            ViewUtils.pushFragment(parentFragment!!, PlaceDetailFragment(), arguments)
+                            dialog!!.cancel()
+                        }
+                        , { _, _ ->
+                            ViewUtils.showAlertDialog(activity!!, getString(R.string.error_image), "Aceptar!")
+                        }
+                    )
                 }
             }
         }

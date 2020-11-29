@@ -16,6 +16,7 @@ import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
@@ -140,18 +141,10 @@ class QrScannerFragment : Fragment() {
         PlaceService.getPlaceInfo(placeId) { placeInfo, error ->
             if (error == null) {
                 val place = Gson().fromJson(placeInfo.toString(), Place::class.java)
-                val lugarElegido: Serializable // Creo objeto serializable para asignarle los datos del objeto tipo Place
-                lugarElegido = place
-                val bundle = Bundle()
-                bundle.putSerializable("lugar", lugarElegido)
                 if(mode === "CHECKIN") GlobalUtils.modo = "SIN_RESERVA"
-
-                //val transaction = activity?.supportFragmentManager?.beginTransaction()
-                val placeElegido = PlaceDetailFragment()
-                placeElegido.arguments = bundle
-                //transaction?.replace(R.id.frameLayout, placeElegido)
-                //transaction?.commit()
-                ViewUtils.pushFragment(this, placeElegido)
+                val arguments = JsonObject()
+                arguments.add("place", place.toObject())
+                ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
 
             } else {
                 ViewUtils.showSnackbar(view!!, error)
@@ -174,6 +167,7 @@ class QrScannerFragment : Fragment() {
 
             } else {
                 ViewUtils.showSnackbar(view!!, error)
+                goToCheckinResultError(mode, error)
             }
         }
     }

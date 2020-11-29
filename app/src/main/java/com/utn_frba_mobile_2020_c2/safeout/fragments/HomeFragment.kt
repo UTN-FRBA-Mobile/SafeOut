@@ -47,16 +47,18 @@ class HomeFragment : Fragment() {
            val view = inflater.inflate(R.layout.fragment_home, container, false)
            val placeListFragment = (PlaceListFragment())
 
-           view.buttonListar.setOnClickListener(){
-
+           view.buttonMap.setOnClickListener {
                val fragmentTransaction = this.fragmentManager?.beginTransaction()
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.replace(R.id.frameLayout, placeListFragment)
-               }
-               if (fragmentTransaction != null) {
-                   fragmentTransaction.commit()
-               }
+               fragmentTransaction?.replace(R.id.frameLayout, MapsFragment())
+               fragmentTransaction?.commit()
            }
+
+           view.buttonListar.setOnClickListener {
+               val fragmentTransaction = this.fragmentManager?.beginTransaction()
+               fragmentTransaction?.replace(R.id.frameLayout, placeListFragment)
+               fragmentTransaction?.commit()
+           }
+
            view.buttonCheckin.setOnClickListener(){
                ViewUtils.pushFragment(this, QrScannerFragment.newInstance("CHECKIN"))
            }
