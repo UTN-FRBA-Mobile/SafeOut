@@ -311,7 +311,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         arguments.add("place", lugar.toObject())
         ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
     }
-  
+
     private fun goToCheckinResultSuccess(mode: String? = "CHECKIN", placeId: String, sectionId: String) {
         if ( mode != "READ")  GlobalUtils.checkedInSection = if ( mode == "CHECKIN") sectionId else null
 

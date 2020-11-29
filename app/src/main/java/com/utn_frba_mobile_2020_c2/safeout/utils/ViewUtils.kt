@@ -111,6 +111,7 @@ object ViewUtils {
         GlobalUtils.backStackSize -= 1
         if (GlobalUtils.backStackSize == 0) {
             GlobalUtils.drawerActivity!!.setBackButtonVisible(false)
+            setAppBarTitle(null)
         }
         if (arguments != null) {
             val currentArgs = GlobalUtils.arguments[GlobalUtils.backStackSize - 1] ?: JsonObject()
