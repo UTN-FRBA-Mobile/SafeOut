@@ -27,7 +27,7 @@
             android:shadowRadius="3"
             android:text="Nombre"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorDarkGrey"
             android:textSize="14pt"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
