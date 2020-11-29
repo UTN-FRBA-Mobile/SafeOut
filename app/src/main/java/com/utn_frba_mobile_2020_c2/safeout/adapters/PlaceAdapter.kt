@@ -88,13 +88,13 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
                                        PlaceController.getImage("https://salina.nixi.icu/categories/${place.category}/image"
                                             ,{
                                                 place.imgResource = it
+                                               placesFilterList.add(place)
                                             }
                                             ,{ _, _ ->
                                                ViewUtils.showSnackbar(view, R.string.error_image.toString())
+                                               placesFilterList.add(place)
                                                 }
                                             )
-
-                                        placesFilterList.add(place)
                                     }
 
                                 }, { _, message ->

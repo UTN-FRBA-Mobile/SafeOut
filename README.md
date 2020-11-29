@@ -14,37 +14,10 @@ Adicionalmente, creemos que sería sumamente útil para el potencial cliente con
 
 Actualmente no existe nada en el mercado que provea este tipo de información en vivo sobre el nivel de ocupación y capacidad actual de los lugares públicos. Es por eso que proponemos una solución software que brinde esta información a las personas, a través de una aplicación móvil nativa para dispositivos Android.
 
-# Roles de usuario
+# Roles de usuario - Funcionalidades
 La aplicación contará con dos roles de usuario: el administrador del lugar y el usuario final. 
 El administrador del lugar podrá definir y controlar toda clase de parámetros del lugar tales como qué tipo de lugar es (oficina, negocio, restorán, cine, teatro, etc.), qué sectores tiene y cuáles son sus capacidades máximas permitidas. Si la capacidad máxima de un sector es cero, significa que el mismo se encuentra temporalmente cerrado al público.
 
-# Nivel de ocupación y procedimiento de CheckIN y CheckOUT
-Como funcionalidad principal de la aplicación se le ofrece a los usuarios la posibilidad de visualizar el nivel de ocupación en vivo de los distintos sectores de lugares públicos de la ciudad.
-
-Esta información será accesible en las entradas de los lugares a partir de dos métodos:
-- Escaneo de una imagen QR.
-- Escaneo de un dispositivo con NFC. 
-Cada vez que una persona se acerque al lugar con la intención de entrar, se le pedirá que registre su ingreso con uno de estos dos métodos. Para ello la persona deberá tener instalada la aplicación en su propio dispositivo y deberá estar registrada. 
-
-El procedimiento de check-in consistirá en lo siguiente:
-
-- Buscar el lugar al que se quiere ingresar
-- Presionar el botón de "Check-In"
-- Indicar el sector al cual se quiere acceder y registrar el ingreso (los que están llenos o cerrados no se podrán seleccionar)
-    a) NFC: Acercar el dispositivo al del lugar para registrar el ingreso por NFC
-    b) QR: Escanear con la cámara de su dispositivo la imagen QR del lugar.
-
-Los egresos o "Check-Out" también deberán ser registrados para poder mantener la información actualizada. 
-El procedimiento será similar al explicado para los ingresos.
-
-# Reservas
-Como funcionalidad secundaria y complementaria a la principal de obtener el nivel de ocupación de un lugar, se brinda también la posibilidad de hacer reservas a través de la app, con el fin de asegurarse el acceso al lugar que se desea visitar.
-
-Un lugar puede o no aceptar reservas, según fuera previamente configurado por su administrador.
-
-El usuario que desea reservar un lugar deberá indicar el día, horario y sector al que planea ir. Al hacerlo se le mostrará el nivel de ocupación que tendrá ese sector en ese momento. Si todavía hay cupo el usuario podrá confirmar y efectuar la reserva.
-
-# Funcionalidades - Casos de uso
 ## Del administrador del lugar
 - Registrarse e iniciar sesión
 - Configurar parámetros del lugar
@@ -55,10 +28,37 @@ El usuario que desea reservar un lugar deberá indicar el día, horario y sector
 ## Del usuario final
 - Registrarse e iniciar sesión
 - Ver mapa con lugares públicos marcados en él
-- Buscar lugares públicos por el nombre
+- Buscar lugares públicos por el nombre 
 - Consultar los sectores de un lugar y su nivel de ocupación actual
 - Hacer check-in y check-out de un lugar
 - Hacer reservas para un sector de un lugar, y cancelarlas si lo desea
+
+# Nivel de ocupación y procedimiento de CheckIN y CheckOUT
+Como funcionalidad principal de la aplicación se le ofrece a los usuarios la posibilidad de visualizar el nivel de ocupación en vivo de los distintos sectores de lugares públicos de la ciudad.
+
+Esta información será accesible en las entradas de los lugares a partir de dos métodos:
+* Escaneo de una imagen QR.
+* Escaneo de un dispositivo con NFC.\
+
+Cada vez que una persona se acerque al lugar con la intención de entrar, se le pedirá que registre su ingreso con uno de estos dos métodos. Para ello la persona deberá tener instalada la aplicación en su propio dispositivo y deberá estar registrada. 
+
+El procedimiento de check-in consistirá en lo siguiente:
+
+- Buscar el lugar al que se quiere ingresar
+- Presionar el botón de "Check-In"
+- Indicar el sector al cual se quiere acceder y registrar el ingreso (los que están llenos o cerrados no se podrán seleccionar)\
+    a) NFC: Acercar el dispositivo al del lugar para registrar el ingreso por NFC\
+    b) QR: Escanear con la cámara de su dispositivo la imagen QR del lugar.\
+
+Los egresos o "Check-Out" también deberán ser registrados para poder mantener la información actualizada. 
+El procedimiento será similar al explicado para los ingresos.
+
+# Reservas
+Como funcionalidad secundaria y complementaria a la principal de obtener el nivel de ocupación de un lugar, se brinda también la posibilidad de hacer reservas a través de la app, con el fin de asegurarse el acceso al lugar que se desea visitar.
+
+Un lugar puede o no aceptar reservas, según fuera previamente configurado por su administrador.
+
+El usuario que desea reservar un lugar deberá indicar el día, horario y sector al que planea ir. Al hacerlo se le mostrará el nivel de ocupación que tendrá ese sector en ese momento. Si todavía hay cupo el usuario podrá confirmar y efectuar la reserva.
 
 # Alcance y Restricciones
 - Las funcionalidades del administrador se consideran por fuera del alcance de esta propuesta. 

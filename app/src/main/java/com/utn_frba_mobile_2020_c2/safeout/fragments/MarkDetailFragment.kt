@@ -16,6 +16,7 @@ import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
 import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.fragment_add_reservation.*
 import kotlinx.android.synthetic.main.fragment_mark_detail.*
@@ -56,6 +57,7 @@ class MarkDetailFragment() : DialogFragment() {
         mark_category.text = local.category
         value_capacity.text = local.capacity.toString()
         value_ocupation.text = local.occupation.toString()
+        occupationDisplay.level = OccupationDisplay.calculateLevel(local.occupation!!, local.capacity!!)
         button_info.setOnClickListener {
             openInfo()
         }

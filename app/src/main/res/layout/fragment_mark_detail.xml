@@ -7,7 +7,7 @@
     android:layout_gravity="center_vertical"
     android:layout_margin="15dp"
     android:padding="15dp"
-    app:cardBackgroundColor="@color/colorLightGrey"
+    app:cardBackgroundColor="@color/colorWhite"
     app:cardCornerRadius="8dp"
     app:layout_constraintCircleRadius="@dimen/material_emphasis_disabled"
     tools:context=".fragments.MarkDetailFragment">
@@ -15,18 +15,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/marker_constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/mark_name"
             android:layout_width="0dp"
-            android:layout_height="41dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_marginTop="32dp"
             android:gravity="center"
-            android:shadowColor="#000"
-            android:shadowDx="3"
-            android:shadowDy="3"
             android:shadowRadius="3"
             android:text="Nombre"
             android:textAllCaps="true"
@@ -42,9 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:shadowColor="#000"
-            android:shadowDx="3"
-            android:shadowDy="3"
             android:shadowRadius="3"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
@@ -57,11 +51,8 @@
         <TextView
             android:id="@+id/mark_address"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginTop="10dp"
-            android:shadowColor="#000"
-            android:shadowDx="3"
-            android:shadowDy="3"
             android:shadowRadius="3"
             android:text="Una Direccion"
             android:textAllCaps="true"
@@ -75,8 +66,8 @@
 
         <LinearLayout
             android:id="@+id/linear_capacity"
-            android:layout_width="381dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/mark_address"
             tools:ignore="MissingConstraints"
@@ -84,15 +75,12 @@
 
             <TextView
                 android:id="@+id/mark_capacity"
-                android:layout_width="184dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="0dp"
                 android:layout_marginTop="0dp"
                 android:gravity="center"
-                android:shadowColor="#000"
-                android:shadowDx="3"
-                android:shadowDy="3"
                 android:shadowRadius="3"
                 android:text="Capacidad"
                 android:textAllCaps="true"
@@ -102,17 +90,14 @@
 
             <TextView
                 android:id="@+id/mark_ocupation"
-                android:layout_width="186dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="0dp"
                 android:layout_marginTop="0dp"
                 android:gravity="center"
-                android:shadowColor="#000"
-                android:shadowDx="3"
-                android:shadowDy="3"
                 android:shadowRadius="3"
-                android:text="Ocupacion"
+                android:text="Ocupación"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10pt"
@@ -121,7 +106,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="385dp"
+            android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/linear_capacity"
@@ -130,16 +115,13 @@
 
             <TextView
                 android:id="@+id/value_capacity"
-                android:layout_width="180dp"
+                android:layout_width="160dp"
                 android:layout_height="38dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_marginTop="32dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:shadowColor="#000"
-                android:shadowDx="3"
-                android:shadowDy="3"
                 android:shadowRadius="3"
                 android:text="XX"
                 android:textAllCaps="true"
@@ -149,15 +131,12 @@
 
             <TextView
                 android:id="@+id/value_ocupation"
-                android:layout_width="196dp"
+                android:layout_width="160dp"
                 android:layout_height="38dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_marginTop="32dp"
                 android:gravity="center"
-                android:shadowColor="#000"
-                android:shadowDx="3"
-                android:shadowDy="3"
                 android:shadowRadius="3"
                 android:text="YY"
                 android:textAllCaps="true"
@@ -172,10 +151,19 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             tools:ignore="MissingConstraints">
 
+            <com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
+                android:id="@+id/occupationDisplay"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:layout="@layout/occupation_display"
+                />
+
             <Button
                 android:id="@+id/button_info"
-                android:layout_width="118dp"
-                android:layout_height="55dp"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:layout_gravity="bottom|right|end"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"

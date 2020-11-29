@@ -1,7 +1,11 @@
 # Flujo de Pantallas de SafeOut
 
-## Login
+## App Icon + Splash + Login
+<p float="left">
+<img src="0-safeout-icon.png" width="25%">
+<img src="0-safeout-splash.png" width="25%">
 <img src="1-login.png" width="25%">
+</p>
 
 
 ## Menú de Navegación
