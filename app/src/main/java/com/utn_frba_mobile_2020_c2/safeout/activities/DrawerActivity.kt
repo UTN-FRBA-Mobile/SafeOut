@@ -300,7 +300,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                     ViewUtils.pushFragment(this, PlaceDetailFragment(), arguments)
                 }else{
                     //Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-                    goToCheckinResultError(modo, error)
+                    goToCheckinResultError("CHECKIN", error)
                 }
             }
         }
