@@ -1,7 +1,7 @@
 # SafeOut
-App mobile Android para la búsqueda, consulta y reserva de lugares en la Ciudad de Buenos Aires.
-Registro y contabilización de entradas y salidas de personas.
-Consulta en tiempo real del estado de ocupación de un lugar para usuarios finales y dueños de lugares.
+App mobile Android para la **búsqueda**, **consulta** y **reserva** de lugares en la Ciudad de Buenos Aires.
+**Registro** y **contabilización** de entradas y salidas de personas.
+Consulta en **tiempo real** del estado de **ocupación** de un lugar para usuarios finales y dueños de lugares.
 
 # Introducción - Problemática y propuesta
 En el contexto de pandemia que estamos atravesando, es imperativo que en cualquier lugar público se establezcan límites en cuanto a la cantidad de personas que pueden estar presentes al mismo tiempo.
@@ -14,7 +14,7 @@ Adicionalmente, creemos que sería sumamente útil para el potencial cliente con
 
 Actualmente no existe nada en el mercado que provea este tipo de información en vivo sobre el nivel de ocupación y capacidad actual de los lugares públicos. Es por eso que proponemos una solución software que brinde esta información a las personas, a través de una aplicación móvil nativa para dispositivos Android.
 
-# Roles de usuario
+# Roles de usuario
 La aplicación contará con dos roles de usuario: el administrador del lugar y el usuario final. 
 El administrador del lugar podrá definir y controlar toda clase de parámetros del lugar tales como qué tipo de lugar es (oficina, negocio, restorán, cine, teatro, etc.), qué sectores tiene y cuáles son sus capacidades máximas permitidas. Si la capacidad máxima de un sector es cero, significa que el mismo se encuentra temporalmente cerrado al público.
 
@@ -37,7 +37,7 @@ El procedimiento de check-in consistirá en lo siguiente:
 Los egresos o "Check-Out" también deberán ser registrados para poder mantener la información actualizada. 
 El procedimiento será similar al explicado para los ingresos.
 
-# Reservas
+# Reservas
 Como funcionalidad secundaria y complementaria a la principal de obtener el nivel de ocupación de un lugar, se brinda también la posibilidad de hacer reservas a través de la app, con el fin de asegurarse el acceso al lugar que se desea visitar.
 
 Un lugar puede o no aceptar reservas, según fuera previamente configurado por su administrador.
@@ -65,93 +65,8 @@ El usuario que desea reservar un lugar deberá indicar el día, horario y sector
 - Los datos de los lugares configurables por el administrador serán generados en forma aleatoria para cada lugar y permanecerán invariables durante toda su existencia.
 - Se limita el uso de la aplicación al territorio de la Ciudad Autónoma de Buenos Aires. Solo se podrá consultar información de lugares públicos radicados dentro de los límites de este territorio.
 
-# Flujo de Pantallas
+# Backend
+- [Servidor](https://github.com/mrodriguezarias/salina) que contiene la API utilizada por nuestra app.
+Persistencia de datos en una base MongoDB.
 
-## Login
-<img src="readme-assets/1-login.png" width="25%">
-
-
-## Menú de Navegación
-<img src="readme-assets/2-menu.png" width="25%">
-
-## Home 
-<p float="left">
-<img src="readme-assets/3-home-a.png" width="25%">
-<img src="readme-assets/3-home-b.png" width="25%">
-</p>
-
-## Mapa de lugares 
-<p float="left">
-<img src="readme-assets/4-map.png" width="25%">
-<img src="readme-assets/4-map-a.png" width="25%">
-</p>
-
-## Detalle de lugar
-<img src="readme-assets/5-place-detail.png" width="25%">
-
-## Buscar lugares
-
-## Check IN
-### QR
-<p float="left">
-<img src="readme-assets/7-checkin-qr.png" width="20%">
-<img src="readme-assets/7-checkin-qr-detail.png" width="20%">
-<img src="readme-assets/7-checkin-qr-success.png" width="20%">
-</p>
-
-### NFC
-<p float="left">
-<img src="readme-assets/7-checkin-nfc.png" width="20%">
-<img src="readme-assets/7-checkin-nfc-detail.png" width="20%">
-<img src="readme-assets/7-checkin-nfc-success.png" width="20%">
-</p>
-
-## Check OUT
-### QR
-<p float="left">
-<img src="readme-assets/7-checkout-qr.png" width="20%">
-<img src="readme-assets/7-checkout-qr-success.png" width="20%">
-</p>
-
-### NFC
-<p float="left">
-<img src="readme-assets/7-checkout-nfc.png" width="20%">
-<img src="readme-assets/7-checkout-nfc-success.png" width="20%">
-</p>
-
-## Errores Checkin / Checkout
-
-<p float="left">
-<img src="readme-assets/7-checkin-qr-error.png" width="20%">
-<img src="readme-assets/7-checkin-qr-error-2.png" width="20%">
-<img src="readme-assets/7-checkout-qr-error.png" width="20%">
-</p>
-
-
-## Ver info
-### QR
-<p float="left">
-<img src="readme-assets/8-info.png" width="20%">
-<img src="readme-assets/8-info-detail.png" width="20%">
-</p>
-
-## Reservas
-<p float="left">
-<img src="readme-assets/9-reservation-1.png" width="20%">
-<img src="readme-assets/9-reservation-2.png" width="20%">
-<img src="readme-assets/9-reservation-3.png" width="20%">
-</p>
-
-<p float="left">
-<img src="readme-assets/9-reservation-4.png" width="20%">
-<img src="readme-assets/9-reservation-5.png" width="20%">
-<img src="readme-assets/9-reservation-6.png" width="20%">
-</p>
-
-<p float="left">
-<img src="readme-assets/9-reservation-7.png" width="20%">
-<img src="readme-assets/9-reservation-8.png" width="20%">
-<img src="readme-assets/9-reservation-9.png" width="20%">
-</p>
-
-# Próxima Release
+# [Flujo de Pantallas](readme-assets/flows.md)
