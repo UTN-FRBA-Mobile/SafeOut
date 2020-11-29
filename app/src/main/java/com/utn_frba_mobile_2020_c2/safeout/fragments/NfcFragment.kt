@@ -46,12 +46,8 @@ class NfcFragment : Fragment() {
             }
             builder.show()
         }
-
-       // ViewUtils.goBack(this)
     }
 }
-
-
 /*  //    Lo dejo comentado, pero no pide permisos NFC. Siempre está seteado con permisos validos para usarlo.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

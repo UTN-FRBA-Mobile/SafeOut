@@ -49,13 +49,11 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var nfcAdapter: NfcAdapter? = null
     private var navigationView: NavigationView? = null
 
-        private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
+        private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Godoy Cruz1577"
     private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
-//    private val ID_ITALIA_EXTERIOR = "5fa2fb64f434715c664c5d11" // -> Con reserva
 
-    private val ID_MASTER = 1558907772936448 // Corresponde al Restaurant "Siga la Vaca" de Monroe 1802 "5f600c7adb23bc5159a7fb8d"
+    private val ID_MASTER = 1558907772936448 // Corresponde al Restaurant "Siga la Vaca" de Monreau 1714 "5f600c7adb23bc5159a7fb8d"
     private val ID_ITALIA = "5f600c76db23bc5159a7eed4"
-//    private val ID_ITALIA_INTERIOR = "5fa2fb64f434715c664c5d10"  // -> Sin reserva
 
     private val ID_SUBE_J: Long = 909384705
     private val ID_SUBE_J_PLACE = "5f600c75db23bc5159a7ed60" //con reserva
@@ -136,19 +134,18 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(HomeFragment())
             }
             R.id.drawerItemMap -> {
-                setVisibleFragment(MapsFragment())
+                setVisibleFragmentWithBackBtn(MapsFragment())
             }
             R.id.drawerItemSearch -> {
-                setVisibleFragment(PlaceListFragment())
+                setVisibleFragmentWithBackBtn(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
                 val mode = if (GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
-                setVisibleFragment(QrScannerFragment.newInstance(mode))
+                setVisibleFragmentWithBackBtn(QrScannerFragment.newInstance(mode))
             }
             R.id.CheckinNFC -> {
                 if (nfcAdapter != null) {
-                 //   pushFragment(NfcFragment())
-                    setVisibleFragment(NfcFragment())
+                    setVisibleFragmentWithBackBtn(NfcFragment())
                 }
             }
             R.id.drawerItemLogout -> {
@@ -157,7 +154,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 startActivity(intent)
             }
             R.id.drawerItemMyReservations -> {
-                setVisibleFragment(MyReservationsFragment())
+                setVisibleFragmentWithBackBtn(MyReservationsFragment())
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -168,6 +165,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
+    }
+
+    private fun setVisibleFragmentWithBackBtn(fragment: Fragment) {
+        ViewUtils.pushFragment(this, fragment)
     }
 
     fun setCheckedItem(id: Int) {
