@@ -92,13 +92,6 @@ object ViewUtils {
     fun setAppBarTitle(title: String? = null) {
         GlobalUtils.drawerActivity?.setTitle(title)
     }
-    fun createBundle(map: Map<String, String>): Bundle {
-        val bundle = Bundle()
-        for ((key, value) in map) {
-            bundle.putString(key, value)
-        }
-        return bundle
-    }
     fun getArguments(): JsonObject? {
         val index =  GlobalUtils.backStackSize - 1
         return GlobalUtils.arguments[index]
@@ -120,5 +113,8 @@ object ViewUtils {
         if (current != null) {
             current.fragmentManager!!.popBackStackImmediate()
         }
+    }
+    fun setCheckedNavItem(id: Int) {
+        GlobalUtils.drawerActivity!!.setCheckedItem(id)
     }
 }

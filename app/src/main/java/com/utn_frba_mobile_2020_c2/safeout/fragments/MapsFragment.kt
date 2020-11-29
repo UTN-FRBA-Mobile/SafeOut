@@ -27,7 +27,6 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.dto.Bounds
 import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
-import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_add_reservation.*
 import org.json.JSONArray
@@ -64,6 +63,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         savedInstanceState: Bundle?
     ): View? {
         ViewUtils.setAppBarTitle(context!!.getString(R.string.title_map))
+        ViewUtils.setCheckedNavItem(R.id.drawerItemMap)
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 

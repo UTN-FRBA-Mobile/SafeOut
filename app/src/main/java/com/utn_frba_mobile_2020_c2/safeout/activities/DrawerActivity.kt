@@ -47,8 +47,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var mToolBarNavigationListenerIsRegistered = false
     private var nfcPendingIntent: PendingIntent? = null
     private var nfcAdapter: NfcAdapter? = null
+    private var navigationView: NavigationView? = null
 
-    private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
+        private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
     private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
 //    private val ID_ITALIA_EXTERIOR = "5fa2fb64f434715c664c5d11" // -> Con reserva
 
@@ -72,6 +73,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         setTitle()
 
         val navView: NavigationView = findViewById(R.id.nav_view)
+        this.navigationView = navView
         navView.bringToFront()
         val toggle = ActionBarDrawerToggle(
             this,
@@ -95,8 +97,8 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
-            val nav_Menu: Menu = navView.getMenu()
-            nav_Menu.findItem(R.id.CheckinNFC).setVisible(false)
+            val navMenu: Menu = navView.menu
+            navMenu.findItem(R.id.CheckinNFC).isVisible = false
         }
         /*// TODO: How to force update of items?
         val nav_Menu: Menu = navView.getMenu()
@@ -168,6 +170,9 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fragmentTransaction.commit()
     }
 
+    fun setCheckedItem(id: Int) {
+        navigationView!!.setCheckedItem(id)
+    }
 
     override fun onResume() {
         super.onResume()

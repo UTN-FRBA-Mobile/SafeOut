@@ -46,6 +46,7 @@ class QrScannerFragment : Fragment() {
                 }
             }
             ViewUtils.setAppBarTitle(context!!.getString(title))
+            ViewUtils.setCheckedNavItem(R.id.drawerItemCheckIn)
             return inflater.inflate(R.layout.qr_scanner_fragment, container, false)
         }
 
@@ -218,7 +219,7 @@ class QrScannerFragment : Fragment() {
         ))
     }
 
-    fun checkPermission(){
+    private fun checkPermission() {
         val activity = requireActivity()
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(

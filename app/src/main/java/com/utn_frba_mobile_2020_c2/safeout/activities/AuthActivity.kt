@@ -8,6 +8,7 @@ import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.controllers.AuthController
 import com.utn_frba_mobile_2020_c2.safeout.services.CheckinService
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
+import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.StorageUtils
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -17,6 +18,7 @@ class AuthActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
+        RequestUtils.init(this)
         RequestUtils2.init(this)
         AuthController.init(this)
         StorageUtils.init(this)

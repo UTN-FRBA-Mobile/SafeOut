@@ -7,24 +7,30 @@
     <group android:id="@+id/groupSections" android:checkableBehavior="single">
         <item
             android:id="@+id/drawerItemHome"
+            android:icon="@drawable/ic_home"
             android:title="@string/drawer_home" />
-        <item android:id="@+id/drawerItemMap" android:title="Mapa"/>
-        android:id="@+id/drawerItemHome"
-        android:title="@string/drawer_home" />
+        <item android:id="@+id/drawerItemMap"
+            android:title="@string/drawer_maps"
+            android:icon="@drawable/ic_maps"
+            />
         <item
             android:id="@+id/drawerItemSearch"
+            android:icon="@drawable/ic_search"
             android:title="@string/drawer_search" />
 
         <item
             android:id="@+id/drawerItemCheckIn"
+            android:icon="@drawable/ic_checkin"
             android:title="Check IN/OUT QR" />
 
         <item
             android:id="@+id/CheckinNFC"
+            android:icon="@drawable/ic_checkin"
             android:title="Check IN/OUT NFC" />
 
         <item
             android:id="@+id/drawerItemMyReservations"
+            android:icon="@drawable/ic_calendar"
             android:title="@string/drawer_myReservations" />
 
     </group>

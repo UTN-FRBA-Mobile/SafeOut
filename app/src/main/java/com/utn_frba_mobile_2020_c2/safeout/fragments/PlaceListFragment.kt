@@ -58,6 +58,7 @@ class PlaceListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ViewUtils.setAppBarTitle(context!!.getString(R.string.title_search_places))
+        ViewUtils.setCheckedNavItem(R.id.drawerItemSearch)
         setHasOptionsMenu(true)
 
         arguments?.let {
