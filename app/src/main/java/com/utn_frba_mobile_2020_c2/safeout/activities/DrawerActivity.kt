@@ -55,7 +55,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     private var mToolBarNavigationListenerIsRegistered = false
     private var nfcPendingIntent: PendingIntent? = null
     private var nfcAdapter: NfcAdapter? = null
-    private var evitarIngreso = false
 
     private val ID_SUBE = 1167939230587520 // Corresponde al Restaurant "Sigue al conejo blanco" "5f600c84db23bc5159a81aa4" "Republica Arabe Siria 3277"
     private val ID_CONEJO = "5f600c84db23bc5159a81aa4"
@@ -117,8 +116,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             nav_Menu.findItem(R.id.drawerItemCheckIn).setVisible(true)
         }*/
 
-        println("GlobalUtils.modoReserva" + GlobalUtils.modoReserva)
-
         nfcPendingIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0
@@ -156,6 +153,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             }
             R.id.CheckinNFC -> {
                 if (nfcAdapter != null) {
+                 //   pushFragment(NfcFragment())
                     setVisibleFragment(NfcFragment())
                 }
             }
@@ -177,6 +175,16 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
+    private fun pushFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+        setBackButtonVisible(true)
+        GlobalUtils.backStackSize += 1
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -231,8 +239,6 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
             var mode: String? = null
 
-            println("GlobalUtils.modoReserva" + GlobalUtils.modoReserva)
-
             ReservationService.getReservations { reservations, error ->
                 if(error == null) {
                     val list = JsonUtils.arrayToList(reservations!!) {
@@ -242,18 +248,23 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                         CheckinService.checkInToSection(it?.section.id) { _, error ->
                             if (error != null) {
                                 if (GlobalUtils.modoReserva == "CHECKOUT"){
-                                    goToCheckinResultSuccess("CHECKOUT", placeId, it?.section.id)
 
+                                    CheckinService.checkOutOfSection(GlobalUtils.checkedInSection!!) { _, error ->
+                                        if (error != null) {
+                                            goToCheckinResultError("CHECKOUT", error)
+                                        } else {
+                                            goToCheckinResultSuccess("CHECKOUT", placeId, it?.section.id)
+                                        }
+                                    }
                                 }else {
                                     ViewUtils.showAlertDialog(
                                         this,
                                         "Para el ingreso a tu reservacion a ${it.section.place.name} aun es muy temprano.",
                                         "Entendido!"
                                     )
-
                                     goToCheckinResultError("CHECKIN", error)
                                 }
-                            } else {
+                            }else{
                                 if (GlobalUtils.modoReserva == null) {
                                     goToCheckinResultSuccess("CHECKIN", placeId, it?.section.id)
                                 }
