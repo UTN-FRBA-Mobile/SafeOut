@@ -80,8 +80,7 @@ class CheckInResultFragment : Fragment() {
         // set retry/goback listener
         val buttonBack = view!!.findViewById(R.id.buttonRetry) as Button
         buttonBack.setOnClickListener {
-            val activity = requireActivity()
-            activity.supportFragmentManager.popBackStackImmediate()
+            ViewUtils.goBack(this)
         }
 
     }
