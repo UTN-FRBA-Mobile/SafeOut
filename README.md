@@ -66,65 +66,90 @@ El usuario que desea reservar un lugar deberá indicar el día, horario y sector
 # Flujo de Pantallas
 
 ## Login
-<img src="readme-assets/1-login.png" width="30%">
+<img src="readme-assets/1-login.png" width="25%">
 
 
 ## Menú de Navegación
-<img src="readme-assets/2-menu.png" width="30%">
+<img src="readme-assets/2-menu.png" width="25%">
 
 ## Home 
-<img src="readme-assets/3-home-a.png" width="30%">
-<img src="readme-assets/3-home-b.png" width="30%">
+<p float="left">
+<img src="readme-assets/3-home-a.png" width="25%">
+<img src="readme-assets/3-home-b.png" width="25%">
+</p>
 
 ## Mapa de lugares 
-<img src="readme-assets/4-map.png" width="30%">
-<img src="readme-assets/4-map-a.png" width="30%">
+<p float="left">
+<img src="readme-assets/4-map.png" width="25%">
+<img src="readme-assets/4-map-a.png" width="25%">
+</p>
 
 ## Detalle de lugar
-<img src="readme-assets/5-place-detail.png" width="30%">
+<img src="readme-assets/5-place-detail.png" width="25%">
 
 ## Buscar lugares
 
 ## Check IN
 ### QR
+<p float="left">
 <img src="readme-assets/7-checkin-qr.png" width="20%">
 <img src="readme-assets/7-checkin-qr-detail.png" width="20%">
 <img src="readme-assets/7-checkin-qr-success.png" width="20%">
-<img src="readme-assets/7-checkin-qr-error.png" width="20%">
-<img src="readme-assets/7-checkin-qr-error-2.png" width="20%">
+</p>
 
 ### NFC
+<p float="left">
 <img src="readme-assets/7-checkin-nfc.png" width="20%">
 <img src="readme-assets/7-checkin-nfc-detail.png" width="20%">
 <img src="readme-assets/7-checkin-nfc-success.png" width="20%">
-<img src="readme-assets/7-checkin-nfc-error-2.png" width="20%">
-<img src="readme-assets/7-checkin-nfc-error.png" width="20%">
+</p>
 
 ## Check OUT
 ### QR
+<p float="left">
 <img src="readme-assets/7-checkout-qr.png" width="20%">
 <img src="readme-assets/7-checkout-qr-success.png" width="20%">
-<img src="readme-assets/7-checkout-qr-error.png" width="20%">
+</p>
 
 ### NFC
+<p float="left">
 <img src="readme-assets/7-checkout-nfc.png" width="20%">
 <img src="readme-assets/7-checkout-nfc-success.png" width="20%">
-<img src="readme-assets/7-checkout-nfc-error.png" width="20%">
+</p>
+
+## Errores Checkin / Checkout
+
+<p float="left">
+<img src="readme-assets/7-checkin-qr-error.png" width="20%">
+<img src="readme-assets/7-checkin-qr-error-2.png" width="20%">
+<img src="readme-assets/7-checkout-qr-error.png" width="20%">
+</p>
+
 
 ## Ver info
 ### QR
+<p float="left">
 <img src="readme-assets/8-info.png" width="20%">
 <img src="readme-assets/8-info-detail.png" width="20%">
+</p>
 
 ## Reservas
+<p float="left">
 <img src="readme-assets/9-reservation-1.png" width="20%">
 <img src="readme-assets/9-reservation-2.png" width="20%">
 <img src="readme-assets/9-reservation-3.png" width="20%">
+</p>
+
+<p float="left">
 <img src="readme-assets/9-reservation-4.png" width="20%">
 <img src="readme-assets/9-reservation-5.png" width="20%">
 <img src="readme-assets/9-reservation-6.png" width="20%">
+</p>
+
+<p float="left">
 <img src="readme-assets/9-reservation-7.png" width="20%">
 <img src="readme-assets/9-reservation-8.png" width="20%">
 <img src="readme-assets/9-reservation-9.png" width="20%">
+</p>
 
 # Próxima Release
