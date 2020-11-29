@@ -4,6 +4,8 @@ Safe Out
 # Introducción - Problemática y propuesta
 En el contexto de pandemia que estamos atravesando, es imperativo que en cualquier lugar público se establezcan límites en cuanto a la cantidad de personas que pueden estar presentes al mismo tiempo.
 
+Ahora que se empieza a flexibilizar la cuarentena, empiezan a visualizarse lugares que antes concentraban un gran número de gente, por lo que van a requerir aplicar medidas para respetar y hacer cumplir el distanciamiento social para poder operar.
+
 A tal fin, consideramos de vital importancia que tanto los dueños de los negocios como sus clientes tengan conocimiento de la cantidad de personas que hay en el lugar en un momento dado, y del nivel porcentual de ocupación respecto de la capacidad máxima que el lugar puede albergar. Solo con esta información es que un cliente podrá decidir si es seguro visitar un lugar, y el dueño de un negocio podrá saber el momento en que tiene que limitar el acceso a su comercio tras haber alcanzado el cupo.
 
 Adicionalmente, creemos que sería sumamente útil para el potencial cliente contar con información no solo de la ocupación general del lugar, sino también de los distintos sectores dentro de él, tales como podrían ser las mesas de afuera, la terraza o la barra, en el caso de un bar o un restorán. Esto le otorgaría una mayor visibilidad a la persona para poder determinar si el sector que quiere visitar está actualmente disponible, si está vacío, lleno o incluso si está momentáneamente cerrado.
@@ -14,20 +16,24 @@ Actualmente no existe nada en el mercado que provea este tipo de información en
 La aplicación contará con dos roles de usuario: el administrador del lugar y el usuario final. 
 El administrador del lugar podrá definir y controlar toda clase de parámetros del lugar tales como qué tipo de lugar es (oficina, negocio, restorán, cine, teatro, etc.), qué sectores tiene y cuáles son sus capacidades máximas permitidas. Si la capacidad máxima de un sector es cero, significa que el mismo se encuentra temporalmente cerrado al público.
 
-# Nivel de ocupación
+# Nivel de ocupación y procedimiento de CheckIN y CheckOUT
 Como funcionalidad principal de la aplicación se le ofrece a los usuarios la posibilidad de visualizar el nivel de ocupación en vivo de los distintos sectores de lugares públicos de la ciudad.
 
-Esta información será obtenida de dispositivos que los administradores deberán colocar en las entradas de los lugares. Estos dispositivos deberán estar permanentemente encendidos, conectados a Internet, y con la aplicación instalada y abierta en la pantalla correspondiente para realizar el check-in y check-out de personas.
+Esta información será accesible en las entradas de los lugares a partir de dos métodos:
+- Escaneo de una imagen QR.
+- Escaneo de un dispositivo con NFC. 
+Cada vez que una persona se acerque al lugar con la intención de entrar, se le pedirá que registre su ingreso con uno de estos dos métodos. Para ello la persona deberá tener instalada la aplicación en su propio dispositivo y deberá estar registrada. 
 
-Cada vez que una persona se acerque al lugar con la intención de entrar, se le pedirá que registre su ingreso en el dispositivo del lugar. Para ello la persona también deberá tener instalada la aplicación en su propio dispositivo y deberá estar registrada. El procedimiento de check-in consistirá en lo siguiente:
+El procedimiento de check-in consistirá en lo siguiente:
 
 - Buscar el lugar al que se quiere ingresar
 - Presionar el botón de "Check-In"
-- Indicar el sector al cual se quiere acceder (los que están llenos o cerrados no se podrán seleccionar)
-- Acercar el dispositivo al del lugar para registrar el ingreso por NFC
-- Si el dispositivo del usuario no contara con NFC, se le mostrará un código QR el cual deberá acercar a la cámara del dispositivo del lugar para escanearlo y registrar el ingreso de esta manera.
+- Indicar el sector al cual se quiere acceder y registrar el ingreso (los que están llenos o cerrados no se podrán seleccionar)
+    a) NFC: Acercar el dispositivo al del lugar para registrar el ingreso por NFC
+    b) QR: Escanear con la cámara de su dispositivo la imagen QR del lugar.
 
-Los egresos también deberán ser registrados para poder mantener la información actualizada. El procedimiento será similar al explicado para los ingresos.
+Los egresos o "Check-Out" también deberán ser registrados para poder mantener la información actualizada. 
+El procedimiento será similar al explicado para los ingresos.
 
 # Reservas
 Como funcionalidad secundaria y complementaria a la principal de obtener el nivel de ocupación de un lugar, se brinda también la posibilidad de hacer reservas a través de la app, con el fin de asegurarse el acceso al lugar que se desea visitar.
@@ -50,7 +56,7 @@ El usuario que desea reservar un lugar deberá indicar el día, horario y sector
 - Buscar lugares públicos por el nombre
 - Consultar los sectores de un lugar y su nivel de ocupación actual
 - Hacer check-in y check-out de un lugar
-- Hacer reservas para un sector de un lugar
+- Hacer reservas para un sector de un lugar, y cancelarlas si lo desea
 
 # Alcance y Restricciones
 - Las funcionalidades del administrador se consideran por fuera del alcance de esta propuesta. 
@@ -60,20 +66,65 @@ El usuario que desea reservar un lugar deberá indicar el día, horario y sector
 # Flujo de Pantallas
 
 ## Login
-![Main feed](readme-assets/1-login.png)
+<img src="readme-assets/1-login.png" width="30%">
+
 
 ## Menú de Navegación
-![Main feed](readme-assets/2-menu.png)
+<img src="readme-assets/2-menu.png" width="30%">
 
 ## Home 
+<img src="readme-assets/3-home-a.png" width="30%">
+<img src="readme-assets/3-home-b.png" width="30%">
 
 ## Mapa de lugares 
+<img src="readme-assets/4-map.png" width="30%">
+<img src="readme-assets/4-map-a.png" width="30%">
+
+## Detalle de lugar
+<img src="readme-assets/5-place-detail.png" width="30%">
 
 ## Buscar lugares
 
-## Check IN / Check OUT
+## Check IN
+### QR
+<img src="readme-assets/7-checkin-qr.png" width="20%">
+<img src="readme-assets/7-checkin-qr-detail.png" width="20%">
+<img src="readme-assets/7-checkin-qr-success.png" width="20%">
+<img src="readme-assets/7-checkin-qr-error.png" width="20%">
+<img src="readme-assets/7-checkin-qr-error-2.png" width="20%">
+
+### NFC
+<img src="readme-assets/7-checkin-nfc.png" width="20%">
+<img src="readme-assets/7-checkin-nfc-detail.png" width="20%">
+<img src="readme-assets/7-checkin-nfc-success.png" width="20%">
+<img src="readme-assets/7-checkin-nfc-error-2.png" width="20%">
+<img src="readme-assets/7-checkin-nfc-error.png" width="20%">
+
+## Check OUT
+### QR
+<img src="readme-assets/7-checkout-qr.png" width="20%">
+<img src="readme-assets/7-checkout-qr-success.png" width="20%">
+<img src="readme-assets/7-checkout-qr-error.png" width="20%">
+
+### NFC
+<img src="readme-assets/7-checkout-nfc.png" width="20%">
+<img src="readme-assets/7-checkout-nfc-success.png" width="20%">
+<img src="readme-assets/7-checkout-nfc-error.png" width="20%">
+
+## Ver info
+### QR
+<img src="readme-assets/8-info.png" width="20%">
+<img src="readme-assets/8-info-detail.png" width="20%">
 
 ## Reservas
-
+<img src="readme-assets/9-reservation-1.png" width="20%">
+<img src="readme-assets/9-reservation-2.png" width="20%">
+<img src="readme-assets/9-reservation-3.png" width="20%">
+<img src="readme-assets/9-reservation-4.png" width="20%">
+<img src="readme-assets/9-reservation-5.png" width="20%">
+<img src="readme-assets/9-reservation-6.png" width="20%">
+<img src="readme-assets/9-reservation-7.png" width="20%">
+<img src="readme-assets/9-reservation-8.png" width="20%">
+<img src="readme-assets/9-reservation-9.png" width="20%">
 
 # Próxima Release

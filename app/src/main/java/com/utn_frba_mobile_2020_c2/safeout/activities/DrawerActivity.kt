@@ -322,7 +322,8 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                     transaction.replace(R.id.frameLayout, placeElegido)
                     transaction.commit()
                 }else{
-                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    goToCheckinResultError(modo, error)
                 }
             }
         }

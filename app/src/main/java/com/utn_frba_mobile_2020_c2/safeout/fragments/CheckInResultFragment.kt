@@ -73,7 +73,7 @@ class CheckInResultFragment : Fragment() {
                 setRegisterResult("Error al intentar realizar el checkout")
             } else{
                 setTitle("Error de lectura")
-                setRegisterResult("Error al intentar realizar el obtener el detalle del lugar")
+                setRegisterResult("Error al intentar obtener el detalle del lugar")
             }
         }
 

@@ -174,6 +174,7 @@ class QrScannerFragment : Fragment() {
 
             } else {
                 ViewUtils.showSnackbar(view!!, error)
+                goToCheckinResultError(mode, error)
             }
         }
     }
