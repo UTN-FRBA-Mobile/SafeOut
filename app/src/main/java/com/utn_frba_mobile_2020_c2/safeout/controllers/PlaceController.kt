@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.utn_frba_mobile_2020_c2.safeout.services.PlaceService
 import org.json.JSONArray
-import org.json.JSONObject
 
 object PlaceController {
     private var context: Context? = null

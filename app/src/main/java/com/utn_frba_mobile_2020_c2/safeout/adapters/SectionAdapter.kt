@@ -2,15 +2,11 @@ package com.utn_frba_mobile_2020_c2.safeout.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
-import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerSectionListener
-import com.utn_frba_mobile_2020_c2.safeout.models.Section
 import com.utn_frba_mobile_2020_c2.safeout.models.SectionInfo
-import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.GlobalUtils.modo
 import com.utn_frba_mobile_2020_c2.safeout.views.OccupationDisplay
 import kotlinx.android.synthetic.main.recycler_section.view.*

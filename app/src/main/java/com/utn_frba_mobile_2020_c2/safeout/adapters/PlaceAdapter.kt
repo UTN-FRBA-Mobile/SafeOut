@@ -15,6 +15,7 @@ import com.utn_frba_mobile_2020_c2.safeout.controllers.PlaceController
 import com.utn_frba_mobile_2020_c2.safeout.listeners.RecyclerPlaceListener
 import com.utn_frba_mobile_2020_c2.safeout.models.Place
 import com.utn_frba_mobile_2020_c2.safeout.extensions.inflate
+import com.utn_frba_mobile_2020_c2.safeout.models.Reservation
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
 import kotlinx.android.synthetic.main.recycler_place.view.*
 import kotlin.collections.ArrayList
@@ -24,6 +25,7 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
 
     private var placesFilterList: ArrayList<Place> = arrayListOf()
     private var placeImage: Bitmap? = null
+    private var loadingHandler: ((Boolean) -> Unit) = { _ -> }
 
     //donde va el reemplazo de los textView con el texto que llega del objeto. Se llama por elemento
     // el View es al CardView entero.
@@ -44,6 +46,9 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
 
     }
 
+    fun setLoadingHandler(handler: ((Boolean) -> Unit)) {
+        this.loadingHandler = handler
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent.inflate(
         R.layout.recycler_place))
@@ -68,11 +73,14 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
                 {
                     if (queryString != null && queryString.length > 2) {
 
+                        loadingHandler(true)
                                 PlaceController.search(queryString, { it ->
+                                    loadingHandler(false)
 
                                     for (i in 0 until it.length()) {
 
                                         val JSONObject = it.getJSONObject(i)
+
                                         //JSONObject.put("imgResource", placeImage)
                                         val place = Gson().fromJson<Place>(JSONObject.toString(), Place::class.java)
                                         place.imgResource = placeImage
@@ -83,7 +91,6 @@ class PlaceAdapter(private var places:List<Place>,  private var view : View, pri
                                             }
                                             ,{ _, _ ->
                                                ViewUtils.showSnackbar(view, R.string.error_image.toString())
-
                                                 }
                                             )
 
