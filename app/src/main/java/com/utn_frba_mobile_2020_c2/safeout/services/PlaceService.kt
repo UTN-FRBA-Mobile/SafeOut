@@ -49,10 +49,10 @@ object PlaceService {
         query: String,  onSuccess: (JSONArray) -> Unit, onError: ((status: Int, message: String?) -> Unit)? = null) {
         RequestUtils.postArray("/places/search"
             ,mapOf(
-                "query" to query
+                "query" to query,
 /*                ,
-            "skip" to 0,
-            "limit" to 0*/
+            "skip" to 0,*/
+                "limit" to 5
             )
             ,  onSuccess, onError)
 

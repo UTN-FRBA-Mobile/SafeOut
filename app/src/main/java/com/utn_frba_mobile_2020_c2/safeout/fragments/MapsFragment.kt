@@ -29,6 +29,7 @@ import com.utn_frba_mobile_2020_c2.safeout.models.ModelMaps
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils
 import com.utn_frba_mobile_2020_c2.safeout.utils.RequestUtils2
 import com.utn_frba_mobile_2020_c2.safeout.utils.ViewUtils
+import kotlinx.android.synthetic.main.fragment_add_reservation.*
 import org.json.JSONArray
 
 
@@ -111,6 +112,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                 var m = markers.find { e -> e.id == marker.id }!!.title
                 var fragment = childFragmentManager
                 fragment.popBackStack("Maps_Fragment", 1)
+                activity!!.supportFragmentManager.beginTransaction().addToBackStack("MarkDetailFragment").commit()
                 MarkDetailFragment.newInstance(m).show(childFragmentManager, "MarkDetailFragment")
                 return true
             }
@@ -124,9 +126,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         val body = mapOf<String, Any>("bounds" to bounds)
         RequestUtils.postArray("/places/locate", body, { response ->
             showData(response)
-        }, { status, error ->
-            println(status)
-            println(error)
+        }, { _, _ ->
         })
     }
 
