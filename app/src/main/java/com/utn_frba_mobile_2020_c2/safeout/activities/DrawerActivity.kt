@@ -134,18 +134,18 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 setVisibleFragment(HomeFragment())
             }
             R.id.drawerItemMap -> {
-                setVisibleFragmentWithBackBtn(MapsFragment())
+                setVisibleFragment(MapsFragment())
             }
             R.id.drawerItemSearch -> {
-                setVisibleFragmentWithBackBtn(PlaceListFragment())
+                setVisibleFragment(PlaceListFragment())
             }
             R.id.drawerItemCheckIn -> {
                 val mode = if (GlobalUtils.checkedInSection !== null) "CHECKOUT" else "CHECKIN"
-                setVisibleFragmentWithBackBtn(QrScannerFragment.newInstance(mode))
+                setVisibleFragment(QrScannerFragment.newInstance(mode))
             }
             R.id.CheckinNFC -> {
                 if (nfcAdapter != null) {
-                    setVisibleFragmentWithBackBtn(NfcFragment())
+                    setVisibleFragment(NfcFragment())
                 }
             }
             R.id.drawerItemLogout -> {
@@ -154,7 +154,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
                 startActivity(intent)
             }
             R.id.drawerItemMyReservations -> {
-                setVisibleFragmentWithBackBtn(MyReservationsFragment())
+                setVisibleFragment(MyReservationsFragment())
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
