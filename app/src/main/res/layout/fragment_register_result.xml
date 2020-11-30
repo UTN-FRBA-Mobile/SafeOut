@@ -88,6 +88,10 @@
             android:id="@+id/buttonRetry"
             style="@style/button_container_bottom"
             android:text="Reintentar" />
+        <Button
+            android:id="@+id/buttonHome"
+            style="@style/button_secondary"
+            android:text="Volver" />
     </LinearLayout>
 </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -2,6 +2,7 @@ package com.utn_frba_mobile_2020_c2.safeout.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,9 +81,14 @@ class CheckInResultFragment : Fragment() {
         // set retry/goback listener
         val buttonBack = view!!.findViewById(R.id.buttonRetry) as Button
         buttonBack.setOnClickListener {
+            //GlobalUtils.modo = "SIN_RESERVA"
             ViewUtils.goBack(this)
         }
 
+        val buttonHome = view!!.findViewById(R.id.buttonHome) as Button
+        buttonHome.setOnClickListener {
+            ViewUtils.resetToHome(this)
+        }
     }
 
     private fun fetchPlaceInfo(placeId: String?) {

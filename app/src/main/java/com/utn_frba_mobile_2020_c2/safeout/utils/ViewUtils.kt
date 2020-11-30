@@ -3,17 +3,16 @@ package com.utn_frba_mobile_2020_c2.safeout.utils
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonObject
 import com.utn_frba_mobile_2020_c2.safeout.R
 import com.utn_frba_mobile_2020_c2.safeout.extensions.extend
+import com.utn_frba_mobile_2020_c2.safeout.fragments.HomeFragment
 
 object ViewUtils {
     fun showSnackbar(view: View, message: String) {
@@ -74,7 +73,11 @@ object ViewUtils {
         val alert = builder.create()
         alert.show()
     }
-    private fun pushFragment(manager: FragmentManager, next: Fragment, arguments: JsonObject? = null) {
+    private fun pushFragment(
+        manager: FragmentManager,
+        next: Fragment,
+        arguments: JsonObject? = null
+    ) {
         val fragmentTransaction = manager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, next)
         fragmentTransaction.addToBackStack(null)
@@ -112,6 +115,15 @@ object ViewUtils {
         }
         if (current != null) {
             current.fragmentManager!!.popBackStackImmediate()
+        }
+    }
+    fun resetToHome(current: Fragment? = null,) {
+        if (current != null) {
+            val fragmentManager = current.fragmentManager!!
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            setAppBarTitle(null)
+            GlobalUtils.drawerActivity!!.setBackButtonVisible(false)
+            GlobalUtils.drawerActivity!!.setVisibleFragment(HomeFragment())
         }
     }
     fun setCheckedNavItem(id: Int) {
