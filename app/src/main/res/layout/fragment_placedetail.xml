@@ -26,7 +26,7 @@
         android:shadowRadius="3"
         android:textAllCaps="true"
         android:textColor="@color/colorDarkGrey"
-        android:textSize="14pt"
+        android:textSize="10pt"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

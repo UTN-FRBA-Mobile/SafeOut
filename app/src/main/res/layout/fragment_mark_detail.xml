@@ -28,7 +28,7 @@
             android:text="Nombre"
             android:textAllCaps="true"
             android:textColor="@color/colorDarkGrey"
-            android:textSize="14pt"
+            android:textSize="10pt"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
                 android:text="Capacidad"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="10pt"
+                android:textSize="8pt"
                 android:textStyle="bold"></TextView>
 
             <TextView
@@ -100,7 +100,7 @@
                 android:text="Ocupación"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
-                android:textSize="10pt"
+                android:textSize="8pt"
                 android:textStyle="bold"></TextView>
         </LinearLayout>
 
