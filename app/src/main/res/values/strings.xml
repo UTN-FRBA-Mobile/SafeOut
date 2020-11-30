@@ -21,7 +21,7 @@
     <string name="nfc_activado">NFC activado</string>
     <string name="nfc_desactivado">NFC desactivado</string>
     <string name="drawer_nfc">Logo NFC</string>
-    <string name="mantener_tarjeta">Mantenga el celular sobre la Tarjeta</string>
+    <string name="mantener_tarjeta">Mantenga el celular sobre el Dispositivo</string>
     <string name="drawer_search">Buscar</string>
     <string name="drawer_showInfo">Ver Info</string>
     <string name="drawer_checkIn">Check In</string>
